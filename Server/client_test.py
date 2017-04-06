@@ -22,7 +22,7 @@ class Client:
     def send_data(self, data):
         self.sock.sendto(data.encode(), (self.udp_ip, self.udp_port))
 
-client = Client(11020)
+client = Client(11031)
 client.start_client()
 
 while True:

@@ -46,7 +46,7 @@ class Server:
     @property
     def is_alive(self):
         return __started
-        
+
     # update db, add
     def update_db(self, data):
         pass
@@ -63,6 +63,6 @@ class Server:
     def check_status(self, user):
         pass
 
-server = Server(11020)
+server = Server(11031)
 server.start_server()
-server.stop_server()
+print(type(server.udp_port))
