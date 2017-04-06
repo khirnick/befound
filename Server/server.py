@@ -3,17 +3,18 @@ import threading
 import time
 
 class Server:
-    udp_port   =    None
-    udp_ip     =    None
-    sock       =    None
-    listen_udp =    None
+    udp_port    =   None
+    udp_ip      =   None
+    sock        =   None
+    listen_udp  =   None
+    data        =   None
 
     # port - server port for receiving, ip - ip end point
-    def __init__(self, port, ip="127.0.0.1"):
+    def __init__(self, port, ip = "127.0.0.1"):
         self.udp_port = port
         self.udp_ip = ip
 
-    # start server, port detects automatically
+    # start server, port should detects automatically
     def start_server(self):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.sock.bind((self.udp_ip, self.udp_port))
@@ -48,7 +49,7 @@ class Server:
     def check_status(self, user):
         pass
 
-server = Server(11006)
+server = Server(11007)
 server.start_server()
 time.sleep(4)
 server.stop_server()
