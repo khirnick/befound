@@ -12,7 +12,8 @@ class Server:
         self.port = port
         self.host = host
         self.__connected_clients = []
-        print('Server init. ADDRESS: {0}, PORT: {1}'.format(self.host, self.port))
+        print('Server init. ADDRESS: {0}, PORT: {1}'.format(self.host,
+            self.port))
 
     # start server, port should detects automatically
     def start_listen(self):
@@ -23,19 +24,24 @@ class Server:
         self.__sock.bind((self.host, self.port))
         self.__sock.listen(PORT_COUNT)
         self.run = True
-        print('Server started... Count of ports to listen: {0}\nClient timeout: {1} sec.'.format(PORT_COUNT, CLIENT_TIMEOUT))
+        print("Server started... Count of ports to listen: {0}\
+            \nClient timeout: {1} sec.".format(PORT_COUNT, CLIENT_TIMEOUT))
         while self.run:
             try:
                 client, addr = self.__sock.accept()
                 client.settimeout(CLIENT_TIMEOUT)
                 connection = Connection()
-                client_thread = threading.Thread(target = self.__listen_to_client, args = (client, addr, connection))
+                client_thread = threading.Thread(
+                    target = self.__listen_to_client,
+                    args = (client, addr, connection)
+                )
                 connection.set_thread(client_thread)
                 self.__connected_clients.append(connection)
                 client_thread.start()
             except:
                 pass
             self.__connected_clients = self.check_clients_working()
+
         print("Trying to stop server...")
         self.__sock.close()
         for c in self.__connected_clients:
@@ -48,14 +54,17 @@ class Server:
                 self.data = client.recv(4096).decode()
                 print(self.data)
             except socket.timeout:
-                print('Client timeout. ADDRESS: {0}, PORT: {1}'.format(addr[0], addr[1]))
+                print('Client timeout. ADDRESS: {0}, PORT: {1}'
+                    .format(addr[0], addr[1]))
+                break
         client.close()
         connection.closed = True
 
     def stop_listening(self):
         self.run = False
         self.__sock.close()
-        socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect((self.host, self.port))
+        socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect((self.host,
+            self.port))
 
     def check_clients_working(self):
         working_clients = []
