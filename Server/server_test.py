@@ -1,5 +1,5 @@
 import unittest
-import server
+from server import Server
 
 class ServerPortTestCase(unittest.TestCase):
 
