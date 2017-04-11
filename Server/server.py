@@ -54,7 +54,6 @@ class Server:
                 pass
             self.__connected_clients = self.check_clients_working()
 
-        print("Trying to stop server...")
         self.__sock.close()
         for c in self.__connected_clients:
             c.thread.join()
@@ -75,11 +74,13 @@ class Server:
                 print('Client timeout. ADDRESS: {0}, PORT: {1}'
                     .format(addr[0], addr[1]))
                 break
+
         client.close()
         connection.closed = True
 
     # stop server
     def stop_listening(self):
+        print("Trying to stop server...")
         self.__run = False
         self.__sock.close()
         socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect((self.host,
@@ -95,7 +96,7 @@ class Server:
                 working_clients.append(c)
         return working_clients
 
-server = Server(13433)
+server = Server(15000)
 t = threading.Thread(target=server.start_listen)
 t.start()
 

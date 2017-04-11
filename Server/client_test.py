@@ -14,7 +14,7 @@ class Client:
     def send_data(self, data):
         self.sock.send(data.encode())
 
-client = Client(13433)
+client = Client(14000)
 
 while True:
     input_msg = input()
