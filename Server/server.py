@@ -2,6 +2,9 @@ import socket
 import threading
 import time
 import program_info
+import sys
+sys.path.append('/home/hitryy/_Projects/BeFOUND/BeFOUND/Server-settings/')
+from server_settings import *
 from connection import Connection
 
 '''Socket multithreading server
@@ -68,7 +71,6 @@ class Server:
                     print('Client disconnected. ADDRESS: {0}, PORT: {1}'
                         .format(addr[0], addr[1]))
                     break
-
                 print('Received: <{0}> from {1}'.format(self.data, addr[0]))
             except socket.timeout:
                 print('Client timeout. ADDRESS: {0}, PORT: {1}'
@@ -96,18 +98,19 @@ class Server:
                 working_clients.append(c)
         return working_clients
 
-server = Server(15000)
-t = threading.Thread(target=server.start_listen)
-t.start()
+if __name__ == '__main__':
+    server = Server(LOCAL_SERVER_PORT, LOCAL_SERVER_HOST, LOCAL_SERVER_PORT_COUNT, LOCAL_SERVER_CLIENT_TIMEOUT)
+    t = threading.Thread(target=server.start_listen)
+    t.start()
 
-while True:
-    input_msg = input()
-    if (input_msg == 'stop'):
-        server.stop_listening()
-        break
-    elif (input_msg == 'info'):
-        print(repr(server))
+    while True:
+        input_msg = input()
+        if (input_msg == 'stop'):
+            server.stop_listening()
+            break
+        elif (input_msg == 'info'):
+            print(repr(server))
 
-t.join()
+    t.join()
 
-print(program_info.CAPTION)
+    print(program_info.CAPTION)
