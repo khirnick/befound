@@ -11,8 +11,8 @@ class UserABManager(models.Manager):
     # Возвращает пользователей, которые сейчас в "походе"
     def users_at_task(self):
         def is_user_at_task(user):
-            return user.user_alarm_button_set.filter(date_end='').exists()
-        return filter(is_user_at_task, self)
+            return UserAlarmButton.objects.filter(user=user, date_end__isnull=True).exists()
+        return filter(is_user_at_task, self.all())
 
 # Пользователь кнопки
 class UserAB(models.Model):
@@ -29,6 +29,9 @@ class UserAB(models.Model):
     class Meta:
         db_table = 'user_ab'
 
+    def __str__(self):
+        return '{} {} {}'.format(self.last_name, self.first_name, self.patronymic)
+
 # Тревожная кнопка
 class AlarmButton(models.Model):
     mac = models.CharField(max_length=30)
@@ -44,7 +47,7 @@ class UserAlarmButton(models.Model):
     user = models.ForeignKey(UserAB)
     alarm_button = models.ForeignKey(AlarmButton)
     date_begin = models.DateTimeField(auto_now_add=True)
-    date_end = models.DateTimeField(blank=True)
+    date_end = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         db_table = 'user_alarm_button'

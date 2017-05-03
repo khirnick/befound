@@ -141,7 +141,7 @@
                             <li class="item"><div class="item-row">
                                 <div class="item-col item-col-title no-overflow">
                                     <div><a href="" class=""><h4 class="item-title no-wrap">
-                                        {{ user.lastname }} {{ user.firstname }} {{ user.patronymic }}
+                                        {{ user }}
                                     </h4></a></div>
                                 </div>
                                 <div class="item-col item-col-phone">
@@ -162,7 +162,7 @@
                                 </div>
                                 <div class="item-col item-col-status">
                                     <div class="item-heading">Статус</div>
-                                    <div> {{ user.status }} </div>
+                                    <div> {% if user.status == 0 %}Норм{% else %}Тревога{% endif %} </div>
                                 </div>
                             </div></li>
                         {% endfor %}
