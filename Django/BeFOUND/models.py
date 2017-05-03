@@ -7,16 +7,24 @@ class Profile(User):
     # Use UserManager to get the create_user method, etc.
     objects = UserManager()
 
+class UserABManager(models.Manager):
+    # Возвращает пользователей, которые сейчас в "походе"
+    def users_at_task(self):
+        def is_user_at_task(user):
+            return user.user_alarm_button_set.filter(date_end='').exists()
+        return filter(is_user_at_task, self)
+
 # Пользователь кнопки
 class UserAB(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     patronymic = models.CharField(max_length=50, blank=True)
-    phone_number = models.CharField(max_length=30)
+    phone = models.CharField(max_length=30)
     email = models.EmailField(blank=True)
     birthday = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    objects = UserABManager()
 
     class Meta:
         db_table = 'user_ab'

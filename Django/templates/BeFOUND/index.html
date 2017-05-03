@@ -117,201 +117,55 @@
                     <ul class="item-list striped">
                         <li class="item item-list-header hidden-sm-down">
                             <div class="item-row">
-                                <div class="item-col item-col-header fixed item-col-img xs"></div>
                                 <div class="item-col item-col-header item-col-title">
-                                    <div> <span>Name</span> </div>
+                                    <div> <span>ФИО</span> </div>
                                 </div>
-                                <div class="item-col item-col-header item-col-sales">
-                                    <div> <span>Sales</span> </div>
+                                <div class="item-col item-col-header item-col-phone">
+                                    <div> <span>Телефон</span> </div>
                                 </div>
-                                <div class="item-col item-col-header item-col-stats">
-                                    <div class="no-overflow"> <span>Stats</span> </div>
+                                <div class="item-col item-col-header item-col-email">
+                                    <div> <span>Email</span> </div>
                                 </div>
-                                <div class="item-col item-col-header item-col-date">
-                                    <div> <span>Published</span> </div>
+                                <div class="item-col item-col-header item-col-birthday">
+                                    <div class="no-overflow"> <span>Дата рождения</span> </div>
+                                </div>
+                                <div class="item-col item-col-header item-col-coords">
+                                    <div> <span>Последние координаты</span> </div>
+                                </div>
+                                <div class="item-col item-col-header item-col-status">
+                                    <div> <span>Статус</span> </div>
                                 </div>
                             </div>
                         </li>
-                        <li class="item">
-                            <div class="item-row">
-                                <div class="item-col fixed item-col-img xs">
-                                    <a href="">
-                                        <div class="item-img xs rounded" style="background-image: url(https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg)"></div>
-                                    </a>
-                                </div>
+                        {% for user in users_ab %}
+                            <li class="item"><div class="item-row">
                                 <div class="item-col item-col-title no-overflow">
-                                    <div>
-                                        <a href="" class="">
-                                            <h4 class="item-title no-wrap"> 12 Myths Uncovered About IT &amp; Software </h4>
-                                        </a>
-                                    </div>
+                                    <div><a href="" class=""><h4 class="item-title no-wrap">
+                                        {{ user.lastname }} {{ user.firstname }} {{ user.patronymic }}
+                                    </h4></a></div>
                                 </div>
-                                <div class="item-col item-col-sales">
-                                    <div class="item-heading">Sales</div>
-                                    <div> 4958 </div>
+                                <div class="item-col item-col-phone">
+                                    <div class="item-heading">Телефон</div>
+                                    <div> {{ user.phone }} </div>
                                 </div>
-                                <div class="item-col item-col-stats">
-                                    <div class="item-heading">Stats</div>
-                                    <div class="no-overflow">
-                                        <div class="item-stats sparkline" data-type="bar"></div>
-                                    </div>
+                                <div class="item-col item-col-email">
+                                    <div class="item-heading">Email</div>
+                                    <div> {{ user.email }} </div>
                                 </div>
-                                <div class="item-col item-col-date">
-                                    <div class="item-heading">Published</div>
-                                    <div> 21 SEP 10:45 </div>
+                                <div class="item-col item-col-birthday">
+                                    <div class="item-heading">Дата рождения</div>
+                                    <div> {{ user.birthday }} </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li class="item">
-                            <div class="item-row">
-                                <div class="item-col fixed item-col-img xs">
-                                    <a href="">
-                                        <div class="item-img xs rounded" style="background-image: url(https://s3.amazonaws.com/uifaces/faces/twitter/_everaldo/128.jpg)"></div>
-                                    </a>
+                                <div class="item-col item-col-coords">
+                                    <div class="item-heading">Последние координаты</div>
+                                    <div> {{ user.coordinates }} </div>
                                 </div>
-                                <div class="item-col item-col-title no-overflow">
-                                    <div>
-                                        <a href="" class="">
-                                            <h4 class="item-title no-wrap"> 50% of things doesn&#x27;t really belongs to you </h4>
-                                        </a>
-                                    </div>
+                                <div class="item-col item-col-status">
+                                    <div class="item-heading">Статус</div>
+                                    <div> {{ user.status }} </div>
                                 </div>
-                                <div class="item-col item-col-sales">
-                                    <div class="item-heading">Sales</div>
-                                    <div> 192 </div>
-                                </div>
-                                <div class="item-col item-col-stats">
-                                    <div class="item-heading">Stats</div>
-                                    <div class="no-overflow">
-                                        <div class="item-stats sparkline" data-type="bar"></div>
-                                    </div>
-                                </div>
-                                <div class="item-col item-col-date">
-                                    <div class="item-heading">Published</div>
-                                    <div> 21 SEP 10:45 </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="item">
-                            <div class="item-row">
-                                <div class="item-col fixed item-col-img xs">
-                                    <a href="">
-                                        <div class="item-img xs rounded" style="background-image: url(https://s3.amazonaws.com/uifaces/faces/twitter/eduardo_olv/128.jpg)"></div>
-                                    </a>
-                                </div>
-                                <div class="item-col item-col-title no-overflow">
-                                    <div>
-                                        <a href="" class="">
-                                            <h4 class="item-title no-wrap"> Vestibulum tincidunt amet laoreet mauris sit sem aliquam cras maecenas vel aliquam. </h4>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="item-col item-col-sales">
-                                    <div class="item-heading">Sales</div>
-                                    <div> 2143 </div>
-                                </div>
-                                <div class="item-col item-col-stats">
-                                    <div class="item-heading">Stats</div>
-                                    <div class="no-overflow">
-                                        <div class="item-stats sparkline" data-type="bar"></div>
-                                    </div>
-                                </div>
-                                <div class="item-col item-col-date">
-                                    <div class="item-heading">Published</div>
-                                    <div> 21 SEP 10:45 </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="item">
-                            <div class="item-row">
-                                <div class="item-col fixed item-col-img xs">
-                                    <a href="">
-                                        <div class="item-img xs rounded" style="background-image: url(https://s3.amazonaws.com/uifaces/faces/twitter/why_this/128.jpg)"></div>
-                                    </a>
-                                </div>
-                                <div class="item-col item-col-title no-overflow">
-                                    <div>
-                                        <a href="" class="">
-                                            <h4 class="item-title no-wrap"> 10 tips of Object Oriented Design </h4>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="item-col item-col-sales">
-                                    <div class="item-heading">Sales</div>
-                                    <div> 124 </div>
-                                </div>
-                                <div class="item-col item-col-stats">
-                                    <div class="item-heading">Stats</div>
-                                    <div class="no-overflow">
-                                        <div class="item-stats sparkline" data-type="bar"></div>
-                                    </div>
-                                </div>
-                                <div class="item-col item-col-date">
-                                    <div class="item-heading">Published</div>
-                                    <div> 21 SEP 10:45 </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="item">
-                            <div class="item-row">
-                                <div class="item-col fixed item-col-img xs">
-                                    <a href="">
-                                        <div class="item-img xs rounded" style="background-image: url(https://s3.amazonaws.com/uifaces/faces/twitter/w7download/128.jpg)"></div>
-                                    </a>
-                                </div>
-                                <div class="item-col item-col-title no-overflow">
-                                    <div>
-                                        <a href="" class="">
-                                            <h4 class="item-title no-wrap"> Sometimes friend tells it is cold </h4>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="item-col item-col-sales">
-                                    <div class="item-heading">Sales</div>
-                                    <div> 10214 </div>
-                                </div>
-                                <div class="item-col item-col-stats">
-                                    <div class="item-heading">Stats</div>
-                                    <div class="no-overflow">
-                                        <div class="item-stats sparkline" data-type="bar"></div>
-                                    </div>
-                                </div>
-                                <div class="item-col item-col-date">
-                                    <div class="item-heading">Published</div>
-                                    <div> 21 SEP 10:45 </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="item">
-                            <div class="item-row">
-                                <div class="item-col fixed item-col-img xs">
-                                    <a href="">
-                                        <div class="item-img xs rounded" style="background-image: url(https://s3.amazonaws.com/uifaces/faces/twitter/pankogut/128.jpg)"></div>
-                                    </a>
-                                </div>
-                                <div class="item-col item-col-title no-overflow">
-                                    <div>
-                                        <a href="" class="">
-                                            <h4 class="item-title no-wrap"> New ways of conceptual thinking </h4>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="item-col item-col-sales">
-                                    <div class="item-heading">Sales</div>
-                                    <div> 3217 </div>
-                                </div>
-                                <div class="item-col item-col-stats">
-                                    <div class="item-heading">Stats</div>
-                                    <div class="no-overflow">
-                                        <div class="item-stats sparkline" data-type="bar"></div>
-                                    </div>
-                                </div>
-                                <div class="item-col item-col-date">
-                                    <div class="item-heading">Published</div>
-                                    <div> 21 SEP 10:45 </div>
-                                </div>
-                            </div>
-                        </li>
+                            </div></li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>
