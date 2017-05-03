@@ -47,6 +47,7 @@ class Coordinates(models.Model):
     latitude = models.FloatField()
     # Долгота
     longitude = models.FloatField()
+    # Статус: 0 - норма, 1 - тревога
     status = models.IntegerField()
     time = models.DateTimeField(auto_now_add=True)
 
