@@ -3716,7 +3716,7 @@ var data_user = new Data();
 //	2. Improve the module's maintainability by reducing the storage
 //		paths to a single mechanism.
 //	3. Use the same single mechanism to support "private" and "user" data.
-//	4. _Never_ expose "private" data to user code (TODO: Drop _data, _removeData)
+//	4. _Never_ expose "private" data to user code
 //	5. Avoid exposing implementation details on user objects (eg. expando properties)
 //	6. Provide a clear path for implementation upgrade to WeakMap in 2014
 
@@ -3765,7 +3765,6 @@ jQuery.extend({
 		data_user.remove( elem, name );
 	},
 
-	// TODO: Now that all calls to _data and _removeData have been replaced
 	// with direct calls to data_priv methods, these can be deprecated.
 	_data: function( elem, name, data ) {
 		return data_priv.access( elem, name, data );
@@ -12548,7 +12547,7 @@ Licensed under the MIT license.
             var minMargin = options.grid.minBorderMargin,
                 axis, i;
 
-            // check stuff from the plot (FIXME: this should just read
+            // check stuff from the plot
             // a value from the series, otherwise it's impossible to
             // customize)
             if (minMargin == null) {
@@ -13485,7 +13484,6 @@ Licensed under the MIT license.
 
             var lw = series.lines.lineWidth,
                 sw = series.shadowSize;
-            // FIXME: consider another form of shadow when filling is turned on
             if (lw > 0 && sw > 0) {
                 // draw shadow as a thick and thin line with transparency
                 ctx.lineWidth = sw;
@@ -13656,7 +13654,6 @@ Licensed under the MIT license.
             if (lineWidth > 0 && (drawLeft || drawRight || drawTop || drawBottom)) {
                 c.beginPath();
 
-                // FIXME: inline moveTo is buggy with excanvas
                 c.moveTo(left, bottom);
                 if (drawLeft)
                     c.lineTo(left, top);
@@ -13692,7 +13689,6 @@ Licensed under the MIT license.
             ctx.save();
             ctx.translate(plotOffset.left, plotOffset.top);
 
-            // FIXME: figure out a way to add shadows (for instance along the right edge)
             ctx.lineWidth = series.bars.lineWidth;
             ctx.strokeStyle = series.color;
 
@@ -14805,7 +14801,7 @@ More detail and specific examples can be found in the included HTML file.
 				layer.closePath();
 				layer.restore();
 
-				// TODO: add extra shadow inside hole (with a mask) if the pie is tilted.
+
 			}
 		}
 
@@ -14869,7 +14865,6 @@ More detail and specific examples can be found in the included HTML file.
 							arrPoly = [[0, 0], [p1X, p1Y], [p2X, p2Y], [p3X, p3Y], [p4X, p4Y], [p5X, p5Y]],
 							arrPoint = [x, y];
 
-						// TODO: perhaps do some mathmatical trickery here with the Y-coordinate to compensate for pie tilt?
 
 						if (isPointInPoly(arrPoly, arrPoint)) {
 							ctx.restore();
@@ -15692,7 +15687,6 @@ API.txt for details.
                         xAfterIndex = -1;
 
                     // Our search here assumes our data is sorted via the x-axis.
-                    // TODO: Improve efficiency somehow - search smaller sets of data.
                     for (var j = 1; j < series.data.length; j++) {
                         if (series.data[j - 1][0] <= pos.x && series.data[j][0] >= pos.x) {
                             xBeforeIndex = j - 1;
@@ -15891,7 +15885,6 @@ API.txt for details.
         else if (typeof item.series.lines !== "undefined" && item.series.lines.steps) {
             x = item.series.datapoints.points[item.dataIndex * 2];
             y = item.series.datapoints.points[item.dataIndex * 2 + 1];
-            // TODO: where to find custom text in this variant?
             customText = "";
         } else {
             x = item.series.data[item.dataIndex][0];
@@ -17397,7 +17390,6 @@ $.extend( $.validator, {
 		// http://jqueryvalidation.org/equalTo-method/
 		equalTo: function( value, element, param ) {
 			// bind to the blur event of the target in order to revalidate whenever the target field is updated
-			// TODO find a way to bind the event just once, avoiding the unbind-rebind overhead
 			var target = $( param );
 			if ( this.settings.onfocusout ) {
 				target.off( ".validate-equalTo" ).on( "blur.validate-equalTo", function() {
@@ -25197,7 +25189,6 @@ function HTML(runner, root) {
   });
 
   runner.on('test end', function(test){
-    // TODO: add to stats
     var percent = stats.tests / this.total * 100 | 0;
     if (progress) progress.update(percent).draw(ctx);
 
@@ -25235,7 +25226,6 @@ function HTML(runner, root) {
     }
 
     // toggle code
-    // TODO: defer
     if (!test.pending) {
       var h2 = el.getElementsByTagName('h2')[0];
 
@@ -45995,7 +45985,6 @@ var Modal = function ($) {
 
     // ----------------------------------------------------------------------
     // the following methods are used to handle overflowing modals
-    // todo (fat): these should probably be refactored out of modal.js
     // ----------------------------------------------------------------------
 
     Modal.prototype._handleUpdate = function _handleUpdate() {
@@ -46259,7 +46248,6 @@ var ScrollSpy = function ($) {
         }
 
         if (target && (target.offsetWidth || target.offsetHeight)) {
-          // todo (fat): remove sketch reliance on jQuery position/offset
           return [$(target)[offsetMethod]().top + offsetBase, targetSelector];
         }
         return null;
@@ -46362,7 +46350,6 @@ var ScrollSpy = function ($) {
         $link.closest(Selector.DROPDOWN).find(Selector.DROPDOWN_TOGGLE).addClass(ClassName.ACTIVE);
         $link.addClass(ClassName.ACTIVE);
       } else {
-        // todo (fat) this is kinda sus...
         // recursively add actives to tested nav-links
         $link.parents(Selector.LI).find(Selector.NAV_LINKS).addClass(ClassName.ACTIVE);
       }
