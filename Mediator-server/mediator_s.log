@@ -1,0 +1,7 @@
+INFO     [2017-05-04 16:39:18,737] BeFound Mediator server ver. ALPHA
+Server init. ADDRESS: 127.0.0.1, PORT: 30010
+INFO     [2017-05-04 16:39:18,737] listening starts
+INFO     [2017-05-04 16:39:18,737] socket create
+INFO     [2017-05-04 16:39:18,738] Server started... Socket timeout: 10 sec.
+INFO     [2017-05-04 16:39:21,852] Received: <Username:USER;x:14234.34;y:42342.23>
+INFO     [2017-05-04 16:39:23,853] Received: <Username:USER;x:14234.34;y:42342.23>

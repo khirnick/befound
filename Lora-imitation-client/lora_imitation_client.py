@@ -2,6 +2,7 @@ import socket
 import threading
 import pickle
 import sys
+import logging
 sys.path.append('/home/hitryy/_Projects/BeFOUND/BeFOUND/Network-settings/')
 from network_settings import *
 
@@ -17,8 +18,11 @@ class LoRaClient:
  # send data to port
  def send_data(self, data):
      self.sock.send(data.encode())
+     logging.info('send: {0}'.format(data.encode()))
 
 if __name__ == '__main__':
+    logging.basicConfig(format = u'%(levelname)-8s [%(asctime)s] %(message)s',
+                        level = logging.DEBUG, filename = u'lora_im.log')
     client = LoRaClient(LORA_IMITATION_PORT_TO_SEND, LORA_IMITATION_HOST_TO_SEND)
 
     def send_data_repeat_imitate_lora():

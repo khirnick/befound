@@ -4,6 +4,7 @@ import time
 import errno
 import pickle
 import sys
+import logging
 sys.path.append('/home/hitryy/_Projects/BeFOUND/BeFOUND/Network-settings/')
 from network_settings import *
 from program_info import *
@@ -21,10 +22,13 @@ class ServerMediator:
         self.host_to_send = host_to_send
         self.__socket_timeout = socket_timeout
         self.__run = False
-        print('{0}\nServer init. ADDRESS: {1}, PORT: {2}'.format(
+
+        log = '{0} Server init. ADDRESS: {1}, PORT: {2}'.format(
             SERVER_NAME,
             self.host,
-            self.port))
+            self.port)
+        logging.info(log)
+        print(log)
         print("'stop' to stop server"
               "'info' to get info about server")
 
@@ -35,6 +39,7 @@ class ServerMediator:
     # create socket, which sends data to local server
     # or update socket (recreating) if local serever timeout left
     def __create_or_update_socket_to_send(self):
+        logging.info("socket create")
         self.__sock_to_send = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.__sock_to_send.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR,
                                        1)
@@ -42,6 +47,8 @@ class ServerMediator:
 
     # start listen and send data to local server
     def start_listen_and_send(self):
+        logging.info("listening starts")
+
         self.__sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.__sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.__sock.bind((self.host, self.port))
@@ -50,33 +57,51 @@ class ServerMediator:
         self.__create_or_update_socket_to_send()
 
         self.__run = True
-        print("Server started... Socket timeout: {0} sec.".format(
-            self.__socket_timeout))
+
+        log = "Server started... Socket timeout: {0} sec.".format(
+            self.__socket_timeout)
+        logging.info(log)
+        print(log)
+
         while self.__run:
             try:
                 self.data = self.__sock.recv(1024).decode()
                 time.sleep(0.01)
                 # data_l = [self.data]
                 self.__sock_to_send.send(self.data.encode())
-                print('Received: <{0}>'.format(self.data))
+
+                log_recv = 'Received: <{0}>'.format(self.data)
+                logging.info(log_recv)
+                print(log_recv)
             except socket.timeout:
-                print('Socket timeout. Dont pay attention to this message')
+                log_ex = 'Socket timeout. Dont pay attention to this message'
+                logging.warning(log_ex)
+                print(log_ex)
             except IOError as e:
                 if e.errno == errno.EPIPE:
-                    print('Local server rejected connection,'
-                          'because timeout left. Connect again')
+                    log_ex = 'Local server rejected connection, because timeout left. Connect again'
+                    logging.warning(log_ex)
+                    print(log_ex)
+
                     self.__create_or_update_socket_to_send()
 
         self.__sock.close()
         self.__sock_to_send.close()
-        print('Server now is stopped')
+        log = 'Server now is stopped'
+        logging.info(log)
+        print(log)
 
     # stop server
     def stop_server(self):
         self.__run = False
-        print('Server is closing...')
+
+        log = 'Server is closing...'
+        logging.info(log)
+        print(log)
 
 if __name__ == '__main__':
+    logging.basicConfig(format = u'%(levelname)-8s [%(asctime)s] %(message)s',
+                        level = logging.DEBUG, filename = u'mediator_s.log')
     server = ServerMediator(MEDIATOR_SERVER_PORT, MEDIATOR_SERVER_PORT_TO_SEND,
                             MEDIATOR_SERVER_HOST, MEDIATOR_SERVER_HOST_TO_SEND,
                             MEDIATOR_SERVER_SOCKET_TIMEOUT)
