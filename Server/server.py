@@ -1,11 +1,12 @@
 import socket
 import threading
 import time
-import program_info
+import pickle
 import sys
-sys.path.append('/home/hitryy/_Projects/BeFOUND/BeFOUND/Server-settings/')
+sys.path.append('/home/hitryy/_Projects/be_found/network_settings/')
 from server_settings import *
 from connection import Connection
+from program_info import *
 
 '''Socket multithreading server
 for local server on station for communicating with raspberry(ies)'''
@@ -20,8 +21,10 @@ class Server:
         self.__client_timeout = client_timeout
         self.__run = False
         self.__connected_clients = []
-        print('Server init. ADDRESS: {0}, PORT: {1}'.format(self.host,
-                                                            self.port))
+        print('{0}\nServer init. ADDRESS: {1}, PORT: {2}'.format(
+            SERVER_NAME,
+            self.host,
+            self.port))
         print("'stop' to stop server"
               "'info' to get info about server")
 
@@ -67,6 +70,8 @@ class Server:
         while self.__run:
             try:
                 self.data = client.recv(1024).decode()
+                # print(type(pickle.loads(self.data)))
+
                 if (not self.data):
                     print('Client disconnected. ADDRESS: {0}, PORT: {1}'
                         .format(addr[0], addr[1]))
@@ -81,7 +86,7 @@ class Server:
         connection.closed = True
 
     # stop server
-    def stop_listening(self):
+    def stop_server(self):
         print("Trying to stop server...")
         self.__run = False
         self.__sock.close()
@@ -99,18 +104,19 @@ class Server:
         return working_clients
 
 if __name__ == '__main__':
-    server = Server(LOCAL_SERVER_PORT, LOCAL_SERVER_HOST, LOCAL_SERVER_PORT_COUNT, LOCAL_SERVER_CLIENT_TIMEOUT)
+    server = Server(LOCAL_SERVER_PORT, LOCAL_SERVER_HOST,
+                    LOCAL_SERVER_PORT_COUNT, LOCAL_SERVER_CLIENT_TIMEOUT)
     t = threading.Thread(target=server.start_listen)
     t.start()
 
     while True:
         input_msg = input()
         if (input_msg == 'stop'):
-            server.stop_listening()
+            server.stop_server()
             break
         elif (input_msg == 'info'):
             print(repr(server))
 
     t.join()
 
-    print(program_info.CAPTION)
+    print(CAPTION)
