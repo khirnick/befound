@@ -4,8 +4,8 @@ import time
 import errno
 import pickle
 import sys
-sys.path.append('/home/hitryy/_Projects/be_found/network_settings/')
-from server_settings import *
+sys.path.append('/home/hitryy/_Projects/BeFOUND/BeFOUND/Network-settings/')
+from network_settings import *
 from program_info import *
 
 '''Socket server UDP non-multithreading for receiving data
@@ -54,7 +54,7 @@ class ServerMediator:
             self.__socket_timeout))
         while self.__run:
             try:
-                self.data = self.__sock.recv(1024).encode()
+                self.data = self.__sock.recv(1024).decode()
                 time.sleep(0.01)
                 # data_l = [self.data]
                 self.__sock_to_send.send(self.data.encode())

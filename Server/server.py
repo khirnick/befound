@@ -3,8 +3,8 @@ import threading
 import time
 import pickle
 import sys
-sys.path.append('/home/hitryy/_Projects/be_found/network_settings/')
-from server_settings import *
+sys.path.append('/home/hitryy/_Projects/BeFOUND/BeFOUND/Network-settings/')
+from network_settings import *
 from connection import Connection
 from program_info import *
 

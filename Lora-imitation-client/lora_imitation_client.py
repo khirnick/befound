@@ -2,8 +2,8 @@ import socket
 import threading
 import pickle
 import sys
-sys.path.append('/home/hitryy/_Projects/BeFOUND/BeFOUND/Server-settings/')
-from server_settings import *
+sys.path.append('/home/hitryy/_Projects/BeFOUND/BeFOUND/Network-settings/')
+from network_settings import *
 
 class LoRaClient:
 
