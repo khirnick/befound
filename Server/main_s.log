@@ -1,0 +1,17 @@
+INFO     [2017-05-04 18:34:48,470] BeFound Local server ver. ALPHA Server init. ADDRESS: 127.0.0.1, PORT: 30000
+INFO     [2017-05-04 18:34:48,471] Server started... Count of ports to listen: 10
+Client timeout: 10 sec.
+INFO     [2017-05-04 18:34:58,974] Received: <Username:USER;x:14234.34;y:42342.23> from 127.0.0.1
+INFO     [2017-05-04 18:35:00,975] Received: <Username:USER;x:14234.34;y:42342.23> from 127.0.0.1
+INFO     [2017-05-04 18:35:02,976] Received: <Username:USER;x:14234.34;y:42342.23> from 127.0.0.1
+INFO     [2017-05-04 18:35:04,977] Received: <Username:USER;x:14234.34;y:42342.23> from 127.0.0.1
+INFO     [2017-05-04 18:35:06,977] Received: <Username:USER;x:14234.34;y:42342.23> from 127.0.0.1
+INFO     [2017-05-04 18:35:08,977] Received: <Username:USER;x:14234.34;y:42342.23> from 127.0.0.1
+INFO     [2017-05-04 18:35:10,978] Received: <Username:USER;x:14234.34;y:42342.23> from 127.0.0.1
+INFO     [2017-05-04 18:35:12,978] Received: <Username:USER;x:14234.34;y:42342.23> from 127.0.0.1
+INFO     [2017-05-04 18:35:14,979] Received: <Username:USER;x:14234.34;y:42342.23> from 127.0.0.1
+INFO     [2017-05-04 18:35:16,979] Received: <Username:USER;x:14234.34;y:42342.23> from 127.0.0.1
+INFO     [2017-05-04 18:35:18,980] Received: <Username:USER;x:14234.34;y:42342.23> from 127.0.0.1
+INFO     [2017-05-04 18:35:20,981] Received: <Username:USER;x:14234.34;y:42342.23> from 127.0.0.1
+INFO     [2017-05-04 18:35:22,982] Received: <Username:USER;x:14234.34;y:42342.23> from 127.0.0.1
+INFO     [2017-05-04 18:48:23,514] BeFound Local server ver. ALPHA Server init. ADDRESS: 212.22.92.159, PORT: 30000
