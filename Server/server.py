@@ -4,7 +4,7 @@ import time
 import pickle
 import sys
 import logging
-sys.path.append('/home/befound/BeFOUND/Network-settings/')
+sys.path.append('../../BeFOUND/Network-settings/')
 from network_settings import *
 from connection import Connection
 from program_info import *

@@ -3,7 +3,7 @@ import threading
 import pickle
 import sys
 import logging
-sys.path.append('/home/hitryy/_Projects/BeFOUND/BeFOUND/Network-settings/')
+sys.path.append('../../../BeFOUND/BeFOUND/Network-settings/')
 from network_settings import *
 
 class LoRaClient:
