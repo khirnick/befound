@@ -14,3 +14,4 @@ INFO     [2017-05-04 18:35:16,979] Received: <Username:USER;x:14234.34;y:42342.2
 INFO     [2017-05-04 18:35:18,980] Received: <Username:USER;x:14234.34;y:42342.23> from 127.0.0.1
 INFO     [2017-05-04 18:35:20,981] Received: <Username:USER;x:14234.34;y:42342.23> from 127.0.0.1
 INFO     [2017-05-04 18:35:22,982] Received: <Username:USER;x:14234.34;y:42342.23> from 127.0.0.1
+INFO     [2017-05-04 18:48:23,514] BeFound Local server ver. ALPHA Server init. ADDRESS: 212.22.92.159, PORT: 30000
