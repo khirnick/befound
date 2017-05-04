@@ -46,9 +46,7 @@ class Server:
         self.__sock.listen(self.__port_count)
         self.__run = True
 
-        log = "Server started... Count of ports to listen: {0}\n"
-              "Client timeout: {1} sec."
-              .format(self.__port_count, self.__client_timeout)
+        log = "Server started... Count of ports to listen: {0}\nClient timeout: {1} sec.".format(self.__port_count, self.__client_timeout)
         logging.info(log)
         print(log)
 
@@ -85,8 +83,7 @@ class Server:
                 # print(type(pickle.loads(self.data)))
 
                 if (not self.data):
-                    log = 'Client disconnected. ADDRESS: {0}, PORT: {1}'
-                          .format(addr[0], addr[1])
+                    log = 'Client disconnected. ADDRESS: {0}, PORT: {1}'.format(addr[0], addr[1])
                     logging.info(lg)
                     print(log)
 
@@ -96,8 +93,7 @@ class Server:
                 logging.info(log_recv)
                 print(log_recv)
             except socket.timeout:
-                log_ex = 'Client timeout. ADDRESS: {0}, PORT: {1}'
-                         .format(addr[0], addr[1])
+                log_ex = 'Client timeout. ADDRESS: {0}, PORT: {1}'.format(addr[0], addr[1])
                 logging.warning(lg_ex)
                 print(log_ex)
 
@@ -111,7 +107,7 @@ class Server:
         log = "Trying to stop server..."
         logging.info(log)
         print(log)
-        
+
         self.__run = False
         self.__sock.close()
         socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect((self.host,

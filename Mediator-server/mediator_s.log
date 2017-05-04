@@ -5,3 +5,23 @@ INFO     [2017-05-04 16:39:18,737] socket create
 INFO     [2017-05-04 16:39:18,738] Server started... Socket timeout: 10 sec.
 INFO     [2017-05-04 16:39:21,852] Received: <Username:USER;x:14234.34;y:42342.23>
 INFO     [2017-05-04 16:39:23,853] Received: <Username:USER;x:14234.34;y:42342.23>
+INFO     [2017-05-04 18:33:59,326] BeFound Mediator server ver. ALPHA Server init. ADDRESS: 127.0.0.1, PORT: 30010
+INFO     [2017-05-04 18:33:59,326] listening starts
+INFO     [2017-05-04 18:33:59,326] socket create
+INFO     [2017-05-04 18:34:51,789] BeFound Mediator server ver. ALPHA Server init. ADDRESS: 127.0.0.1, PORT: 30010
+INFO     [2017-05-04 18:34:51,789] listening starts
+INFO     [2017-05-04 18:34:51,789] socket create
+INFO     [2017-05-04 18:34:51,789] Server started... Socket timeout: 10 sec.
+INFO     [2017-05-04 18:34:58,974] Received: <Username:USER;x:14234.34;y:42342.23>
+INFO     [2017-05-04 18:35:00,975] Received: <Username:USER;x:14234.34;y:42342.23>
+INFO     [2017-05-04 18:35:02,976] Received: <Username:USER;x:14234.34;y:42342.23>
+INFO     [2017-05-04 18:35:04,976] Received: <Username:USER;x:14234.34;y:42342.23>
+INFO     [2017-05-04 18:35:06,977] Received: <Username:USER;x:14234.34;y:42342.23>
+INFO     [2017-05-04 18:35:08,977] Received: <Username:USER;x:14234.34;y:42342.23>
+INFO     [2017-05-04 18:35:10,978] Received: <Username:USER;x:14234.34;y:42342.23>
+INFO     [2017-05-04 18:35:12,978] Received: <Username:USER;x:14234.34;y:42342.23>
+INFO     [2017-05-04 18:35:14,979] Received: <Username:USER;x:14234.34;y:42342.23>
+INFO     [2017-05-04 18:35:16,979] Received: <Username:USER;x:14234.34;y:42342.23>
+INFO     [2017-05-04 18:35:18,980] Received: <Username:USER;x:14234.34;y:42342.23>
+INFO     [2017-05-04 18:35:20,981] Received: <Username:USER;x:14234.34;y:42342.23>
+INFO     [2017-05-04 18:35:22,981] Received: <Username:USER;x:14234.34;y:42342.23>
