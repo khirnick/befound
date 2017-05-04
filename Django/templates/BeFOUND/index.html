@@ -34,64 +34,34 @@
                     <ul class="item-list striped">
                         <li class="item item-list-header hidden-sm-down">
                             <div class="item-row">
-                                <div class="item-col item-col-header item-col-name">
+                                <div class="item-col item-col-header item-col-title">
                                     <div> <span>ФИО</span> </div>
+                                </div>
+                                <div class="item-col item-col-header item-col-phone">
+                                    <div> <span>Телефон</span> </div>
                                 </div>
                                 <div class="item-col item-col-header item-col-coords">
                                     <div> <span>Координаты</span> </div>
                                 </div>
                             </div>
                         </li>
-                        <li class="item">
-                            <div class="item-row">
-                                <div class="item-col fixed item-col-name xs">
-                                    <a href="">Иванов Иван Иванович</a>
+                        {% for user in users_in_alarm %}
+                            <li class="item"><div class="item-row">
+                                <div class="item-col item-col-title no-overflow">
+                                    <div><a href="" class=""><h4 class="item-title no-wrap">
+                                        {{ user }}
+                                    </h4></a></div>
                                 </div>
-                                <div class="item-col item-col-coords no-overflow">
-                                    123123 1234234
+                                <div class="item-col item-col-phone">
+                                    <div class="item-heading">Телефон</div>
+                                    <div> {{ user.phone }} </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li class="item">
-                            <div class="item-row">
-                                <div class="item-col fixed item-col-name xs">
-                                    <a href="">Иванов Иван Иванович</a>
+                                <div class="item-col item-col-coords">
+                                    <div class="item-heading">Координаты</div>
+                                    <div> {{ user.coordinates_str }} </div>
                                 </div>
-                                <div class="item-col item-col-coords no-overflow">
-                                    123123 1234234
-                                </div>
-                            </div>
-                        </li>
-                        <li class="item">
-                            <div class="item-row">
-                                <div class="item-col fixed item-col-name xs">
-                                    <a href="">Иванов Иван Иванович</a>
-                                </div>
-                                <div class="item-col item-col-coords no-overflow">
-                                    123123 1234234
-                                </div>
-                            </div>
-                        </li>
-                        <li class="item">
-                            <div class="item-row">
-                                <div class="item-col fixed item-col-name xs">
-                                    <a href="">Иванов Иван Иванович</a>
-                                </div>
-                                <div class="item-col item-col-coords no-overflow">
-                                    123123 1234234
-                                </div>
-                            </div>
-                        </li>
-                        <li class="item">
-                            <div class="item-row">
-                                <div class="item-col fixed item-col-name xs">
-                                    <a href="">Иванов Иван Иванович</a>
-                                </div>
-                                <div class="item-col item-col-coords no-overflow">
-                                    123123 1234234
-                                </div>
-                            </div>
-                        </li>
+                            </div></li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>
