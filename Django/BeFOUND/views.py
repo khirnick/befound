@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Profile, UserAB, AlarmButton, UserAlarmButton
+from .models import Profile, UserAB, AlarmButton, UsedAlarmButton
 
 # Create your views here.
 def index(request):

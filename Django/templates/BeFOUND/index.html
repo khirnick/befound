@@ -130,7 +130,7 @@
                                     <div class="no-overflow"> <span>Дата рождения</span> </div>
                                 </div>
                                 <div class="item-col item-col-header item-col-coords">
-                                    <div> <span>Последние координаты</span> </div>
+                                    <div> <span>Координаты</span> </div>
                                 </div>
                                 <div class="item-col item-col-header item-col-status">
                                     <div> <span>Статус</span> </div>
@@ -157,12 +157,12 @@
                                     <div> {{ user.birthday }} </div>
                                 </div>
                                 <div class="item-col item-col-coords">
-                                    <div class="item-heading">Последние координаты</div>
-                                    <div> {{ user.coordinates }} </div>
+                                    <div class="item-heading">Координаты</div>
+                                    <div> {{ user.coordinates_str }} </div>
                                 </div>
                                 <div class="item-col item-col-status">
                                     <div class="item-heading">Статус</div>
-                                    <div> {% if user.status == 0 %}Норм{% else %}Тревога{% endif %} </div>
+                                    <div> {{ user.status_str }} </div>
                                 </div>
                             </div></li>
                         {% endfor %}
