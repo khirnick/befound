@@ -84,7 +84,7 @@ class Server:
 
                 if (not self.data):
                     log = 'Client disconnected. ADDRESS: {0}, PORT: {1}'.format(addr[0], addr[1])
-                    logging.info(lg)
+                    logging.info(log)
                     print(log)
 
                     break
@@ -94,7 +94,7 @@ class Server:
                 print(log_recv)
             except socket.timeout:
                 log_ex = 'Client timeout. ADDRESS: {0}, PORT: {1}'.format(addr[0], addr[1])
-                logging.warning(lg_ex)
+                logging.warning(log_ex)
                 print(log_ex)
 
                 break
