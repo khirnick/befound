@@ -5,7 +5,7 @@ import errno
 import pickle
 import sys
 import logging
-sys.path.append('../../../BeFOUND/BeFOUND/Network-settings/')
+sys.path.append('../../BeFOUND/Network-settings/')
 from network_settings import *
 from program_info import *
 

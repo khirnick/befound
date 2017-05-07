@@ -6,9 +6,14 @@ class PacketList:
 
     def __init__(self):
         self.__packets = []
-
+        
     def __repr__(self):
         return self.__packets
+
+    @staticmethod
+    def get_parsed_packetlist_from_string(line):
+        splitted_line = line.split(";")
+        return Packet(*splitted_line)
 
     def add(self, packet):
         if type(packet) == Packet:
@@ -22,9 +27,3 @@ class PacketList:
     def print_list(self):
         for el in self.__packets:
             print(el)
-
-pl = PacketList()
-pl.add(1)
-pl.add(Packet('alex1', '1', 2, False))
-pl.add(Packet('alex10', 1, 2, False))
-pl.print_list()
