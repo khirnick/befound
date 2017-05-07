@@ -78,6 +78,8 @@ class Server:
         for c in self.__connected_clients:
             c.thread.join()
 
+        self.__dbmanager.close()
+
         log = "Server now is stopped"
         logging.info(log)
         print(log)
@@ -95,6 +97,11 @@ class Server:
 
                     break
                 else:
+                    log_recv = 'Received: <{0}> from {1}'.format(self.data, addr[0])
+
+                    logging.info(log_recv)
+                    print(log_recv)
+
                     splitted_line = self.data.split(";")
                     location_packet = Location(*splitted_line)
                     self.__location_packet_list.append(location_packet)
@@ -103,11 +110,9 @@ class Server:
                     if (is_added_to_db):
                         self.__location_packet_list.clear()
 
-                log_recv = 'Received: <{0}> from {1}'.format(self.data, addr[0])
-                logging.info(log_recv)
-                print(log_recv)
             except socket.timeout:
                 log_ex = 'Client timeout. ADDRESS: {0}, PORT: {1}'.format(addr[0], addr[1])
+
                 logging.warning(log_ex)
                 print(log_ex)
 
