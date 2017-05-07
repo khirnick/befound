@@ -22,7 +22,17 @@ class DbManager:
 
         Base.metadata.create_all(self.__engine)
 
-    def add(self, *data):
+    def add(self, data):
+        s = self.__session()
+
+        s.add(data)
+        s.commit()
+        s.close()
+
+    def add_based_on_count(self, count, data):
+        if (count > len(data)):
+            return False
+
         s = self.__session()
 
         for el in data:
@@ -30,6 +40,9 @@ class DbManager:
 
         s.commit()
         s.close()
+
+        print('data added to db successfully')
+        return True
 
     def close(self):
         self.__engine.dispose()
@@ -47,7 +60,3 @@ class Location(Base):
         self.xcoord = xcoord
         self.ycoord = ycoord
         self.panic = panic
-
-dbmanager = DbManager('hitryy', '999', '127.0.0.1', 'befound')
-dbmanager.add(Location('u2222', 1.11, 1.11, 1), Location('u1111', 1.11, 1.11, 1))
-dbmanager.close()

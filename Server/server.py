@@ -5,12 +5,14 @@ import pickle
 import sys
 import logging
 import pymysql
-sys.path.append('../BeFOUND/BeFOUND/Network-settings/')
-sys.path.append('../BeFOUND/BeFOUND/Packet-list/')
+sys.path.append('../../BeFOUND/Network-settings/')
+sys.path.append('../../BeFOUND/Packet-list/')
+sys.path.append('../../BeFOUND/DbManager/')
 from network_settings import *
 from packet_list import *
 from connection import Connection
 from program_info import *
+from dbmanager import *
 
 '''Socket multithreading server
 for local server on station for communicating with raspberry(ies)'''
@@ -25,7 +27,8 @@ class Server:
         self.__client_timeout = client_timeout
         self.__run = False
         self.__connected_clients = []
-        self.__location_packets_list = []
+        self.__location_packet_list = []
+        self.__dbmanager = DbManager('hitryy', '999', '127.0.0.1', 'befound')
 
         log = '{0} Server init. ADDRESS: {1}, PORT: {2}'.format(
             SERVER_NAME,
@@ -92,8 +95,13 @@ class Server:
 
                     break
                 else:
-                    packet = LocationPacketList.get_parsed_packetlist_from_string(self.data)
-                    self.__location_packet_list.add(packet)
+                    splitted_line = self.data.split(";")
+                    location_packet = Location(*splitted_line)
+                    self.__location_packet_list.append(location_packet)
+                    is_added_to_db = self.__dbmanager.add_based_on_count(5, self.__location_packet_list)
+
+                    if (is_added_to_db):
+                        self.__location_packet_list.clear()
 
                 log_recv = 'Received: <{0}> from {1}'.format(self.data, addr[0])
                 logging.info(log_recv)
