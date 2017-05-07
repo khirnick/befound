@@ -4,8 +4,9 @@ import time
 import pickle
 import sys
 import logging
-sys.path.append('../../BeFOUND/Network-settings/')
-sys.path.append('../../BeFOUND/Packet-list/')
+import pymysql
+sys.path.append('../BeFOUND/BeFOUND/Network-settings/')
+sys.path.append('../BeFOUND/BeFOUND/Packet-list/')
 from network_settings import *
 from packet_list import *
 from connection import Connection
@@ -24,7 +25,7 @@ class Server:
         self.__client_timeout = client_timeout
         self.__run = False
         self.__connected_clients = []
-        self.__packet_list = PacketList()
+        self.__location_packets_list = []
 
         log = '{0} Server init. ADDRESS: {1}, PORT: {2}'.format(
             SERVER_NAME,
@@ -91,9 +92,8 @@ class Server:
 
                     break
                 else:
-                    packet = PacketList.get_parsed_packetlist_from_string(self.data)
-                    self.__packet_list.add(packet)
-                    print(self.__packet_list.print_list())
+                    packet = LocationPacketList.get_parsed_packetlist_from_string(self.data)
+                    self.__location_packet_list.add(packet)
 
                 log_recv = 'Received: <{0}> from {1}'.format(self.data, addr[0])
                 logging.info(log_recv)
