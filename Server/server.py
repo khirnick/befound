@@ -5,6 +5,7 @@ import pickle
 import sys
 import logging
 import pymysql
+import datetime
 sys.path.append('../../BeFOUND/Network-settings/')
 sys.path.append('../../BeFOUND/Packet-list/')
 sys.path.append('../../BeFOUND/DbManager/')
@@ -20,7 +21,7 @@ class Server:
 
     # init server based on port, host, count of listeners, client timeout
     def __init__(self, port, host = "127.0.0.1", port_count = 10,
-        client_timeout = 8):
+                 client_timeout = 8):
         self.port = port
         self.host = host
         self.__port_count = port_count
@@ -28,7 +29,8 @@ class Server:
         self.__run = False
         self.__connected_clients = []
         self.__location_packet_list = []
-        self.__dbmanager = DbManager('hitryy', '999', '212.22.92.159', 'befound_test')
+        self.__dbmanager = DbManager('hitryy', '999', '127.0.0.1', 'befound_main')
+        self.__dbmanager_remote = DbManagerRemote('hitryy', '999', '212.22.92.159', 'befound_test')
 
         log = '{0} Server init. ADDRESS: {1}, PORT: {2}'.format(
             SERVER_NAME,
@@ -103,6 +105,7 @@ class Server:
                     print(log_recv)
 
                     splitted_line = self.data.split(";")
+                    splitted_line.append(datetime.datetime.now())
                     location_packet = Location(*splitted_line)
                     self.__location_packet_list.append(location_packet)
                     is_added_to_db = self.__dbmanager.add_based_on_count(5, self.__location_packet_list)

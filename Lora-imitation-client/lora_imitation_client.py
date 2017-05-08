@@ -27,7 +27,7 @@ if __name__ == '__main__':
 
     def send_data_repeat_imitate_lora():
         threading.Timer(2.0, send_data_repeat_imitate_lora).start()
-        client.send_data("USER;14234.34;42342.23;0")
+        client.send_data("USERNAME;FIRSTNAME;LASTNAME;14234.34;42342.23;EMAIL@EMAIL.COM;8-900-000-00-00;0")
 
     while True:
         input_msg = input()

@@ -47,16 +47,33 @@ class DbManager:
     def close(self):
         self.__engine.dispose()
 
+
+class DbManagerRemote(DbManager):
+    def __init__(self, username, password, host, db_name, update_count=10):
+        super(DbManagerRemote, self).__init__(username, password, host, db_name)
+        self.update_count = update_count
+
+
 class Location(Base):
     __tablename__ = 'locations'
     id = Column(Integer, primary_key=True)
-    user = Column(String)
+    username = Column(String)
+    first_name = Column(String)
+    last_name = Column(String)
     xcoord = Column(Float)
     ycoord = Column(Float)
-    panic = Column(SmallInteger)
+    email = Column(String)
+    phone = Column(String)
+    status = Column(SmallInteger)
+    last_update = Column(Date)
 
-    def __init__(self, user, xcoord, ycoord, panic):
-        self.user = user
+    def __init__(self, username, first_name, last_name, xcoord, ycoord, email, phone, status, last_update):
+        self.username = username
+        self.first_name = first_name
+        self.last_name = last_name
         self.xcoord = xcoord
         self.ycoord = ycoord
-        self.panic = panic
+        self.email = email
+        self.phone = phone
+        self.status = status
+        self.last_update = last_update

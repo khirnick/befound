@@ -1,0 +1,9 @@
+username:       VARHCHAR(30)
+first_name:     VARCHAR(20)
+last_name:      VARCHAR(20)
+xcoord:         FLOAT
+ycoord:         FLOAT
+email:          VARCHAR(40)
+phone:          VARCHAR(20)
+status:         TINYINT
+last_update:    DATETIME    
