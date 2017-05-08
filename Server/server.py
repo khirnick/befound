@@ -28,7 +28,7 @@ class Server:
         self.__run = False
         self.__connected_clients = []
         self.__location_packet_list = []
-        self.__dbmanager = DbManager('hitryy', '999', '127.0.0.1', 'befound')
+        self.__dbmanager = DbManager('hitryy', '999', '212.22.92.159', 'befound_test')
 
         log = '{0} Server init. ADDRESS: {1}, PORT: {2}'.format(
             SERVER_NAME,

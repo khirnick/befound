@@ -79,7 +79,8 @@ class ServerMediator:
                 print(log_ex)
             except IOError as e:
                 if e.errno == errno.EPIPE:
-                    log_ex = 'Local server rejected connection, because timeout left. Connect again'
+                    log_ex = 'Local server rejected connection, because'\
+                             'timeout left. Connect again'
                     logging.warning(log_ex)
                     print(log_ex)
 
@@ -99,9 +100,10 @@ class ServerMediator:
         logging.info(log)
         print(log)
 
+
 if __name__ == '__main__':
-    logging.basicConfig(format = u'%(levelname)-8s [%(asctime)s] %(message)s',
-                        level = logging.DEBUG, filename = u'mediator_s.log')
+    logging.basicConfig(format=u'%(levelname)-8s [%(asctime)s] %(message)s',
+                        level=logging.DEBUG, filename=u'mediator_s.log')
     server = ServerMediator(MEDIATOR_SERVER_PORT, MEDIATOR_SERVER_PORT_TO_SEND,
                             MEDIATOR_SERVER_HOST, MEDIATOR_SERVER_HOST_TO_SEND,
                             MEDIATOR_SERVER_SOCKET_TIMEOUT)
