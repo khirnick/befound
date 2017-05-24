@@ -1,3 +1,4 @@
+TODO: change it
 username:       VARHCHAR(30)
 first_name:     VARCHAR(20)
 last_name:      VARCHAR(20)

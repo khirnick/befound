@@ -53,27 +53,72 @@ class DbManagerRemote(DbManager):
         super(DbManagerRemote, self).__init__(username, password, host, db_name)
         self.update_count = update_count
 
+####################################################
 
-class Location(Base):
-    __tablename__ = 'locations'
-    id = Column(Integer, primary_key=True)
-    username = Column(String)
+class AlarmButton(Base):
+    __tablename__ = 'alarm_button'
+    alarm_button_id = Column(Integer, primary_key=True)
+    mac = Column(String)
+    created_at = Column(Date)
+    updated_at = Column(Date)
+
+    def __init__(self, mac, created_at, updated_at):
+        self.mac = mac
+        self.created_at = created_at
+        self.updated_at = updated_at
+
+class Coordinates(Base):
+    __tablename__ = 'coordinates'
+    coordinates_id = Column(Integer, primary_key=True)
+    latitude = Column(Float)
+    longitude = Column(Float)
+    status = Column(Integer)
+    time = Column(Date)
+    alarm_button_id = Column(Integer, ForeignKey('alarm_button.alarm_button_id'))
+    alarm_button = relationship(AlarmButton)
+
+    def __init__(self, latitude, longitude, status, time, alarm_button):
+        self.latitude = latitude
+        self.longitude = longitude
+        self.status = status
+        self.time = time
+        self.alarm_button = alarm_button
+
+class UserAb(Base):
+    __tablename__ = "user_ab"
+    user_ab_id = Column(Integer, primary_key=True)
     first_name = Column(String)
     last_name = Column(String)
-    xcoord = Column(Float)
-    ycoord = Column(Float)
-    email = Column(String)
+    patronymic = Column(String)
     phone = Column(String)
-    status = Column(SmallInteger)
-    last_update = Column(Date)
+    email = Column(String)
+    birthday = Column(Date)
+    created_at = Column(Date)
+    updated_at = Column(Date)
 
-    def __init__(self, username, first_name, last_name, xcoord, ycoord, email, phone, status, last_update):
-        self.username = username
+    def __init__(self, first_name, last_name, patronymic, phone, email, birthday, created_at, updated_at):
         self.first_name = first_name
         self.last_name = last_name
-        self.xcoord = xcoord
-        self.ycoord = ycoord
-        self.email = email
+        self.patronymic = patronymic
         self.phone = phone
-        self.status = status
-        self.last_update = last_update
+        self.email = email
+        self.birthday = birthday
+        self.created_at = created_at
+        self.updated_at = updated_at
+
+class UsedAlarmButton(Base):
+    __tablename__ = "used_alarm_button"
+    used_ab_id = Column(Integer, primary_key=True)
+    date_begin = Column(Date)
+    date_end = Column(Date)
+    alarm_button_id = Column(Integer, ForeignKey('alarm_button.alarm_button_id'))
+    user_ab_id = Column(Integer, ForeignKey('user_ab.user_ab_id'))
+    alarm_button = relationship(AlarmButton)
+    user_ab = relationship(UserAb)
+
+    def __init__(self, date_begin, date_end, alarm_button, user_ab):
+        self.date_begin = date_begin
+        self.date_end = date_end
+        slef.alarm_button = alarm_button
+        self.user_ab = user_ab
+#####################################################
