@@ -105,13 +105,26 @@ class Server:
 
                     splitted_line = self.data.split(";")
 
-                    alarm_button = self.__dbmanager.get_by_id(AlarmButton, int(splitted_line[1]))
-                    coordinates = Coordinates(float(splitted_line[2]), float(splitted_line[3]), int(splitted_line[4]), datetime.datetime.now(), alarm_button)
+                    user = self.__dbmanager.get_by_id(UserAb, int(splitted_line[0]))
+                    alarm_button = self.__dbmanager.get_by_id(
+                        AlarmButton, int(splitted_line[1]))
+
+                    coordinates = Coordinates(float(splitted_line[2]),
+                                              float(splitted_line[3]),
+                                              int(splitted_line[4]),
+                                              datetime.datetime.strptime(
+                                                  splitted_line[5],
+                                                  "%Y-%m-%d %H:%M:%S.%f"),
+                                              alarm_button)
+
+                    self.__dbmanager.update_time(user)
+                    self.__dbmanager.update_time(alarm_button)
 
                     self.__dbmanager.add(coordinates)
 
             except socket.timeout:
-                log_ex = 'Client timeout. ADDRESS: {0}, PORT: {1}'.format(addr[0], addr[1])
+                log_ex = 'Client timeout. ADDRESS: {0}, PORT: {1}'.format(addr[0],
+                                                                          addr[1])
 
                 logging.warning(log_ex)
                 print(log_ex)

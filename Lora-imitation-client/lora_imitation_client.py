@@ -28,7 +28,7 @@ if __name__ == '__main__':
 
     def send_data_repeat_imitate_lora():
         threading.Timer(2.0, send_data_repeat_imitate_lora).start()
-        client.send_data("1;1;14234.34;42342.23;0")
+        client.send_data("1;1;14234.34;42342.23;0;{0}".format(datetime.datetime.now()))
 
     while True:
         input_msg = input()

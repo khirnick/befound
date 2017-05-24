@@ -519,3 +519,25 @@ INFO     [2017-05-24 20:26:13,744] Received: <1;1;14234.34;42342.23;0> from 127.
 INFO     [2017-05-24 20:26:15,744] Received: <1;1;14234.34;42342.23;0> from 127.0.0.1
 INFO     [2017-05-24 20:26:17,745] Received: <1;1;14234.34;42342.23;0> from 127.0.0.1
 INFO     [2017-05-24 20:26:19,745] Received: <1;1;14234.34;42342.23;0> from 127.0.0.1
+INFO     [2017-05-24 20:36:15,388] BeFound Local server ver. ALPHA Server init. ADDRESS: 127.0.0.1, PORT: 30000
+INFO     [2017-05-24 20:36:15,388] Server started... Count of ports to listen: 10
+Client timeout: 10 sec.
+INFO     [2017-05-24 20:36:20,851] Trying to stop server...
+INFO     [2017-05-24 20:36:20,854] Server now is stopped
+INFO     [2017-05-24 21:08:00,918] BeFound Local server ver. ALPHA Server init. ADDRESS: 127.0.0.1, PORT: 30000
+INFO     [2017-05-24 21:08:00,919] Server started... Count of ports to listen: 10
+Client timeout: 10 sec.
+INFO     [2017-05-24 21:08:05,725] Received: <1;1;14234.34;42342.23;0> from 127.0.0.1
+INFO     [2017-05-24 21:08:07,726] Received: <1;1;14234.34;42342.23;0> from 127.0.0.1
+INFO     [2017-05-24 21:08:09,727] Received: <1;1;14234.34;42342.23;0> from 127.0.0.1
+INFO     [2017-05-24 21:08:11,726] Received: <1;1;14234.34;42342.23;0> from 127.0.0.1
+INFO     [2017-05-24 21:10:08,914] BeFound Local server ver. ALPHA Server init. ADDRESS: 127.0.0.1, PORT: 30000
+INFO     [2017-05-24 21:10:08,914] Server started... Count of ports to listen: 10
+Client timeout: 10 sec.
+INFO     [2017-05-24 21:10:12,680] Received: <1;1;14234.34;42342.23;0;2017-05-24 21:10:12.669468> from 127.0.0.1
+INFO     [2017-05-24 21:10:14,681] Received: <1;1;14234.34;42342.23;0;2017-05-24 21:10:14.670321> from 127.0.0.1
+INFO     [2017-05-24 21:10:16,681] Received: <1;1;14234.34;42342.23;0;2017-05-24 21:10:16.671002> from 127.0.0.1
+INFO     [2017-05-24 21:10:18,682] Received: <1;1;14234.34;42342.23;0;2017-05-24 21:10:18.671644> from 127.0.0.1
+INFO     [2017-05-24 21:10:20,683] Received: <1;1;14234.34;42342.23;0;2017-05-24 21:10:20.672357> from 127.0.0.1
+INFO     [2017-05-24 21:10:22,683] Received: <1;1;14234.34;42342.23;0;2017-05-24 21:10:22.673098> from 127.0.0.1
+INFO     [2017-05-24 21:10:24,683] Received: <1;1;14234.34;42342.23;0;2017-05-24 21:10:24.673319> from 127.0.0.1

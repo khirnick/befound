@@ -3,6 +3,7 @@ from sqlalchemy.orm import *
 from sqlalchemy.ext.declarative import *
 from sqlalchemy import *
 from sqlalchemy.orm import *
+import datetime
 
 Base = declarative_base()
 
@@ -36,6 +37,13 @@ class DbManager:
 
         return find_row
 
+    def update_time(self, obj):
+        s = self.__session()
+
+        obj.updated_at = datetime.datetime.now()
+        s.commit()
+        s.close()
+
     def add_based_on_count(self, count, data):
         if (count > len(data)):
             return False
@@ -60,6 +68,7 @@ class DbManagerRemote(DbManager):
         super(DbManagerRemote, self).__init__(username, password, host, db_name)
         self.update_count = update_count
 
+
 class AlarmButton(Base):
     __tablename__ = 'alarm_button'
     alarm_button_id = Column(Integer, primary_key=True)
@@ -71,6 +80,7 @@ class AlarmButton(Base):
         self.mac = mac
         self.created_at = created_at
         self.updated_at = updated_at
+
 
 class Coordinates(Base):
     __tablename__ = 'coordinates'
@@ -88,6 +98,7 @@ class Coordinates(Base):
         self.status = status
         self.time = time
         self.alarm_button = alarm_button
+
 
 class UserAb(Base):
     __tablename__ = "user_ab"
@@ -110,6 +121,7 @@ class UserAb(Base):
         self.birthday = birthday
         self.created_at = created_at
         self.updated_at = updated_at
+
 
 class UsedAlarmButton(Base):
     __tablename__ = "used_alarm_button"
