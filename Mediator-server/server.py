@@ -9,13 +9,24 @@ sys.path.append('../../BeFOUND/Network-settings/')
 from network_settings import *
 from program_info import *
 
-'''Socket server UDP non-multithreading for receiving data
-from LoRa'''
 class ServerMediator:
-
-    # init server based on port, host
+    """
+    Промежуточный сервер, который будет стоять на Raspberry
+    Отвечает за прием данных с кнопок и перенаправление посылки локальному
+    серверу
+    """
     def __init__(self, port, port_to_send, host = "127.0.0.1",
                  host_to_send = "127.0.0.1", socket_timeout = 8):
+        """
+        Инициализация объекта сервера
+        port - порт
+        port_to_send - порт, на который требуется переслать посылку
+        host - IP сервера нашего
+        host_to_send - IP сервера, которому надо отправить посылку
+        socket_timeout - таймаут сервера. Отключается тревожная кнопка
+
+        self.__run - запущен ли сервер
+        """
         self.port = port
         self.host = host
         self.port_to_send = port_to_send
@@ -32,13 +43,16 @@ class ServerMediator:
         print("'stop' to stop server"
               "'info' to get info about server")
 
-    # represent an instance
     def __repr__(self):
+        """
+        Вывод информации о сервере: порт и IP
+        """
         return 'Server(port={}, host={})'.format(self.port, self.host)
 
-    # create socket, which sends data to local server
-    # or update socket (recreating) if local serever timeout left
     def __create_or_update_socket_to_send(self):
+        """
+        Создать или обновить сокет для отправки данных локальному серверу
+        """
         logging.info("socket create")
         self.__sock_to_send = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.__sock_to_send.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR,
@@ -47,6 +61,11 @@ class ServerMediator:
 
     # start listen and send data to local server
     def start_listen_and_send(self):
+        """
+        Начать прослушку всех пакетов от всех тревожных кнопок
+        Обрабатываем исключение EPIPE, когда локальный сервер выключен,
+        а отсюда продолжают посылаться данные
+        """
         logging.info("listening starts")
 
         self.__sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -66,8 +85,6 @@ class ServerMediator:
         while self.__run:
             try:
                 self.data = self.__sock.recv(1024).decode()
-                time.sleep(0.01)
-                # data_l = [self.data]
                 self.__sock_to_send.send(self.data.encode())
 
                 log_recv = 'Received: <{0}>'.format(self.data)
@@ -92,8 +109,10 @@ class ServerMediator:
         logging.info(log)
         print(log)
 
-    # stop server
     def stop_server(self):
+        """
+        Остановка сервера
+        """
         self.__run = False
 
         log = 'Server is closing...'
