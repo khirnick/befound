@@ -1,1 +1,7 @@
-vds_params 
+vds_params
+
+*.pyc
+*.pyo
+*.log
+
+__pycache__/
