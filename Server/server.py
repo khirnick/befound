@@ -31,6 +31,9 @@ class Server:
 
         self.run - запущен ли сервер
         self.__connected_clients - список подключений клиентов
+        self.__packet_list - список пришедших пакетов, для отложенного добавления
+        self.__packets_counter_adding - количество пакетов при котором следует
+        осуществить запись в бд
         self.__dbmanager - объект подключения к БД. Используется модуль pymysql
         """
         self.port = port
@@ -39,6 +42,8 @@ class Server:
         self.__client_timeout = client_timeout
         self.__run = False
         self.__connected_clients = []
+        self.__packet_list = PacketList()
+        self.__packets_counter_adding = 5
         self.__dbmanager = DbManager('hitryy', '999', '212.22.92.159', 'be_found')
 
         log = '{0} Server init. ADDRESS: {1}, PORT: {2}'.format(
@@ -135,24 +140,32 @@ class Server:
                     logging.info(log_recv)
                     print(log_recv)
 
-                    splitted_line = self.data.split(";")
+                    #splitted_line = self.data.split(";")
+                    packet = PacketList.get_parsed_packet_from_string(self.data)
+                    self.__packet_list.add(packet)
 
-                    user = self.__dbmanager.get_by_id(UserAb, int(splitted_line[0]))
-                    alarm_button = self.__dbmanager.get_by_id(
-                        AlarmButton, int(splitted_line[1]))
+                    print(self.__packet_list.length)
 
-                    coordinates = Coordinates(float(splitted_line[2]),
-                                              float(splitted_line[3]),
-                                              int(splitted_line[4]),
-                                              datetime.datetime.strptime(
-                                                  splitted_line[5],
-                                                  "%Y-%m-%d %H:%M:%S.%f"),
-                                              alarm_button)
+                    if (self.__packet_list.length == self.__packets_counter_adding):
+                        for p in self.__packet_list:
+                            user = self.__dbmanager.get_by_id(UserAb, int(p.first_name_id))
+                            alarm_button = self.__dbmanager.get_by_id(
+                                AlarmButton, int(p.alarm_button_id))
 
-                    self.__dbmanager.update_time(user)
-                    self.__dbmanager.update_time(alarm_button)
+                            coordinates = Coordinates(float(p.x),
+                                                      float(p.y),
+                                                      int(p.panic),
+                                                      datetime.datetime.strptime(
+                                                          p.date,
+                                                          "%Y-%m-%d %H:%M:%S.%f"),
+                                                      alarm_button)
 
-                    self.__dbmanager.add(coordinates)
+                            self.__dbmanager.update_time(user)
+                            self.__dbmanager.update_time(alarm_button)
+
+                            self.__dbmanager.add(coordinates)
+
+                        self.__packet_list.clear()
 
             except socket.timeout:
                 log_ex = 'Client timeout. ADDRESS: {0}, PORT: {1}'.format(addr[0],

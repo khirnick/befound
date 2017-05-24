@@ -1,29 +1,37 @@
 import collections
 
-LocationPacket = collections.namedtuple('LocationPacket', 'username, x, y, panic')
+Packet = collections.namedtuple('Packet', 'first_name_id, alarm_button_id, x, y, panic, date')
 
-class LocationPacketList:
+class PacketList:
 
     def __init__(self):
-        self.__location_packets = []
+        self.__packets = []
 
     def __repr__(self):
-        return self.__location_packets
+        return self.__packets
+
+    def __iter__(self):
+        for p in self.__packets:
+            yield p
+
+    @property
+    def length(self):
+        return len(self.__packets)
 
     @staticmethod
-    def get_parsed_packetlist_from_string(line):
+    def get_parsed_packet_from_string(line):
         splitted_line = line.split(";")
-        return LocationPacket(*splitted_line)
+        return Packet(*splitted_line)
 
     def add(self, packet):
         if type(packet) == Packet:
-            self.__location_packets.append(packet)
+            self.__packets.append(packet)
         else:
             print('packet argument is not an instance of Packet')
 
     def clear(self):
-        del self.__location_packets[:]
+        del self.__packets[:]
 
     def print_list(self):
-        for el in self.__location_packets:
+        for el in self.__packets:
             print(el)
