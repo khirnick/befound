@@ -22,13 +22,23 @@ class Server:
     # init server based on port, host, count of listeners, client timeout
     def __init__(self, port, host = "127.0.0.1", port_count = 10,
                  client_timeout = 8):
+        """
+        Инициализирует объект сервера
+        port - порт сервера
+        host - IP сервера
+        port_count - максимальное количество клиентов
+        client_timeout - время ожидания клиента в секундах
+
+        self.run - запущен ли сервер
+        self.__connected_clients - список подключений клиентов
+        self.__dbmanager - объект подключения к БД. Используется модуль pymysql
+        """
         self.port = port
         self.host = host
         self.__port_count = port_count
         self.__client_timeout = client_timeout
         self.__run = False
         self.__connected_clients = []
-        self.__location_packet_list = []
         self.__dbmanager = DbManager('hitryy', '999', '212.22.92.159', 'be_found')
 
         log = '{0} Server init. ADDRESS: {1}, PORT: {2}'.format(
@@ -41,12 +51,22 @@ class Server:
         print("'stop' to stop server"
               "'info' to get info about server")
 
-    # represent an instance
     def __repr__(self):
+        """
+        Вывод информации о сервере: порт и IP
+        """
         return 'Server(port={}, host={})'.format(self.port, self.host)
 
-    # start server, each client has own thread
     def start_listen(self):
+        """
+        Запуск сервера. Начать прослушивания клиентов.
+        Прослушивание происходит в бесконечном цикле и заканчивается при
+        усановки self.__run в False. Каждое подключение клиента реализовано в
+        виде объекта Connection(), который помещается в список соединений.
+        После стопа клиента (self.__run в False), ждем когда когда пройдет
+        таймаут каждого клиента и закрываем подключение к БД.
+        После каждого нового клиента проверяем остальных
+        """
         self.__sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # set options for reusing address (port)
         self.__sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -87,6 +107,18 @@ class Server:
 
     # for receiving data from client, binds to thread
     def __listen_to_client(self, client, addr, connection):
+        """
+        Для каждого клиента уникальный поток этого метода для получения данных
+        Когда приходят данные, сплитаем их по ';'
+        [0] - id пользователя, которого ищем в БД
+        [1] - id тревожной кнопки
+        [2] - координата X
+        [3] - координата Y
+        [4] - статус оборудования
+        [5] - время прихода координат
+        После каждого прихода координат, обновляем время в кнопке и время у
+        пользователя
+        """
         while self.__run:
             try:
                 self.data = client.recv(1024).decode()
@@ -134,8 +166,11 @@ class Server:
         client.close()
         connection.closed = True
 
-    # stop server
     def stop_server(self):
+        """
+        Остановка сервера, закрываем сокет. Пытаемся законнектиться к самим себе
+        для остановки цикла и возбуждения исключения
+        """
         log = "Trying to stop server..."
         logging.info(log)
         print(log)
@@ -145,8 +180,11 @@ class Server:
         socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect((self.host,
                                                                    self.port))
 
-    # chech all threads, join thread if connection.closed is True
     def check_clients_working(self):
+        """
+        Проверяем всех клиентов. Если соединение закрыто (закончено),
+        ждем конец выполнения его потока
+        """
         working_clients = []
         for c in self.__connected_clients:
             if c.closed:
