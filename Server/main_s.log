@@ -482,3 +482,40 @@ INFO     [2017-05-08 19:50:40,054] Received: <USERNAME;FIRSTNAME;LASTNAME;14234.
 INFO     [2017-05-08 19:50:42,055] Received: <USERNAME;FIRSTNAME;LASTNAME;14234.34;42342.23;EMAIL@EMAIL.COM;8-900-000-00-00;0> from 127.0.0.1
 INFO     [2017-05-08 19:50:44,055] Received: <USERNAME;FIRSTNAME;LASTNAME;14234.34;42342.23;EMAIL@EMAIL.COM;8-900-000-00-00;0> from 127.0.0.1
 INFO     [2017-05-08 19:50:46,055] Received: <USERNAME;FIRSTNAME;LASTNAME;14234.34;42342.23;EMAIL@EMAIL.COM;8-900-000-00-00;0> from 127.0.0.1
+INFO     [2017-05-24 20:20:47,190] BeFound Local server ver. ALPHA Server init. ADDRESS: 127.0.0.1, PORT: 30000
+INFO     [2017-05-24 20:20:47,191] Server started... Count of ports to listen: 10
+Client timeout: 10 sec.
+INFO     [2017-05-24 20:20:59,984] Received: <1;1;14234.34;42342.23;0> from 127.0.0.1
+INFO     [2017-05-24 20:21:41,076] BeFound Local server ver. ALPHA Server init. ADDRESS: 127.0.0.1, PORT: 30000
+INFO     [2017-05-24 20:21:41,077] Server started... Count of ports to listen: 10
+Client timeout: 10 sec.
+INFO     [2017-05-24 20:21:45,205] Received: <1;1;14234.34;42342.23;0> from 127.0.0.1
+INFO     [2017-05-24 20:22:55,781] BeFound Local server ver. ALPHA Server init. ADDRESS: 127.0.0.1, PORT: 30000
+INFO     [2017-05-24 20:22:55,781] Server started... Count of ports to listen: 10
+Client timeout: 10 sec.
+INFO     [2017-05-24 20:23:01,691] Received: <1;1;14234.34;42342.23;0> from 127.0.0.1
+INFO     [2017-05-24 20:25:33,786] BeFound Local server ver. ALPHA Server init. ADDRESS: 127.0.0.1, PORT: 30000
+INFO     [2017-05-24 20:25:33,787] Server started... Count of ports to listen: 10
+Client timeout: 10 sec.
+INFO     [2017-05-24 20:25:37,733] Received: <1;1;14234.34;42342.23;0> from 127.0.0.1
+INFO     [2017-05-24 20:25:39,734] Received: <1;1;14234.34;42342.23;0> from 127.0.0.1
+INFO     [2017-05-24 20:25:41,734] Received: <1;1;14234.34;42342.23;0> from 127.0.0.1
+INFO     [2017-05-24 20:25:43,735] Received: <1;1;14234.34;42342.23;0> from 127.0.0.1
+INFO     [2017-05-24 20:25:45,735] Received: <1;1;14234.34;42342.23;0> from 127.0.0.1
+INFO     [2017-05-24 20:25:47,736] Received: <1;1;14234.34;42342.23;0> from 127.0.0.1
+INFO     [2017-05-24 20:25:49,737] Received: <1;1;14234.34;42342.23;0> from 127.0.0.1
+INFO     [2017-05-24 20:25:51,737] Received: <1;1;14234.34;42342.23;0> from 127.0.0.1
+INFO     [2017-05-24 20:25:53,738] Received: <1;1;14234.34;42342.23;0> from 127.0.0.1
+INFO     [2017-05-24 20:25:55,738] Received: <1;1;14234.34;42342.23;0> from 127.0.0.1
+INFO     [2017-05-24 20:25:57,739] Received: <1;1;14234.34;42342.23;0> from 127.0.0.1
+INFO     [2017-05-24 20:25:59,740] Received: <1;1;14234.34;42342.23;0> from 127.0.0.1
+INFO     [2017-05-24 20:26:01,740] Received: <1;1;14234.34;42342.23;0> from 127.0.0.1
+INFO     [2017-05-24 20:26:03,741] Received: <1;1;14234.34;42342.23;0> from 127.0.0.1
+INFO     [2017-05-24 20:26:05,742] Received: <1;1;14234.34;42342.23;0> from 127.0.0.1
+INFO     [2017-05-24 20:26:07,742] Received: <1;1;14234.34;42342.23;0> from 127.0.0.1
+INFO     [2017-05-24 20:26:09,743] Received: <1;1;14234.34;42342.23;0> from 127.0.0.1
+INFO     [2017-05-24 20:26:11,744] Received: <1;1;14234.34;42342.23;0> from 127.0.0.1
+INFO     [2017-05-24 20:26:13,744] Received: <1;1;14234.34;42342.23;0> from 127.0.0.1
+INFO     [2017-05-24 20:26:15,744] Received: <1;1;14234.34;42342.23;0> from 127.0.0.1
+INFO     [2017-05-24 20:26:17,745] Received: <1;1;14234.34;42342.23;0> from 127.0.0.1
+INFO     [2017-05-24 20:26:19,745] Received: <1;1;14234.34;42342.23;0> from 127.0.0.1

@@ -29,8 +29,7 @@ class Server:
         self.__run = False
         self.__connected_clients = []
         self.__location_packet_list = []
-        self.__dbmanager = DbManager('hitryy', '999', '127.0.0.1', 'befound_main')
-        self.__dbmanager_remote = DbManagerRemote('hitryy', '999', '212.22.92.159', 'be_found')
+        self.__dbmanager = DbManager('hitryy', '999', '212.22.92.159', 'be_found')
 
         log = '{0} Server init. ADDRESS: {1}, PORT: {2}'.format(
             SERVER_NAME,
@@ -105,13 +104,11 @@ class Server:
                     print(log_recv)
 
                     splitted_line = self.data.split(";")
-                    splitted_line.append(datetime.datetime.now())
-                    location_packet = Location(*splitted_line)
-                    self.__location_packet_list.append(location_packet)
-                    is_added_to_db = self.__dbmanager.add_based_on_count(5, self.__location_packet_list)
 
-                    if (is_added_to_db):
-                        self.__location_packet_list.clear()
+                    alarm_button = self.__dbmanager.get_by_id(AlarmButton, int(splitted_line[1]))
+                    coordinates = Coordinates(float(splitted_line[2]), float(splitted_line[3]), int(splitted_line[4]), datetime.datetime.now(), alarm_button)
+
+                    self.__dbmanager.add(coordinates)
 
             except socket.timeout:
                 log_ex = 'Client timeout. ADDRESS: {0}, PORT: {1}'.format(addr[0], addr[1])

@@ -29,6 +29,13 @@ class DbManager:
         s.commit()
         s.close()
 
+    def get_by_id(self, obj, id):
+        s = self.__session()
+        find_row = s.query(obj).get(id)
+        s.close()
+
+        return find_row
+
     def add_based_on_count(self, count, data):
         if (count > len(data)):
             return False
@@ -52,8 +59,6 @@ class DbManagerRemote(DbManager):
     def __init__(self, username, password, host, db_name, update_count=10):
         super(DbManagerRemote, self).__init__(username, password, host, db_name)
         self.update_count = update_count
-
-####################################################
 
 class AlarmButton(Base):
     __tablename__ = 'alarm_button'
@@ -119,6 +124,5 @@ class UsedAlarmButton(Base):
     def __init__(self, date_begin, date_end, alarm_button, user_ab):
         self.date_begin = date_begin
         self.date_end = date_end
-        slef.alarm_button = alarm_button
+        self.alarm_button = alarm_button
         self.user_ab = user_ab
-#####################################################

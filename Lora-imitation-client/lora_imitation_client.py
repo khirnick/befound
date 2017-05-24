@@ -3,6 +3,7 @@ import threading
 import pickle
 import sys
 import logging
+import datetime
 sys.path.append('../../BeFOUND/Network-settings/')
 from network_settings import *
 
@@ -27,7 +28,7 @@ if __name__ == '__main__':
 
     def send_data_repeat_imitate_lora():
         threading.Timer(2.0, send_data_repeat_imitate_lora).start()
-        client.send_data("USERNAME;FIRSTNAME;LASTNAME;14234.34;42342.23;EMAIL@EMAIL.COM;8-900-000-00-00;0")
+        client.send_data("1;1;14234.34;42342.23;0")
 
     while True:
         input_msg = input()
