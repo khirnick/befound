@@ -1,6 +1,9 @@
-# DON'T RUN THIS FILE. BE CAREFUL!
 from dbmanager import *
 import datetime
+
+"""
+НЕ ЗАПУСКАТЬ ЭТОТ ФАЙЛ. СОЗДАН ДЛЯ ДОБАВЛЕНИЯ ТЕСТОВЫХ ДАННЫХ В БД
+"""
 
 dbmanager = DbManager('hitryy', '999', '212.22.92.159', 'be_found')
 user_ab = dbmanager.get_by_id(UserAb, 1)
