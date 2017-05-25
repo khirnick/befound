@@ -140,30 +140,26 @@ class Server:
                     logging.info(log_recv)
                     print(log_recv)
 
-                    #splitted_line = self.data.split(";")
-                    packet = PacketList.get_parsed_packet_from_string(self.data)
-                    self.__packet_list.add(packet)
+                    splitted_line = self.data.split(";")
+                    #packet = PacketList.get_parsed_packet_from_string(self.data)
+                    #self.__packet_list.add(packet)
 
-                    if (self.__packet_list.length == self.__packets_counter_adding):
-                        for p in self.__packet_list:
-                            user = self.__dbmanager.get_by_id(UserAb, int(p.first_name_id))
-                            alarm_button = self.__dbmanager.get_by_id(
-                                AlarmButton, int(p.alarm_button_id))
+                    user = self.__dbmanager.get_by_id(UserAb, int(splitted_line[0]))
+                    alarm_button = self.__dbmanager.get_by_id(
+                        AlarmButton, int(splitted_line[1]))
 
-                            coordinates = Coordinates(float(p.x),
-                                                      float(p.y),
-                                                      int(p.panic),
-                                                      datetime.datetime.strptime(
-                                                          p.date,
-                                                          "%Y-%m-%d %H:%M:%S.%f"),
-                                                      alarm_button)
+                    coordinates = Coordinates(float(splitted_line[2]),
+                                              float(splitted_line[3]),
+                                              int(splitted_line[4]),
+                                              datetime.datetime.strptime(
+                                                  splitted_line[5],
+                                                  "%Y-%m-%d %H:%M:%S.%f"),
+                                              alarm_button)
 
-                            self.__dbmanager.update_time(user)
-                            self.__dbmanager.update_time(alarm_button)
+                    self.__dbmanager.update_time(user)
+                    self.__dbmanager.update_time(alarm_button)
 
-                            self.__dbmanager.add(coordinates)
-
-                        self.__packet_list.clear()
+                    self.__dbmanager.add(coordinates)
 
             except socket.timeout:
                 log_ex = 'Client timeout. ADDRESS: {0}, PORT: {1}'.format(addr[0],
