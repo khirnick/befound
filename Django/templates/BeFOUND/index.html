@@ -1,4 +1,5 @@
 {% extends "BeFOUND/base.html" %}
+{% load easy_maps_tags %}
 {% block title %}GPS трекер{% endblock %}
 {% block content %}
     <section class="section">
@@ -16,7 +17,9 @@
                             </label>
                         </div>
                     </div>
-                    <iframe src="https://api-maps.yandex.ru/frame/v1/-/C6UmjPO-" class="w-100" style="height: 650px" frameborder="0"></iframe>
+{#                    {% easy_map "Russia, Moscow, BMSTU" '100%' '400px' using 'BeFOUND/map.html' %}#}
+                        {% include 'BeFOUND/map.html' %}
+{#                    <iframe src="https://api-maps.yandex.ru/frame/v1/-/C6UmjPO-" class="w-100" style="height: 650px" frameborder="0"></iframe>#}
                 </div>
             </div>
             <div class="col-xl-3">
@@ -93,9 +96,6 @@
                                 <div class="item-col item-col-header item-col-phone">
                                     <div> <span>Телефон</span> </div>
                                 </div>
-                                <div class="item-col item-col-header item-col-email">
-                                    <div> <span>Email</span> </div>
-                                </div>
                                 <div class="item-col item-col-header item-col-birthday">
                                     <div class="no-overflow"> <span>Дата рождения</span> </div>
                                 </div>
@@ -117,10 +117,6 @@
                                 <div class="item-col item-col-phone">
                                     <div class="item-heading">Телефон</div>
                                     <div> {{ user.phone }} </div>
-                                </div>
-                                <div class="item-col item-col-email">
-                                    <div class="item-heading">Email</div>
-                                    <div> {{ user.email }} </div>
                                 </div>
                                 <div class="item-col item-col-birthday">
                                     <div class="item-heading">Дата рождения</div>

@@ -25,7 +25,7 @@ SECRET_KEY = 'j1h)*(w)#5ysh83&3u8!ecrl&baefnt1&i5e0r_js4^s(##1)5'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [u'212.22.92.159']
+ALLOWED_HOSTS = [u'127.0.0.1', u'212.22.92.159']
 
 
 # Application definition
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'BeFOUND.apps.BefoundConfig',
+    'easy_maps'
 ]
 
 MIDDLEWARE = [
@@ -128,3 +129,6 @@ STATICFILES_DIRS = (os.path.join('static'), )
 
 MEDIA_ROOT = os.path.join('uploads')
 MEDIA_URL = '/uploads/'
+
+EASY_MAPS_CENTER = (-41.3, 32)
+EASY_MAPS_GOOGLE_MAPS_API_KEY = 'AIzaSyBhQ9S1WmObjSfvrsb7EbtqFUiinzK1h6s'
