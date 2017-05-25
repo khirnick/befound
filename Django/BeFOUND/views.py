@@ -31,6 +31,7 @@ def users_coords(request):
         if user.coordinates()[0]:
             res.append(
                 {
+                    'id': user.pk,
                     'position': {'lat': user.coordinates()[0], 'lng': user.coordinates()[1]},
                     'label': user.last_name[0],
                     'title': str(user)
@@ -38,4 +39,15 @@ def users_coords(request):
             )
     return HttpResponseAjax(
         users=res
+    )
+
+
+def user_track(request, user_id):
+    print(user_id)
+    user = get_object_or_404(UserAB, id=user_id)
+    track = []
+    for coord in user.track():
+        track.append({'lat': coord.latitude, 'lng': coord.longitude})
+    return HttpResponseAjax(
+        track=track
     )

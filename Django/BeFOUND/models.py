@@ -74,6 +74,9 @@ class UserAB(models.Model):
         else:
             return 'На базе'
 
+    def track(self):
+        return Coordinates.objects.filter(alarm_button__usedalarmbutton=self.used_buttons.last())
+
     def __str__(self):
         return '{} {} {}'.format(self.last_name, self.first_name, self.patronymic)
 
@@ -86,6 +89,9 @@ class AlarmButton(models.Model):
 
     class Meta:
         db_table = 'alarm_button'
+
+    def __str__(self):
+        return self.mac
 
 # Связующая таблица пользователь - кнопка
 class UsedAlarmButton(models.Model):
