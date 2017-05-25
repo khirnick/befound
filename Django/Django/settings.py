@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'BeFOUND.apps.BefoundConfig',
-    'easy_maps'
 ]
 
 MIDDLEWARE = [
@@ -129,6 +128,3 @@ STATICFILES_DIRS = (os.path.join('static'), )
 
 MEDIA_ROOT = os.path.join('uploads')
 MEDIA_URL = '/uploads/'
-
-EASY_MAPS_CENTER = (-41.3, 32)
-EASY_MAPS_GOOGLE_MAPS_API_KEY = 'AIzaSyBhQ9S1WmObjSfvrsb7EbtqFUiinzK1h6s'
