@@ -44,7 +44,7 @@ class Server:
         self.__connected_clients = []
         self.__packet_list = PacketList()
         self.__packets_counter_adding = 5
-        self.__dbmanager = DbManager('hitryy', '999', '212.22.92.159', 'be_found')
+        self.__dbmanager = DbManager('hitryy', '999', '212.22.92.159', 'befound')
 
         log = '{0} Server init. ADDRESS: {1}, PORT: {2}'.format(
             SERVER_NAME,
@@ -143,8 +143,6 @@ class Server:
                     #splitted_line = self.data.split(";")
                     packet = PacketList.get_parsed_packet_from_string(self.data)
                     self.__packet_list.add(packet)
-
-                    print(self.__packet_list.length)
 
                     if (self.__packet_list.length == self.__packets_counter_adding):
                         for p in self.__packet_list:

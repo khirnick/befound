@@ -5,7 +5,7 @@ import datetime
 НЕ ЗАПУСКАТЬ ЭТОТ ФАЙЛ. СОЗДАН ДЛЯ ДОБАВЛЕНИЯ ТЕСТОВЫХ ДАННЫХ В БД
 """
 
-dbmanager = DbManager('hitryy', '999', '212.22.92.159', 'be_found')
+dbmanager = DbManager('hitryy', '999', '212.22.92.159', 'befound')
 user_ab = dbmanager.get_by_id(UserAb, 1)
 alarm_button = dbmanager.get_by_id(AlarmButton, 1)
 

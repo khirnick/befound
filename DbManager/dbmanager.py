@@ -7,11 +7,22 @@ import datetime
 
 Base = declarative_base()
 
-'''
-DbManager class for manage db using sqlalchemy, mysql, pymysql
-'''
 class DbManager:
+    """
+    Класс для мэнеджмента данными в БД
+    Используется стек MySQL + pymysql + sqlalchemy (ORM движок)
+    """
     def __init__(self, username, password, host, db_name):
+        """
+        Инициализация БД
+        username - имя пользователя для подключения к БД
+        password - пароль
+        host - IP, где развернута БД
+        db_name - имя БД
+
+        self.__engine - движок для подключения к БД
+        self.__session - конфигурация класса
+        """
         self.username = username
         self.__password = password
         self.host = host
@@ -71,7 +82,7 @@ class DbManagerRemote(DbManager):
 
 class AlarmButton(Base):
     __tablename__ = 'alarm_button'
-    alarm_button_id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True)
     mac = Column(String)
     created_at = Column(Date)
     updated_at = Column(Date)
@@ -84,12 +95,12 @@ class AlarmButton(Base):
 
 class Coordinates(Base):
     __tablename__ = 'coordinates'
-    coordinates_id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True)
     latitude = Column(Float)
     longitude = Column(Float)
     status = Column(Integer)
     time = Column(Date)
-    alarm_button_id = Column(Integer, ForeignKey('alarm_button.alarm_button_id'))
+    alarm_button_id = Column(Integer, ForeignKey('alarm_button.id'))
     alarm_button = relationship(AlarmButton)
 
     def __init__(self, latitude, longitude, status, time, alarm_button):
@@ -102,7 +113,7 @@ class Coordinates(Base):
 
 class UserAb(Base):
     __tablename__ = "user_ab"
-    user_ab_id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True)
     first_name = Column(String)
     last_name = Column(String)
     patronymic = Column(String)
@@ -125,16 +136,16 @@ class UserAb(Base):
 
 class UsedAlarmButton(Base):
     __tablename__ = "used_alarm_button"
-    used_ab_id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True)
     date_begin = Column(Date)
     date_end = Column(Date)
-    alarm_button_id = Column(Integer, ForeignKey('alarm_button.alarm_button_id'))
-    user_ab_id = Column(Integer, ForeignKey('user_ab.user_ab_id'))
+    alarm_button_id = Column(Integer, ForeignKey('alarm_button.id'))
+    user_id = Column(Integer, ForeignKey('user_ab.id'))
     alarm_button = relationship(AlarmButton)
-    user_ab = relationship(UserAb)
+    user = relationship(UserAb)
 
-    def __init__(self, date_begin, date_end, alarm_button, user_ab):
+    def __init__(self, date_begin, date_end, alarm_button, user):
         self.date_begin = date_begin
         self.date_end = date_end
         self.alarm_button = alarm_button
-        self.user_ab = user_ab
+        self.user = user
