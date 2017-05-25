@@ -43,7 +43,6 @@ def users_coords(request):
 
 
 def user_track(request, user_id):
-    print(user_id)
     user = get_object_or_404(UserAB, id=user_id)
     track = []
     for coord in user.track():
