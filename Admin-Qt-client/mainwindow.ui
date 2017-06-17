@@ -6,19 +6,33 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>647</width>
-    <height>493</height>
+    <width>962</width>
+    <height>608</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>BeFOUND - Admin</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="1">
-       <widget class="QTableWidget" name="alarms">
+     <widget class="QSplitter" name="splitter_2">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <widget class="QSplitter" name="splitter">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <widget class="QWidget" name="map" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>200</width>
+          <height>200</height>
+         </size>
+        </property>
+       </widget>
+       <widget class="QTableWidget" name="alarmsTable">
         <property name="maximumSize">
          <size>
           <width>300</width>
@@ -26,27 +40,15 @@
          </size>
         </property>
        </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QWebEngineView" name="map" native="true">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>200</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <widget class="QTableWidget" name="users">
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>250</height>
-       </size>
-      </property>
+      </widget>
+      <widget class="QTableWidget" name="usersTable">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
+        </size>
+       </property>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -56,10 +58,36 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>647</width>
-     <height>21</height>
+     <width>962</width>
+     <height>26</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>Файл</string>
+    </property>
+    <addaction name="action"/>
+    <addaction name="action_6"/>
+    <addaction name="separator"/>
+    <addaction name="exit"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>Пользователи</string>
+    </property>
+    <addaction name="action_2"/>
+    <addaction name="action_3"/>
+   </widget>
+   <widget class="QMenu" name="menu_3">
+    <property name="title">
+     <string>Тревожные кнопки</string>
+    </property>
+    <addaction name="action_4"/>
+    <addaction name="action_5"/>
+   </widget>
+   <addaction name="menu"/>
+   <addaction name="menu_2"/>
+   <addaction name="menu_3"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -70,16 +98,43 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="action_2">
+   <property name="text">
+    <string>Новый</string>
+   </property>
+  </action>
+  <action name="action_3">
+   <property name="text">
+    <string>Поиск</string>
+   </property>
+  </action>
+  <action name="action_4">
+   <property name="text">
+    <string>Добавить</string>
+   </property>
+  </action>
+  <action name="action_5">
+   <property name="text">
+    <string>Все кнопки</string>
+   </property>
+  </action>
+  <action name="action">
+   <property name="text">
+    <string>Авторизация</string>
+   </property>
+  </action>
+  <action name="action_6">
+   <property name="text">
+    <string>Параметры</string>
+   </property>
+  </action>
+  <action name="exit">
+   <property name="text">
+    <string>Выход из прогаммы</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>QWebEngineView</class>
-   <extends>QWidget</extends>
-   <header location="global">QWebEngineView</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
