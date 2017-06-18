@@ -20,8 +20,8 @@ int UserTableModel::columnCount(const QModelIndex &parent) const
 QVariant UserTableModel::data(const QModelIndex &index, int role) const
 {
     if(!index.isValid() ||
-       m_users.count() <= index.row() ||
-       ( role != Qt::DisplayRole && role != Qt::EditRole )) {
+            m_users.count() <= index.row() ||
+            ( role != Qt::DisplayRole && role != Qt::EditRole )) {
         return QVariant();
     }
 
@@ -54,5 +54,17 @@ QVariant UserTableModel::headerData(int section, Qt::Orientation orientation, in
     }
 
     return QVariant();
+}
+
+void UserTableModel::setUsers(const Users &users)
+{
+    if (m_users.count() > 0) {
+        beginRemoveRows( QModelIndex(), 0, m_users.count() - 1);
+        m_users.clear();
+        endRemoveRows();
+    }
+    beginInsertRows( QModelIndex(), 0, users.count() - 1);
+    m_users = users;
+    endInsertRows();
 }
 

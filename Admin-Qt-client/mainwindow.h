@@ -20,6 +20,7 @@ private:
     Ui::MainWindow *ui;
 
     UserTableModel *m_usersAtTaskModel;
+    UserTableModel *m_usersInAlarm;
 };
 
 #endif // MAINWINDOW_H
