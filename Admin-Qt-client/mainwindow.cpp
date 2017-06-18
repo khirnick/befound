@@ -10,9 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     QStringList usersTableHeaders;
     usersTableHeaders << "id" << "ФИО" << "Тел." << "Статус" << "Последние координаты" << "email";
-    ui->usersTable->setColumnCount(usersTableHeaders.size());
-    ui->usersTable->setHorizontalHeaderLabels(usersTableHeaders);
-    ui->usersTable->setRowCount(3);
+    ui->usersTable->setModel(m_usersAtTaskModel = new UserTableModel);
 }
 
 MainWindow::~MainWindow()

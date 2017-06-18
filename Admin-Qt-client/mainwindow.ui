@@ -32,7 +32,7 @@
          </size>
         </property>
        </widget>
-       <widget class="QTableWidget" name="alarmsTable">
+       <widget class="QTableView" name="alarmsTable">
         <property name="maximumSize">
          <size>
           <width>300</width>
@@ -41,12 +41,18 @@
         </property>
        </widget>
       </widget>
-      <widget class="QTableWidget" name="usersTable">
+      <widget class="QTableView" name="usersTable">
        <property name="maximumSize">
         <size>
          <width>16777215</width>
          <height>16777215</height>
         </size>
+       </property>
+       <property name="selectionBehavior">
+        <enum>QAbstractItemView::SelectRows</enum>
+       </property>
+       <property name="sortingEnabled">
+        <bool>true</bool>
        </property>
       </widget>
      </widget>

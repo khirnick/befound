@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "usertablemodel.h"
 
 namespace Ui {
 class MainWindow;
@@ -17,6 +18,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+    UserTableModel *m_usersAtTaskModel;
 };
 
 #endif // MAINWINDOW_H
