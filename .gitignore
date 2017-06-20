@@ -5,3 +5,7 @@ vds_params
 *.log
 
 __pycache__/
+
+.directory
+
+.idea/*
