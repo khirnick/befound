@@ -11,6 +11,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->usersTable->setModel(m_usersAtTaskModel = new UserTableModel);
     ui->alarmsTable->setModel(m_usersInAlarm = new UserTableModel);
 
+    ui->map->setProjection(Marble::Mercator);
+    ui->map->setMapThemeId("earth/openstreetmap/openstreetmap.dgml");
+
     ////////////////////// test data ////////////////////////////////
     Users usersAtTask;
     UserData user;

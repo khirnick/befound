@@ -35,8 +35,5 @@ HEADERS += \
 FORMS += \
         mainwindow.ui
 
-win32 {
-    INCLUDEPATH += $$quote(C:\Program Files (x86)\marble\include\marble)
-    LIBS += $$quote(C:\Program Files (x86)\marble\libmarblewidget-qt5.dll)
-    LIBS += $$quote(C:\Program Files (x86)\marble\libastro.dll)
-}
+LIBS += -L/usr/local/lib \
+    -lmarblewidget-qt5
