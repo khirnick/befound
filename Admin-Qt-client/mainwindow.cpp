@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->map->setProjection(Marble::Mercator);
     ui->map->setMapThemeId("earth/openstreetmap/openstreetmap.dgml");
 
-    m_settingsWindow = new SettingsWindow;
+    m_settingsWindow = new SettingsWindow(this);
     QObject::connect(ui->settings, SIGNAL(triggered(bool)), this, SLOT(settingsWindowShow()));
 
     ////////////////////// test data ////////////////////////////////
