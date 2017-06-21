@@ -26,14 +26,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    usertablemodel.cpp
+    usertablemodel.cpp \
+    settingswindow.cpp
 
 HEADERS += \
         mainwindow.h \
-    usertablemodel.h
+    usertablemodel.h \
+    settingswindow.h \
+    globals.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    settingswindow.ui
 
 LIBS += -L/usr/local/lib \
     -lmarblewidget-qt5

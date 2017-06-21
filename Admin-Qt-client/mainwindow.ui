@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>688</width>
-    <height>603</height>
+    <width>708</width>
+    <height>618</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -94,7 +94,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>688</width>
+     <width>708</width>
      <height>24</height>
     </rect>
    </property>
@@ -103,7 +103,7 @@
      <string>Файл</string>
     </property>
     <addaction name="action"/>
-    <addaction name="action_6"/>
+    <addaction name="settings"/>
     <addaction name="separator"/>
     <addaction name="exit"/>
    </widget>
@@ -159,7 +159,7 @@
     <string>Авторизация</string>
    </property>
   </action>
-  <action name="action_6">
+  <action name="settings">
    <property name="text">
     <string>Параметры</string>
    </property>
@@ -180,5 +180,22 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>exit</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>343</x>
+     <y>301</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
