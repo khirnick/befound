@@ -1,5 +1,7 @@
 #include "usertablemodel.h"
 
+#include <QBrush>
+
 UserTableModel::UserTableModel(QObject* parent)
 {
     Q_UNUSED( parent )
@@ -21,8 +23,16 @@ QVariant UserTableModel::data(const QModelIndex &index, int role) const
 {
     if(!index.isValid() ||
             m_users.count() <= index.row() ||
-            ( role != Qt::DisplayRole && role != Qt::EditRole )) {
+            ( role != Qt::DisplayRole && role != Qt::BackgroundRole )) {
         return QVariant();
+    }
+
+    if (role == Qt::BackgroundRole) {
+        if (m_users[ index.row() ][ STATUS ] == 1) {
+            return QBrush(QColor(255, 36, 0));
+        } else {
+            return QBrush(Qt::white);
+        }
     }
 
     return m_users[ index.row() ][ Column( index.column() ) ];
