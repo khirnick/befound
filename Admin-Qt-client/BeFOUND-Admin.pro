@@ -6,7 +6,7 @@
 
 QT      += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets network
 
 TARGET = BeFOUND-Admin
 TEMPLATE = app
@@ -27,13 +27,15 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     usertablemodel.cpp \
-    settingswindow.cpp
+    settingswindow.cpp \
+    client.cpp
 
 HEADERS += \
         mainwindow.h \
     usertablemodel.h \
     settingswindow.h \
-    globals.h
+    globals.h \
+    client.h
 
 FORMS += \
         mainwindow.ui \
