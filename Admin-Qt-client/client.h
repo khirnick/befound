@@ -10,9 +10,10 @@ class Client : public QObject
 {
     Q_OBJECT
 
-    QTcpSocket m_socket;
-    QHostAddress m_adress;
-    quint16 m_port;
+    static QTcpSocket m_socket;
+    static QHostAddress m_adress;
+    static quint16 m_port;
+    static quint16 m_queriesCount;      // Счетчик запросов
 
 private:
     Client();
@@ -20,10 +21,16 @@ private:
     Client& operator=( Client& );
 
     inline void connectToHost();
+    inline quint16 newConnection();
 public:
     static Client& getInstance();
 
     void connectToHost(QHostAddress adress, quint16 port);
+
+    // Запросы:
+    void queryToGetOnlineUsers();
+    void queryToGetAllUsers();
+    void queryToGetUserTrack();
 
 public slots:
     void slotConnected();
@@ -33,7 +40,6 @@ public slots:
 signals:
     void signalConnectToHost(QString msg);
     void signalConnected(QString msg);
-    void signalReadyRead(QString msg);
     void signalError(QString msg);
 };
 

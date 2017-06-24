@@ -28,14 +28,16 @@ SOURCES += \
         mainwindow.cpp \
     usertablemodel.cpp \
     settingswindow.cpp \
-    client.cpp
+    client.cpp \
+    auth.cpp
 
 HEADERS += \
         mainwindow.h \
     usertablemodel.h \
     settingswindow.h \
     globals.h \
-    client.h
+    client.h \
+    auth.h
 
 FORMS += \
         mainwindow.ui \
