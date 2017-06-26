@@ -100,5 +100,6 @@ UserTableModel::UserData UserTableModel::getUserData(const Globals::User &user)
                             "На базе" : "Неизв.";
     res[COORDS] = QString() + user.latitude + " " + user.longitude;
     res[EMAIL] = user.email;
+    return res;
 }
 

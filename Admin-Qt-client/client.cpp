@@ -46,6 +46,7 @@ void Client::timeout()
 {
     m_timer->stop();
     error("Ошибка: Таймаут.");
+
 }
 
 void Client::connectToHost(QString adress, quint16 port)
@@ -72,8 +73,10 @@ bool Client::sendRequest(Query *request)
         m_socket.write(request->execute());
         if (!m_timer->isActive())
             m_timer->start(Globals::timeout);
+        return 1;
     } else {
         error("Ошибка! Нет подключения.");
+        reconnect();
         return 0;
     }
 }

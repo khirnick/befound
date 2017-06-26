@@ -24,6 +24,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->map->setMapThemeId("earth/openstreetmap/openstreetmap.dgml");
     setMapCenter(Globals::baseLongitude, Globals::baseLatitude);
 
+    m_geoDataDocument = new Marble::GeoDataDocument;
+    // Add the document to MarbleWidget's tree model
+    ui->map->model()->treeModel()->addDocument(m_geoDataDocument);
+
     m_settingsWindow = new SettingsWindow(this);
     QObject::connect(ui->settings, SIGNAL(triggered(bool)), this, SLOT(settingsWindowShow()));
     QObject::connect(ui->settings, SIGNAL(signalAccept()), this, SLOT(setSettings()));
@@ -39,6 +43,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setSettings();
 
     ////////////////////// test data ////////////////////////////////
+#ifdef _DEBUG
     UserTableModel::Users usersAtTask;
     UserTableModel::UserData user;
     user[UserTableModel::ID] = 1; user[UserTableModel::FULL_NAME] = "КАВ"; user[UserTableModel::PHONE] = 1234567890; user[UserTableModel::STATUS] = 0; user[UserTableModel::COORDS] = "123 123"; user[UserTableModel::EMAIL] = "abc@mail.ru";
@@ -47,17 +52,7 @@ MainWindow::MainWindow(QWidget *parent) :
     usersAtTask.append(user); usersAtTask.append(user);
     m_usersAtTaskModel->setUsers(usersAtTask);
     m_usersInAlarm->setUsers(usersAtTask);
-
-    Marble::GeoDataPlacemark *place = new Marble::GeoDataPlacemark( "Bucharest" );
-    place->setCoordinate( 25.97, 44.43, 0.0, Marble::GeoDataCoordinates::Degree );
-    place->setPopulation( 1877155 );
-    place->setCountryCode ( "Romania" );
-
-    Marble::GeoDataDocument *document = new Marble::GeoDataDocument;
-    document->append( place );
-
-    // Add the document to MarbleWidget's tree model
-    ui->map->model()->treeModel()->addDocument( document );
+#endif
     ////////////////////////////////////////////////////////////////
 }
 
@@ -92,7 +87,7 @@ void MainWindow::sendRequest()
 void MainWindow::updateUsers(QList<Globals::User> users)
 {
     m_usersAtTaskModel->setUsers(users);
-    drawUserCoords(users);
+    drawUsersCoords(users);
 
     QList<Globals::User> usersInAlarm;
     for (QList<Globals::User>::iterator i = users.begin(); i != users.end(); ++i) {
@@ -107,18 +102,15 @@ void MainWindow::printInfo(QString msg)
     ui->statusBar->showMessage(msg, Globals::statusBarTimeout);
 }
 
-void MainWindow::drawUserCoords(const QList<Globals::User> &users)
+void MainWindow::drawUsersCoords(QList<Globals::User> &users)
 {
-    Marble::GeoDataPlacemark *place = new Marble::GeoDataPlacemark( "Bucharest" );
-    place->setCoordinate( 25.97, 44.43, 0.0, Marble::GeoDataCoordinates::Degree );
-    place->setPopulation( 1877155 );
-    place->setCountryCode ( "Romania" );
-
-    Marble::GeoDataDocument *document = new Marble::GeoDataDocument;
-    document->append( place );
-
-    // Add the document to MarbleWidget's tree model
-    ui->map->model()->treeModel()->addDocument( document );
+    m_geoDataDocument->clear();
+    for (QList<Globals::User>::iterator i = users.begin(); i != users.end(); ++i) {
+        Marble::GeoDataPlacemark *user = new Marble::GeoDataPlacemark(i->last_name + " " + i->first_name);
+        user->setId(QString() + i->id);
+        user->setCoordinate( i->longitude, i->latitude, 0.0, Marble::GeoDataCoordinates::Degree );
+        m_geoDataDocument->append( user );
+    }
 }
 
 void MainWindow::setMapCenter(double lon, double lat)

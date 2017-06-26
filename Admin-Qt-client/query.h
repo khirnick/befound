@@ -8,12 +8,21 @@
 
 enum RequestType {
     GetOnlineUsers = 0,
-    GetAllUsers
+    GetAllUsers,
+    GetUserTrack,
+    NewUser,
+    SetUser,
+    NewButton,
+    SetButton,
+    DeleteButton,
+    UseButton
 };
 
 enum answerType {
     OK = 0,
-    Error
+    Error,
+    AuthorisationFail,
+    PermisionDenied
 };
 
 

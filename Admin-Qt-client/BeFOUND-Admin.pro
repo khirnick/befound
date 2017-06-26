@@ -47,3 +47,5 @@ FORMS += \
 
 LIBS += -L/usr/local/lib \
     -lmarblewidget-qt5
+
+CONFIG(debug, release|debug):DEFINES += _DEBUG
