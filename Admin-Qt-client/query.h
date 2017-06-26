@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QList>
+#include <QDataStream>
 #include "globals.h"
 
 
@@ -31,6 +32,9 @@ class Query : public QObject
 {
     Q_OBJECT
 
+protected:
+    bool checkAnswerType(QDataStream &in, QString queryName = QString());
+
 public:
     explicit Query();
     virtual ~Query() {}
@@ -40,6 +44,8 @@ public:
 
 signals:
     void signalError(QString msg);
+    void authorisationFail(QString msg);
+    void permisionDenied(QString msg);
 };
 
 
@@ -74,6 +80,25 @@ public:
 signals:
     void signalError(QString msg);
     void allUsers(QList<Globals::User> users);
+};
+
+
+class QueryGetUserTrack : public Query
+{
+    Q_OBJECT
+
+    quint64 m_userID;
+
+public:
+    explicit QueryGetUserTrack(quint64 userID);
+    ~QueryGetUserTrack();
+
+    QByteArray execute();
+    void onAnswer(QByteArray answer);
+
+signals:
+    void signalError(QString msg);
+    void userTrack(QList<Globals::Coords> track);
 };
 
 

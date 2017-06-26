@@ -1,8 +1,31 @@
 #include "query.h"
 
-#include <QDataStream>
 #include <QList>
 #include "globals.h"
+
+bool Query::checkAnswerType(QDataStream &in, QString queryName)
+{
+    quint8 answerType;
+    in >> answerType;
+    switch (answerType) {
+    case OK:
+        return 1;
+        break;
+    case Error:
+        emit signalError("Ошибка! При запросе " + queryName);
+        break;
+    case AuthorisationFail:
+        emit authorisationFail("Ошибка авторизации! При запросе " + queryName);
+        break;
+    case PermisionDenied:
+        emit permisionDenied("Не достаточно прав! При запросе " + queryName);
+        break;
+    default:
+        emit signalError("Неизвестная ошибка! При запросе " + queryName);
+        break;
+    }
+    return 0;
+}
 
 Query::Query()
 {
@@ -28,9 +51,7 @@ QByteArray QueryGetOnlineUsers::execute()
 void QueryGetOnlineUsers::onAnswer(QByteArray answer)
 {
     QDataStream in(&answer, QIODevice::ReadOnly);
-    quint8 answerType;
-    in >> answerType;
-    if (answerType == 0) {
+    if (checkAnswerType(in, "выдачи онлайн пользователей")) {
         QList<Globals::User> users;
         while (!in.atEnd()) {
             // считывание пользователей
@@ -40,9 +61,6 @@ void QueryGetOnlineUsers::onAnswer(QByteArray answer)
             users.append(user);
             emit onlineUsers(users);
         }
-
-    } else {
-        emit signalError("Ошибка! При запросе онлайн пользователей");
     }
 }
 
@@ -65,9 +83,7 @@ QByteArray QueryGetAllUsers::execute()
 void QueryGetAllUsers::onAnswer(QByteArray answer)
 {
     QDataStream in(&answer, QIODevice::ReadOnly);
-    quint8 answerType;
-    in >> answerType;
-    if (answerType == OK) {
+    if (checkAnswerType(in, "выдачи всех пользователей")) {
         QList<Globals::User> users;
         while (!in.atEnd()) {
             // считывание пользователей
@@ -77,8 +93,37 @@ void QueryGetAllUsers::onAnswer(QByteArray answer)
             users.append(user);
             emit allUsers(users);
         }
+    }
+}
 
-    } else {
-        emit signalError("Ошибка! При запросе всех пользователей");
+QueryGetUserTrack::QueryGetUserTrack(quint64 userID) :
+    Query(), m_userID(userID)
+{
+}
+
+QueryGetUserTrack::~QueryGetUserTrack()
+{
+}
+
+QByteArray QueryGetUserTrack::execute()
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::WriteOnly);
+    out << (quint8) GetUserTrack << m_userID;
+    return data;
+}
+
+void QueryGetUserTrack::onAnswer(QByteArray answer)
+{
+    QDataStream in(&answer, QIODevice::ReadOnly);
+    if (checkAnswerType(in, "выдачи трека пользователя")) {
+        QList<Globals::Coords> track;
+        while (!in.atEnd()) {
+            // считывание пользователей
+            Globals::Coords coords;
+            in >> coords.latitude >> coords.longitude;
+            track.append(coords);
+            emit userTrack(track);
+        }
     }
 }
