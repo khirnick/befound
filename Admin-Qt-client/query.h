@@ -2,10 +2,17 @@
 #define QUERY_H
 
 #include <QObject>
+#include <QList>
+#include "globals.h"
 
 
 enum RequestType {
     GetOnlineUsers = 0
+};
+
+enum answerType {
+    OK = 0,
+    Error
 };
 
 
@@ -16,15 +23,30 @@ class Query : public QObject
 
 public:
     explicit Query();
-    virtual ~Query() = 0;
+    virtual ~Query() {}
 
     virtual QByteArray execute() = 0;
-    virtual quint64 answerBlockSize() = 0;
     virtual void onAnswer(QByteArray answer) = 0;
 
 signals:
     void signalError(QString msg);
 };
 
+
+class QueryGetOnlineUsers : public Query
+{
+    Q_OBJECT
+
+public:
+    explicit QueryGetOnlineUsers();
+    ~QueryGetOnlineUsers();
+
+    QByteArray execute();
+    void onAnswer(QByteArray answer);
+
+signals:
+    void signalError(QString msg);
+    void onlineUsers(QList<Globals::User> users);
+};
 
 #endif // QUERY_H

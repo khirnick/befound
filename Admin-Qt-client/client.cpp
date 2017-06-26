@@ -1,6 +1,7 @@
 #include "client.h"
 
 #include <QMessageLogger>
+#include <QSettings>
 #include "globals.h"
 
 Client &Client::getInstance()
@@ -11,9 +12,9 @@ Client &Client::getInstance()
 
 Client::Client()
 {
-    m_queriesCount = 0;
-
-    connectToHost(Globals::defaultIP, Globals::defaultPort);
+    QSettings settings;
+    connectToHost(settings.value("server/ip", Globals::defaultIP).toString(),
+                  settings.value("server/port", Globals::defaultPort).toInt());
     connect(&m_socket, SIGNAL(connected()), SLOT(slotConnected()));
     connect(&m_socket, SIGNAL(readyRead()), SLOT(slotReadyRead()));
     connect(&m_socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(slotSocketError(QAbstractSocket::SocketError)));
@@ -27,6 +28,9 @@ inline void Client::connectToHost()
     QString msg = QString("Подключение к ") + m_adress + ":" + m_port;
     QMessageLogger().info() << msg;
     emit signalConnectToHost(msg);
+
+    m_nextBlockSize = 0;
+
     m_socket.connectToHost(m_adress, m_port);
 }
 
@@ -64,7 +68,7 @@ bool Client::sendRequest(Query *request)
     if (m_socket.isValid()) {
         m_sendedRequests.enqueue(request);
         connect(request, SIGNAL(signalError(QString)), this, SLOT(error(QString)));
-        m_socket.write(request.execute());
+        m_socket.write(request->execute());
         if (!m_timer->isActive())
             m_timer->start(Globals::timeout);
     } else {
@@ -82,25 +86,34 @@ void Client::slotConnected()
 
 void Client::slotReadyRead()
 {
-    if (m_socket.bytesAvailable() >= m_sendedRequests.head()->answerBlockSize()) {
-        m_timer->start(Globals::timeout);
-        Query *request = m_sendedRequests.dequeue();
-        QByteArray answer = m_socket.read(request->answerBlockSize());
-        request->onAnswer(answer);
-        delete request;
+    while (m_nextBlockSize == 0 && m_socket.bytesAvailable() >= sizeof(quint64) ||
+           m_nextBlockSize > 0 && m_socket.bytesAvailable() >= m_nextBlockSize) {
+        if (m_nextBlockSize == 0 && m_socket.bytesAvailable() >= sizeof(quint64)) {
+            // Считываю размер ответа
+            QByteArray answer = m_socket.read(sizeof(quint64));
+            QDataStream in(&answer, QIODevice::ReadOnly);
+            in >> m_nextBlockSize;
+        }
+        if (m_nextBlockSize > 0 && m_socket.bytesAvailable() >= m_nextBlockSize) {
+            m_timer->start(Globals::timeout);
+            Query *request = m_sendedRequests.dequeue();
+            request->onAnswer(m_socket.read(m_nextBlockSize));
+            delete request;
+            m_nextBlockSize = 0;
+        }
     }
 }
 
 void Client::slotSocketError(QAbstractSocket::SocketError err)
 {
     QString strError =
-            "Ошибка: " + (err == QAbstractSocket::HostNotFoundError ?
-                             "Хост не был найден." :
-                             err == QAbstractSocket::RemoteHostClosedError ?
-                                 "Удаленный хост закрыт." :
-                                 err == QAbstractSocket::ConnectionRefusedError ?
-                                     "Пропало соединение." :
-                                     QString(m_socket->errorString())
-                                     );
+            QString("Ошибка: ") + (err == QAbstractSocket::HostNotFoundError ?
+                                       "Хост не был найден." :
+                                       err == QAbstractSocket::RemoteHostClosedError ?
+                                           "Удаленный хост закрыт." :
+                                           err == QAbstractSocket::ConnectionRefusedError ?
+                                               "Пропало соединение." :
+                                               m_socket.errorString()
+                                               );
     error(strError);
 }

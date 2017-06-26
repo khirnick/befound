@@ -19,6 +19,7 @@ class Client : public QObject
     quint16 m_port;
     QQueue<Query*> m_sendedRequests;
     QTimer *m_timer;
+    quint64 m_nextBlockSize;
 
 private:
     Client();
