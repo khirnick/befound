@@ -78,3 +78,27 @@ void UserTableModel::setUsers(const Users &users)
     endInsertRows();
 }
 
+void UserTableModel::setUsers(QList<Globals::User> &users)
+{
+    Users _users;
+    for (QList<Globals::User>::iterator i = users.begin(); i != users.end(); ++i) {
+        _users.append(getUserData(*i));
+    }
+    setUsers(_users);
+}
+
+UserTableModel::UserData UserTableModel::getUserData(const Globals::User &user)
+{
+    UserData res;
+    res[ID] = user.id;
+    res[FULL_NAME] = user.last_name + " " + user.first_name + " " + user.patronymic;
+    res[PHONE] = user.phone;
+    res[STATUS] = user.status == Globals::UserStatus::Ok?
+                "Норм." : user.status == Globals::UserStatus::Alarm?
+                    "Тревога" : user.status == Globals::UserStatus::NotConnection ?
+                        "Нет соединения" : user.status == Globals::UserStatus::Offline ?
+                            "На базе" : "Неизв.";
+    res[COORDS] = QString() + user.latitude + " " + user.longitude;
+    res[EMAIL] = user.email;
+}
+

@@ -3,7 +3,6 @@
 
 #include <QStringList>
 #include <QSettings>
-#include "globals.h"
 #include "query.h"
 #include "client.h"
 
@@ -26,6 +25,10 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(m_timer, SIGNAL(timeout()), this, SLOT(sendRequest()));
 
     Client &client = Client::getInstance();
+    QObject::connect(&client, SIGNAL(signalConnectToHost(QString)), this, SLOT(printInfo(QString)));
+    QObject::connect(&client, SIGNAL(signalConnected(QString)), this, SLOT(printInfo(QString)));
+    QObject::connect(&client, SIGNAL(signalError(QString)), this, SLOT(printInfo(QString)));
+
 
     setSettings();
 
@@ -54,7 +57,7 @@ void MainWindow::settingsWindowShow()
 void MainWindow::setSettings()
 {
     QSettings settings;
-    m_timer->start(settings.value("server/updatePeriod", Globals::defaultUpdatePeriod));
+    m_timer->start(settings.value("server/updatePeriod", Globals::defaultUpdatePeriod).toInt());
 
     Client &client = Client::getInstance();
     client.connectToHost(settings.value("server/ip", Globals::defaultIP).toString(),
@@ -78,5 +81,9 @@ void MainWindow::updateUsers(QList<Globals::User> users)
             usersInAlarm.append(*i);
     }
     m_usersInAlarm->setUsers(usersInAlarm);
+}
 
+void MainWindow::printInfo(QString msg)
+{
+    ui->statusBar->showMessage(msg, Globals::statusBarTimeout);
 }

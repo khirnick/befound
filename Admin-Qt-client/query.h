@@ -64,7 +64,7 @@ public:
 
 signals:
     void signalError(QString msg);
-    void onlineUsers(QList<Globals::User> users);
+    void allUsers(QList<Globals::User> users);
 };
 
 

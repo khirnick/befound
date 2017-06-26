@@ -5,6 +5,7 @@
 #include <QTimer>
 #include "usertablemodel.h"
 #include "settingswindow.h"
+#include "globals.h"
 
 namespace Ui {
 class MainWindow;
@@ -25,6 +26,7 @@ public slots:
     void setSettings();
     void sendRequest();
     void updateUsers(QList<Globals::User> users);
+    void printInfo(QString msg);
 
 private:
     Ui::MainWindow *ui;

@@ -3,7 +3,6 @@
 #include <QMessageLogger>
 #include <QSettings>
 #include "globals.h"
-#include "settingswindow.h"
 
 Client &Client::getInstance()
 {
@@ -39,7 +38,8 @@ void Client::error(QString msg)
 {
     QMessageLogger().warning() << msg;
     emit signalError(msg);
-    reconnect();
+    m_socket->close();
+    //reconnect();
 }
 
 void Client::timeout()

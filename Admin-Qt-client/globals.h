@@ -9,6 +9,7 @@ namespace Globals
     const quint16 defaultPort = 42;
     const int defaultUpdatePeriod = 2;
     const int timeout = 600000;             // Таймаут запросов 10сек
+    const int statusBarTimeout = 300000;    // Время показа сообщений в статусбаре
 
     enum UserStatus {
         Ok = 0,
@@ -25,8 +26,8 @@ namespace Globals
         QString phone;
         QString email;
         quint8 status;
-        qreal latitude;
-        qreal longitude;
+        double latitude;
+        double longitude;
     };
 }
 

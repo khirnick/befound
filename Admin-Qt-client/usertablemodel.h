@@ -2,6 +2,7 @@
 #define USERTABLEMODEL_H
 
 #include <QAbstractTableModel>
+#include "globals.h"
 
 class UserTableModel : public QAbstractTableModel
 {
@@ -28,9 +29,12 @@ public:
     QVariant headerData( int section, Qt::Orientation orientation, int role ) const;
 
     void setUsers(const Users &users);
+    void setUsers(QList<Globals::User> &users);
 
 private:
     Users m_users;
+
+    inline UserData getUserData(const Globals::User &user);
 };
 
 #endif // USERTABLEMODEL_H
