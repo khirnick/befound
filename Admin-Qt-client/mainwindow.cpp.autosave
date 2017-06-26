@@ -52,6 +52,7 @@ MainWindow::MainWindow(QWidget *parent) :
     place->setCoordinate( 25.97, 44.43, 0.0, Marble::GeoDataCoordinates::Degree );
     place->setPopulation( 1877155 );
     place->setCountryCode ( "Romania" );
+    place->set
 
     Marble::GeoDataDocument *document = new Marble::GeoDataDocument;
     document->append( place );

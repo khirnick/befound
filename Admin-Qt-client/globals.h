@@ -11,6 +11,11 @@ namespace Globals
     const int timeout = 600000;             // Таймаут запросов 10сек
     const int statusBarTimeout = 300000;    // Время показа сообщений в статусбаре
 
+    // Коориднаты при загрузки карты
+    const double baseLatitude = 55.765670;
+    const double baseLongitude = 37.685922;
+    const int baseZoom = 2800;
+
     enum UserStatus {
         Ok = 0,
         Alarm,

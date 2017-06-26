@@ -38,7 +38,7 @@ void Client::error(QString msg)
 {
     QMessageLogger().warning() << msg;
     emit signalError(msg);
-    m_socket->close();
+    m_socket.close();
     //reconnect();
 }
 

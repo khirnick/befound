@@ -34,6 +34,9 @@ private:
     UserTableModel *m_usersAtTaskModel;
     UserTableModel *m_usersInAlarm;
     SettingsWindow *m_settingsWindow;
+
+    void drawUserCoords(const QList<Globals::User> &users);
+    inline void setMapCenter(double lon, double lat);
 };
 
 #endif // MAINWINDOW_H
