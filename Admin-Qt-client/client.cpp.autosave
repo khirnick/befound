@@ -3,7 +3,6 @@
 #include <QMessageLogger>
 #include <QSettings>
 #include "globals.h"
-#include "settingswindow.h"
 
 Client &Client::getInstance()
 {

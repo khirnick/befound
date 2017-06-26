@@ -2,6 +2,10 @@
 #include "ui_mainwindow.h"
 
 #include <QStringList>
+#include <QSettings>
+#include "globals.h"
+#include "query.h"
+#include "client.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -16,6 +20,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
     m_settingsWindow = new SettingsWindow(this);
     QObject::connect(ui->settings, SIGNAL(triggered(bool)), this, SLOT(settingsWindowShow()));
+    QObject::connect(ui->settings, SIGNAL(signalAccept()), this, SLOT(setSettings()));
+
+    m_timer = new QTimer(this);
+    QObject::connect(m_timer, SIGNAL(timeout()), this, SLOT(sendRequest()));
+
+    Client &client = Client::getInstance();
+
+    setSettings();
 
     ////////////////////// test data ////////////////////////////////
     UserTableModel::Users usersAtTask;
@@ -37,4 +49,34 @@ MainWindow::~MainWindow()
 void MainWindow::settingsWindowShow()
 {
     m_settingsWindow->show();
+}
+
+void MainWindow::setSettings()
+{
+    QSettings settings;
+    m_timer->start(settings.value("server/updatePeriod", Globals::defaultUpdatePeriod));
+
+    Client &client = Client::getInstance();
+    client.connectToHost(settings.value("server/ip", Globals::defaultIP).toString(),
+                         settings.value("server/port", Globals::defaultPort).toInt());
+}
+
+void MainWindow::sendRequest()
+{
+    QueryGetOnlineUsers *request = new QueryGetOnlineUsers;
+    QObject::connect(request, SIGNAL(onlineUsers(QList<Globals::User>)), this, SLOT(updateUsers(QList<Globals::User>)));
+    Client &client = Client::getInstance();
+    client.sendRequest(request);
+}
+
+void MainWindow::updateUsers(QList<Globals::User> users)
+{
+    m_usersAtTaskModel->setUsers(users);
+    QList<Globals::User> usersInAlarm;
+    for (QList<Globals::User>::iterator i = users.begin(); i != users.end(); ++i) {
+        if (i->status == Globals::UserStatus::Alarm)
+            usersInAlarm.append(*i);
+    }
+    m_usersInAlarm->setUsers(usersInAlarm);
+
 }

@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTimer>
 #include "usertablemodel.h"
 #include "settingswindow.h"
 
@@ -13,12 +14,17 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
+    QTimer *m_timer;
+
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
 public slots:
     void settingsWindowShow();
+    void setSettings();
+    void sendRequest();
+    void updateUsers(QList<Globals::User> users);
 
 private:
     Ui::MainWindow *ui;

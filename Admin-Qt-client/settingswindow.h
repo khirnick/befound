@@ -18,6 +18,9 @@ public:
 public slots:
     void accept();
 
+signals:
+    void signalAccept();
+
 private:
     Ui::SettingsWindow *ui;
 };

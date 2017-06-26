@@ -42,6 +42,43 @@ void QueryGetOnlineUsers::onAnswer(QByteArray answer)
         }
 
     } else {
-        emit signalError("Ошибка! при запросе онлайн пользователей");
+        emit signalError("Ошибка! При запросе онлайн пользователей");
+    }
+}
+
+QueryGetAllUsers::QueryGetAllUsers() : Query()
+{
+}
+
+QueryGetAllUsers::~QueryGetAllUsers()
+{
+}
+
+QByteArray QueryGetAllUsers::execute()
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::WriteOnly);
+    out << (quint8) GetAllUsers;
+    return data;
+}
+
+void QueryGetAllUsers::onAnswer(QByteArray answer)
+{
+    QDataStream in(&answer, QIODevice::ReadOnly);
+    quint8 answerType;
+    in >> answerType;
+    if (answerType == OK) {
+        QList<Globals::User> users;
+        while (!in.atEnd()) {
+            // считывание пользователей
+            Globals::User user;
+            in >> user.id >> user.last_name >> user.first_name >> user.patronymic >>
+                    user.email >> user.phone >> user.status >> user.latitude >> user.longitude;
+            users.append(user);
+            emit allUsers(users);
+        }
+
+    } else {
+        emit signalError("Ошибка! При запросе всех пользователей");
     }
 }
