@@ -3,6 +3,10 @@
 
 #include <QObject>
 #include <QTcpSocket>
+#include <QDataStream>
+#include <QQueue>
+#include <QTimer>
+#include "query.h"
 
 // Класс клиента, синглтон
 // он подключается к удаленому серверу, формирует запросы
@@ -10,10 +14,11 @@ class Client : public QObject
 {
     Q_OBJECT
 
-    static QTcpSocket m_socket;
-    static QHostAddress m_adress;
-    static quint16 m_port;
-    static quint16 m_queriesCount;      // Счетчик запросов
+    QTcpSocket m_socket;
+    QString m_adress;
+    quint16 m_port;
+    QQueue<Query*> m_sendedRequests;
+    QTimer *m_timer;
 
 private:
     Client();
@@ -21,21 +26,21 @@ private:
     Client& operator=( Client& );
 
     inline void connectToHost();
-    inline quint16 newConnection();
+    inline quint16 newQuery();
+
 public:
     static Client& getInstance();
 
-    void connectToHost(QHostAddress adress, quint16 port);
-
-    // Запросы:
-    void queryToGetOnlineUsers();
-    void queryToGetAllUsers();
-    void queryToGetUserTrack();
+    void connectToHost(QString adress, quint16 port);
+    void reconnect();
+    bool sendRequest(Query *request);
 
 public slots:
     void slotConnected();
     void slotReadyRead();
-    void slotError();
+    void slotSocketError(QAbstractSocket::SocketError err);
+    void error(QString msg);
+    void timeout();
 
 signals:
     void signalConnectToHost(QString msg);

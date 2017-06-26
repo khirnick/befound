@@ -29,7 +29,8 @@ SOURCES += \
     usertablemodel.cpp \
     settingswindow.cpp \
     client.cpp \
-    auth.cpp
+    auth.cpp \
+    query.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -37,7 +38,8 @@ HEADERS += \
     settingswindow.h \
     globals.h \
     client.h \
-    auth.h
+    auth.h \
+    query.h
 
 FORMS += \
         mainwindow.ui \
