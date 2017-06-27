@@ -30,7 +30,8 @@ SOURCES += \
     settingswindow.cpp \
     client.cpp \
     auth.cpp \
-    query.cpp
+    query.cpp \
+    map.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -39,7 +40,8 @@ HEADERS += \
     globals.h \
     client.h \
     auth.h \
-    query.h
+    query.h \
+    map.h
 
 FORMS += \
         mainwindow.ui \

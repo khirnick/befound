@@ -24,7 +24,7 @@
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <widget class="Marble::MarbleWidget" name="map" native="true">
+       <widget class="Map" name="map" native="true">
         <property name="minimumSize">
          <size>
           <width>400</width>
@@ -173,9 +173,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>Marble::MarbleWidget</class>
+   <class>Map</class>
    <extends>QWidget</extends>
-   <header location="global">marble/MarbleWidget.h</header>
+   <header>map.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

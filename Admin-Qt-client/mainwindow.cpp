@@ -3,12 +3,7 @@
 
 #include <QStringList>
 #include <QSettings>
-#include <marble/GeoPainter.h>
-#include <marble/GeoDataDocument.h>
-#include <marble/GeoDataPlacemark.h>
-#include <marble/GeoDataLineString.h>
-#include <marble/GeoDataTreeModel.h>
-#include <marble/MarbleModel.h>
+#include <QSharedPointer>
 #include "query.h"
 #include "client.h"
 
@@ -19,14 +14,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->usersTable->setModel(m_usersAtTaskModel = new UserTableModel);
     ui->alarmsTable->setModel(m_usersInAlarm = new UserTableModel);
-
-    ui->map->setProjection(Marble::Mercator);
-    ui->map->setMapThemeId("earth/openstreetmap/openstreetmap.dgml");
-    setMapCenter(Globals::baseLongitude, Globals::baseLatitude);
-
-    m_geoDataDocument = new Marble::GeoDataDocument;
-    // Add the document to MarbleWidget's tree model
-    ui->map->model()->treeModel()->addDocument(m_geoDataDocument);
 
     m_settingsWindow = new SettingsWindow(this);
     QObject::connect(ui->settings, SIGNAL(triggered(bool)), this, SLOT(settingsWindowShow()));
@@ -87,7 +74,7 @@ void MainWindow::sendRequest()
 void MainWindow::updateUsers(QList<Globals::User> users)
 {
     m_usersAtTaskModel->setUsers(users);
-    drawUsersCoords(users);
+    ui->map->drawUsersCoords(users);
 
     QList<Globals::User> usersInAlarm;
     for (QList<Globals::User>::iterator i = users.begin(); i != users.end(); ++i) {
@@ -100,21 +87,4 @@ void MainWindow::updateUsers(QList<Globals::User> users)
 void MainWindow::printInfo(QString msg)
 {
     ui->statusBar->showMessage(msg, Globals::statusBarTimeout);
-}
-
-void MainWindow::drawUsersCoords(QList<Globals::User> &users)
-{
-    m_geoDataDocument->clear();
-    for (QList<Globals::User>::iterator i = users.begin(); i != users.end(); ++i) {
-        Marble::GeoDataPlacemark *user = new Marble::GeoDataPlacemark(i->last_name + " " + i->first_name);
-        user->setId(QString() + i->id);
-        user->setCoordinate( i->longitude, i->latitude, 0.0, Marble::GeoDataCoordinates::Degree );
-        m_geoDataDocument->append( user );
-    }
-}
-
-void MainWindow::setMapCenter(double lon, double lat)
-{
-    ui->map->centerOn(Marble::GeoDataCoordinates(lon, lat, 0, Marble::GeoDataCoordinates::Degree));
-    ui->map->setZoom(Globals::baseZoom);
 }

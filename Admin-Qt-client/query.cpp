@@ -18,7 +18,7 @@ bool Query::checkAnswerType(QDataStream &in, QString queryName)
         emit authorisationFail("Ошибка авторизации! При запросе " + queryName);
         break;
     case PermisionDenied:
-        emit permisionDenied("Не достаточно прав! При запросе " + queryName);
+        emit permisionDenied("Недостаточно прав! При запросе " + queryName);
         break;
     default:
         emit signalError("Неизвестная ошибка! При запросе " + queryName);
@@ -119,7 +119,7 @@ void QueryGetUserTrack::onAnswer(QByteArray answer)
     if (checkAnswerType(in, "выдачи трека пользователя")) {
         QList<Globals::Coords> track;
         while (!in.atEnd()) {
-            // считывание пользователей
+            // считывание координат
             Globals::Coords coords;
             in >> coords.latitude >> coords.longitude;
             track.append(coords);

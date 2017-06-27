@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 #include <QTimer>
-#include <marble/GeoDataDocument.h>
 #include "usertablemodel.h"
 #include "settingswindow.h"
 #include "globals.h"
@@ -15,8 +14,6 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-
-
 
 public:
     explicit MainWindow(QWidget *parent = 0);
@@ -37,10 +34,8 @@ private:
     SettingsWindow *m_settingsWindow;
 
     QTimer *m_timer;
-    Marble::GeoDataDocument *m_geoDataDocument;
 
     void drawUsersCoords(QList<Globals::User> &users);
-    inline void setMapCenter(double lon, double lat);
 };
 
 #endif // MAINWINDOW_H

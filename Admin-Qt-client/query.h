@@ -39,7 +39,9 @@ public:
     explicit Query();
     virtual ~Query() {}
 
+    // отправка данных серверу
     virtual QByteArray execute() = 0;
+    // чтение ответа от сервера
     virtual void onAnswer(QByteArray answer) = 0;
 
 signals:
