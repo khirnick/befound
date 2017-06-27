@@ -7,7 +7,7 @@ namespace Globals
 {
     const QString defaultIP = "127.0.0.1";
     const quint16 defaultPort = 42;
-    const int defaultUpdatePeriod = 2;
+    const int defaultUpdatePeriod = 120000;
     const int timeout = 600000;             // Таймаут запросов 10сек
     const int statusBarTimeout = 300000;    // Время показа сообщений в статусбаре
 

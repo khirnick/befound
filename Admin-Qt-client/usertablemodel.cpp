@@ -87,6 +87,11 @@ void UserTableModel::setUsers(QList<Globals::User> &users)
     setUsers(_users);
 }
 
+quint64 UserTableModel::getUserID(int row)
+{
+    return m_users[row][ID].toInt();
+}
+
 UserTableModel::UserData UserTableModel::getUserData(const Globals::User &user)
 {
     UserData res;

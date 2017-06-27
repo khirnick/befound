@@ -24,7 +24,9 @@ public slots:
     void setSettings();
     void sendRequest();
     void updateUsers(QList<Globals::User> users);
+    void updateUserTrack(QList<Globals::Coords> track);
     void printInfo(QString msg);
+    void selectUser(QModelIndex index);
 
 private:
     Ui::MainWindow *ui;
@@ -34,6 +36,8 @@ private:
     SettingsWindow *m_settingsWindow;
 
     QTimer *m_timer;
+
+    quint64 m_selectedUserID;
 
     void drawUsersCoords(QList<Globals::User> &users);
 };

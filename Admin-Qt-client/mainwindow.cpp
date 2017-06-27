@@ -8,12 +8,13 @@
 #include "client.h"
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    QMainWindow(parent), ui(new Ui::MainWindow), m_selectedUserID(0)
 {
     ui->setupUi(this);
     ui->usersTable->setModel(m_usersAtTaskModel = new UserTableModel);
     ui->alarmsTable->setModel(m_usersInAlarm = new UserTableModel);
+    QObject::connect(ui->usersTable, SIGNAL(clicked(QModelIndex)), this, SLOT(selectUser(QModelIndex)));
+    QObject::connect(ui->alarmsTable, SIGNAL(clicked(QModelIndex)), this, SLOT(selectUser(QModelIndex)));
 
     m_settingsWindow = new SettingsWindow(this);
     QObject::connect(ui->settings, SIGNAL(triggered(bool)), this, SLOT(settingsWindowShow()));
@@ -65,10 +66,18 @@ void MainWindow::setSettings()
 
 void MainWindow::sendRequest()
 {
-    QueryGetOnlineUsers *request = new QueryGetOnlineUsers;
-    QObject::connect(request, SIGNAL(onlineUsers(QList<Globals::User>)), this, SLOT(updateUsers(QList<Globals::User>)));
+    QueryGetOnlineUsers *requestOnlineUsers = new QueryGetOnlineUsers;
+    QObject::connect(requestOnlineUsers, SIGNAL(onlineUsers(QList<Globals::User>)), this, SLOT(updateUsers(QList<Globals::User>)));
     Client &client = Client::getInstance();
-    client.sendRequest(request);
+    client.sendRequest(requestOnlineUsers);
+
+    if (m_selectedUserID) {
+        QueryGetUserTrack *requestUserTrack = new QueryGetUserTrack(m_selectedUserID);
+        QObject::connect(requestUserTrack, SIGNAL(onlineUsers(QList<Globals::Coords>)),
+                         this, SLOT(updateUserTrack(QList<Globals::Coords>)));
+        Client &client = Client::getInstance();
+        client.sendRequest(requestUserTrack);
+    }
 }
 
 void MainWindow::updateUsers(QList<Globals::User> users)
@@ -84,7 +93,21 @@ void MainWindow::updateUsers(QList<Globals::User> users)
     m_usersInAlarm->setUsers(usersInAlarm);
 }
 
+void MainWindow::updateUserTrack(QList<Globals::Coords> track)
+{
+    if (m_selectedUserID) {
+        ui->map->setTrack(&track);
+    }
+}
+
 void MainWindow::printInfo(QString msg)
 {
     ui->statusBar->showMessage(msg, Globals::statusBarTimeout);
+}
+
+void MainWindow::selectUser(QModelIndex index)
+{
+    UserTableModel *model = (UserTableModel*) index.model();
+    m_selectedUserID = model->getUserID(index.row());
+    sendRequest();
 }

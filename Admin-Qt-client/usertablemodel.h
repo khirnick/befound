@@ -30,6 +30,7 @@ public:
 
     void setUsers(const Users &users);
     void setUsers(QList<Globals::User> &users);
+    quint64 getUserID(int row);
 
 private:
     Users m_users;
