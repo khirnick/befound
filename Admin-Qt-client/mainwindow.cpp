@@ -43,14 +43,21 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ////////////////////// test data ////////////////////////////////
 #ifdef _DEBUG
-    UserTableModel::Users usersAtTask;
-    UserTableModel::UserData user;
-    user[UserTableModel::ID] = 1; user[UserTableModel::FULL_NAME] = "КАВ"; user[UserTableModel::PHONE] = 1234567890; user[UserTableModel::STATUS] = 0; user[UserTableModel::COORDS] = "123 123"; user[UserTableModel::EMAIL] = "abc@mail.ru";
-    usersAtTask.append(user); usersAtTask.append(user); usersAtTask.append(user);
-    user[UserTableModel::STATUS] = 1;
-    usersAtTask.append(user); usersAtTask.append(user);
-    m_usersAtTaskModel->setUsers(usersAtTask);
-    m_usersInAlarm->setUsers(usersAtTask);
+    QList<Globals::User> users;
+    Globals::User user1 { 1, "Кирьяненко", "Александр", "Владиславович", "8(123)123-12-12", "kiryanenkoav@mail.ru", Globals::UserStatus::Ok, 55.766105, 37.688466 };
+    Globals::User user2 { 2, "Хирный", "Никита", "Сергеевич", "8(555)333-22-11", "khirnich@mail.ru", Globals::UserStatus::Ok, 55.771485, 37.680707 };
+    Globals::User user3 { 3, "Куклина", "Нина", "", "8(666)788-66-77", "khirnich@mail.ru", Globals::UserStatus::Alarm, 55.762762, 37.689767 };
+    Globals::User user4 { 4, "Колотовкин", "Максим", "", "8(552)555-35-35", "maxpro@mail.ru", Globals::UserStatus::Ok, 55.772091, 37.696176 };
+    users << user1 << user2 << user3 << user4;
+    updateUsers(users);
+
+    m_selectedUserID = 1;
+    QList<Globals::Coords> track;
+    Globals::Coords c1 { 55.770898, 37.686074 }, c2 { 55.770645, 37.689636 };
+    Globals::Coords c3 { 55.770796, 37.690449 }, c4 { 55.769043, 37.691873 };
+    Globals::Coords c5 { 55.767790, 37.690591 }, c6 { 55.766105, 37.688466 };
+    track << c1 << c2 << c3 << c4 << c5 << c6;
+    updateUserTrack(track);
 #endif
     ////////////////////////////////////////////////////////////////
 }

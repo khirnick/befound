@@ -1,6 +1,7 @@
 #include "usertablemodel.h"
 
 #include <QBrush>
+#include "globals.h"
 
 UserTableModel::UserTableModel(QObject* parent)
 {
@@ -28,11 +29,15 @@ QVariant UserTableModel::data(const QModelIndex &index, int role) const
     }
 
     if (role == Qt::BackgroundRole) {
-        if (m_users[ index.row() ][ STATUS ] == 1) {
-            return QBrush(QColor(255, 36, 0));
+        if (m_users[ index.row() ][ STATUS ] == Globals::UserStatus::Alarm) {
+            return QBrush(QColor(255, 110, 74));
         } else {
             return QBrush(Qt::white);
         }
+    }
+
+    if (index.column() == STATUS) {
+        return userStatusStr( m_users[ index.row() ][ Column(index.column()) ].toInt() );
     }
 
     return m_users[ index.row() ][ Column( index.column() ) ];
@@ -98,13 +103,18 @@ UserTableModel::UserData UserTableModel::getUserData(const Globals::User &user)
     res[ID] = user.id;
     res[FULL_NAME] = user.last_name + " " + user.first_name + " " + user.patronymic;
     res[PHONE] = user.phone;
-    res[STATUS] = user.status == Globals::UserStatus::Ok?
-                "Норм." : user.status == Globals::UserStatus::Alarm?
-                    "Тревога" : user.status == Globals::UserStatus::NotConnection ?
-                        "Нет соединения" : user.status == Globals::UserStatus::Offline ?
-                            "На базе" : "Неизв.";
-    res[COORDS] = QString() + user.latitude + " " + user.longitude;
+    res[STATUS] = user.status;
+    res[COORDS] = QString().number(user.latitude) + " " + QString().number(user.longitude);
     res[EMAIL] = user.email;
     return res;
+}
+
+QString UserTableModel::userStatusStr(int status) const
+{
+    return status == Globals::UserStatus::Ok?
+                "Норм." : status == Globals::UserStatus::Alarm?
+                    "Тревога" : status == Globals::UserStatus::NotConnection ?
+                        "Нет соединения" : status == Globals::UserStatus::Offline ?
+                            "На базе" : "Неизв.";
 }
 

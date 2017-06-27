@@ -39,6 +39,7 @@ namespace Globals
         double latitude;
         double longitude;
     };
+
 }
 
 #endif // GLOBALS_H

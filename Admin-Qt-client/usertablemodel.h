@@ -36,6 +36,7 @@ private:
     Users m_users;
 
     inline UserData getUserData(const Globals::User &user);
+    inline QString userStatusStr(int status) const;
 };
 
 #endif // USERTABLEMODEL_H
