@@ -48,13 +48,17 @@ QString Auth::getPassword()
 void Auth::loggout()
 {
     m_isAuth = false;
-    emit signalLoggout();
+    QString msg = "Вы вышли из системы";
+    QMessageLogger().info() << msg;
+    emit signalLoggout(msg);
 }
 
 void Auth::auth()
 {
     m_isAuth = true;
-    emit signalAuth();
+    QString msg = "Успешная авторизация под логином " + m_login;
+    QMessageLogger().info() << msg;
+    emit signalAuth(msg);
 }
 
 void Auth::authorisationFail(QString msg)

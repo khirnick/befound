@@ -27,6 +27,8 @@ public slots:
     void updateUserTrack(QList<Globals::Coords> track);
     void printInfo(QString msg);
     void selectUser(QModelIndex index);
+    void onAuth();
+    void onLoggout();
 
 private:
     Ui::MainWindow *ui;

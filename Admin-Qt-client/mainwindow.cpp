@@ -31,6 +31,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     Auth &auth = Auth::getInstance();
     QObject::connect(ui->auth, SIGNAL(triggered()), &auth, SLOT(showForm()));
+    QObject::connect(&auth, SIGNAL(signalAuth()), this, SLOT(onAuth()));
+    QObject::connect(&auth, SIGNAL(signalLoggout()), this, SLOT(onLoggout()));
+    QObject::connect(&client, SIGNAL(signalAuth(QString)), this, SLOT(printInfo(QString)));
+    QObject::connect(&client, SIGNAL(signalLoggout(QString)), this, SLOT(printInfo(QString)));
+    QObject::connect(&client, SIGNAL(signalAuthorisationFail(QString)), this, SLOT(printInfo(QString)));
+    QObject::connect(&client, SIGNAL(signalPermisionDenied(QString)), this, SLOT(printInfo(QString)));
+    onLoggout();
 
     setSettings();
 
@@ -114,4 +121,20 @@ void MainWindow::selectUser(QModelIndex index)
     UserTableModel *model = (UserTableModel*) index.model();
     m_selectedUserID = model->getUserID(index.row());
     sendRequest();
+}
+
+void MainWindow::onAuth()
+{
+    ui->newUser->setEnabled(true);
+    ui->findUser->setEnabled(true);
+    ui->newButton->setEnabled(true);
+    ui->allButtons->setEnabled(true);
+}
+
+void MainWindow::onLoggout()
+{
+    ui->newUser->setDisabled(true);
+    ui->findUser->setDisabled(true);
+    ui->newButton->setDisabled(true);
+    ui->allButtons->setDisabled(true);
 }

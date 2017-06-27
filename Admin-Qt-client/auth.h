@@ -30,8 +30,8 @@ public:
     QString getPassword();
 
 signals:
-    void signalAuth();
-    void signalLoggout();
+    void signalAuth(QString msg);
+    void signalLoggout(QString msg);
     void signalAuthorisationFail(QString msg);
     void signalPermisionDenied(QString msg);
 

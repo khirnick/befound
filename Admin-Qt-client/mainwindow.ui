@@ -111,15 +111,15 @@
     <property name="title">
      <string>Пользователи</string>
     </property>
-    <addaction name="action_2"/>
-    <addaction name="action_3"/>
+    <addaction name="newUser"/>
+    <addaction name="findUser"/>
    </widget>
    <widget class="QMenu" name="menu_3">
     <property name="title">
      <string>Тревожные кнопки</string>
     </property>
-    <addaction name="action_4"/>
-    <addaction name="action_5"/>
+    <addaction name="newButton"/>
+    <addaction name="allButtons"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
@@ -134,22 +134,22 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <action name="action_2">
+  <action name="newUser">
    <property name="text">
     <string>Новый</string>
    </property>
   </action>
-  <action name="action_3">
+  <action name="findUser">
    <property name="text">
     <string>Поиск</string>
    </property>
   </action>
-  <action name="action_4">
+  <action name="newButton">
    <property name="text">
     <string>Добавить</string>
    </property>
   </action>
-  <action name="action_5">
+  <action name="allButtons">
    <property name="text">
     <string>Все кнопки</string>
    </property>
