@@ -12,6 +12,7 @@ enum RequestType {
     GetAllUsers,
     GetUserTrack,
     Authorisation,
+    GetUserData,
     NewUser,
     SetUser,
     NewButton,
@@ -40,8 +41,9 @@ public:
     explicit Query();
     virtual ~Query() {}
 
+    virtual quint8 requestType() = 0;
     // отправка данных серверу
-    virtual QByteArray execute() = 0;
+    virtual QByteArray execute();
     // чтение ответа от сервера
     virtual void onAnswer(QByteArray answer);
 
@@ -53,35 +55,27 @@ signals:
 };
 
 
-class QueryGetOnlineUsers : public Query
-{
-    Q_OBJECT
-
-public:
-    explicit QueryGetOnlineUsers();
-
-    QByteArray execute();
-    void onAnswer(QByteArray answer);
-
-signals:
-    void signalError(QString msg);
-    void onSuccess(QList<Globals::User> users);
-};
-
-
 class QueryGetAllUsers : public Query
 {
     Q_OBJECT
 
 public:
     explicit QueryGetAllUsers();
-
-    QByteArray execute();
+    virtual quint8 requestType();
     void onAnswer(QByteArray answer);
 
 signals:
-    void signalError(QString msg);
     void onSuccess(QList<Globals::User> users);
+};
+
+
+class QueryGetOnlineUsers : public QueryGetAllUsers
+{
+    Q_OBJECT
+
+public:
+    explicit QueryGetOnlineUsers();
+    quint8 requestType();
 };
 
 
@@ -94,11 +88,11 @@ class QueryGetUserTrack : public Query
 public:
     explicit QueryGetUserTrack(quint64 userID);
 
+    quint8 requestType();
     QByteArray execute();
     void onAnswer(QByteArray answer);
 
 signals:
-    void signalError(QString msg);
     void onSuccess(QList<Globals::Coords> track);
 };
 
@@ -108,16 +102,14 @@ class QueryAuth : public Query
     Q_OBJECT
 
 protected:
-    QByteArray getAuthParams();
+    inline QByteArray getAuthParams();
     inline QByteArray getAuthParamsWithSize();
 
 public:
     explicit QueryAuth();
 
+    virtual quint8 requestType();
     virtual QByteArray execute();
-
-signals:
-    void signalError(QString msg);
 };
 
 #endif // QUERY_H

@@ -38,6 +38,14 @@ Query::Query()
     connect(this, SIGNAL(permisionDenied(QString)), &auth, SLOT(permisionDenied(QString)));
 }
 
+QByteArray Query::execute()
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::WriteOnly);
+    out << requestType();
+    return data;
+}
+
 void Query::onAnswer(QByteArray answer)
 {
     QDataStream in(&answer, QIODevice::ReadOnly);
@@ -47,44 +55,22 @@ void Query::onAnswer(QByteArray answer)
 }
 
 
-QueryGetOnlineUsers::QueryGetOnlineUsers() : Query()
+QueryGetOnlineUsers::QueryGetOnlineUsers() : QueryGetAllUsers()
 {
 }
 
-QByteArray QueryGetOnlineUsers::execute()
+quint8 QueryGetOnlineUsers::requestType()
 {
-    QByteArray data;
-    QDataStream out(&data, QIODevice::WriteOnly);
-    out << (quint8) GetOnlineUsers;
-    return data;
-}
-
-void QueryGetOnlineUsers::onAnswer(QByteArray answer)
-{
-    QDataStream in(&answer, QIODevice::ReadOnly);
-    if (checkAnswerType(in, "выдачи онлайн пользователей")) {
-        QList<Globals::User> users;
-        while (!in.atEnd()) {
-            // считывание пользователей
-            Globals::User user;
-            in >> user.id >> user.last_name >> user.first_name >> user.patronymic >>
-                    user.email >> user.phone >> user.status >> user.latitude >> user.longitude;
-            users.append(user);
-            emit onSuccess(users);
-        }
-    }
+    return GetOnlineUsers;
 }
 
 QueryGetAllUsers::QueryGetAllUsers() : Query()
 {
 }
 
-QByteArray QueryGetAllUsers::execute()
+quint8 QueryGetAllUsers::requestType()
 {
-    QByteArray data;
-    QDataStream out(&data, QIODevice::WriteOnly);
-    out << (quint8) GetAllUsers;
-    return data;
+    return GetAllUsers;
 }
 
 void QueryGetAllUsers::onAnswer(QByteArray answer)
@@ -108,11 +94,16 @@ QueryGetUserTrack::QueryGetUserTrack(quint64 userID) :
 {
 }
 
+quint8 QueryGetUserTrack::requestType()
+{
+    return GetUserTrack;
+}
+
 QByteArray QueryGetUserTrack::execute()
 {
     QByteArray data;
     QDataStream out(&data, QIODevice::WriteOnly);
-    out << (quint8) GetUserTrack << m_userID;
+    out << Query::execute() << m_userID;
     return data;
 }
 
@@ -135,8 +126,7 @@ QByteArray QueryAuth::getAuthParams()
 {
     Auth &auth = Auth::getInstance();
     QByteArray bytes;
-    QDataStream out(&bytes, QIODevice::WriteOnly);
-    out << auth.getLogin() << "\n" << auth.getPassword() << "\n";
+    bytes.append(auth.getLogin() + "\n" + auth.getPassword() + "\n");
     return bytes;
 }
 
@@ -153,10 +143,14 @@ QueryAuth::QueryAuth() : Query()
 {
 }
 
+quint8 QueryAuth::requestType()
+{
+    return Authorisation;
+}
+
 QByteArray QueryAuth::execute()
 {
-    QByteArray data;
-    QDataStream out(&data, QIODevice::WriteOnly);
-    out << (quint8) Authorisation << getAuthParamsWithSize();
+    QByteArray data = Query::execute();
+    data.append(getAuthParamsWithSize());
     return data;
 }
