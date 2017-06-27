@@ -31,7 +31,8 @@ SOURCES += \
     client.cpp \
     auth.cpp \
     query.cpp \
-    map.cpp
+    map.cpp \
+    authform.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -41,11 +42,13 @@ HEADERS += \
     client.h \
     auth.h \
     query.h \
-    map.h
+    map.h \
+    authform.h
 
 FORMS += \
         mainwindow.ui \
-    settingswindow.ui
+    settingswindow.ui \
+    authform.ui
 
 LIBS += -L/usr/local/lib \
     -lmarblewidget-qt5

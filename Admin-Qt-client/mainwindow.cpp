@@ -6,6 +6,7 @@
 #include <QSharedPointer>
 #include "query.h"
 #include "client.h"
+#include "auth.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent), ui(new Ui::MainWindow), m_selectedUserID(0)
@@ -27,6 +28,9 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(&client, SIGNAL(signalConnectToHost(QString)), this, SLOT(printInfo(QString)));
     QObject::connect(&client, SIGNAL(signalConnected(QString)), this, SLOT(printInfo(QString)));
     QObject::connect(&client, SIGNAL(signalError(QString)), this, SLOT(printInfo(QString)));
+
+    Auth &auth = Auth::getInstance();
+    QObject::connect(ui->auth, SIGNAL(triggered()), &auth, SLOT(showForm()));
 
     setSettings();
 

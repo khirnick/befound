@@ -102,7 +102,7 @@
     <property name="title">
      <string>Файл</string>
     </property>
-    <addaction name="action"/>
+    <addaction name="auth"/>
     <addaction name="settings"/>
     <addaction name="separator"/>
     <addaction name="exit"/>
@@ -154,7 +154,7 @@
     <string>Все кнопки</string>
    </property>
   </action>
-  <action name="action">
+  <action name="auth">
    <property name="text">
     <string>Авторизация</string>
    </property>

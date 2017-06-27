@@ -2,6 +2,7 @@
 #define AUTH_H
 
 #include <QObject>
+#include "authform.h"
 
 // Класс логгера, синглтон
 class Auth : public QObject
@@ -11,6 +12,7 @@ class Auth : public QObject
     QString m_login;
     QString m_password;
     bool m_isAuth;
+    AuthForm m_form;
 
 private:
     Auth();
@@ -27,6 +29,7 @@ signals:
 
 public slots:
     void loggout();
+    void showForm();
 
 };
 

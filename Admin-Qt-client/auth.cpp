@@ -11,7 +11,17 @@ Auth &Auth::getInstance()
     return instance;
 }
 
+void Auth::auth(QString login, QString password)
+{
+
+}
+
 void Auth::loggout()
 {
     m_isAuth = false;
+}
+
+void Auth::showForm()
+{
+    m_form.show();
 }

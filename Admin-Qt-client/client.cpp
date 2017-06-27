@@ -46,7 +46,7 @@ void Client::timeout()
 {
     m_timer->stop();
     error("Ошибка: Таймаут.");
-
+    reconnect();
 }
 
 void Client::connectToHost(QString adress, quint16 port)
