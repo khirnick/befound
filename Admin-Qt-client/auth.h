@@ -19,16 +19,27 @@ private:
     Auth( const Auth&);
     Auth& operator=( Auth& );
 
+    inline void authorisationRequest();
+
 public:
     static Auth& getInstance();
+
     void auth(QString login, QString password);
-    void auth();
+    bool isAuth();
+    QString getLogin();
+    QString getPassword();
 
 signals:
-    void authorisation(QString login, QString password);
+    void signalAuth();
+    void signalLoggout();
+    void signalAuthorisationFail(QString msg);
+    void signalPermisionDenied(QString msg);
 
 public slots:
     void loggout();
+    void auth();
+    void authorisationFail(QString msg = QString("Ошибка авторизации!"));
+    void permisionDenied(QString msg = QString("Недостаточно прав!"));
     void showForm();
 
 };

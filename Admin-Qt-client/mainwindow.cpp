@@ -71,13 +71,13 @@ void MainWindow::setSettings()
 void MainWindow::sendRequest()
 {
     QueryGetOnlineUsers *requestOnlineUsers = new QueryGetOnlineUsers;
-    QObject::connect(requestOnlineUsers, SIGNAL(onlineUsers(QList<Globals::User>)), this, SLOT(updateUsers(QList<Globals::User>)));
+    QObject::connect(requestOnlineUsers, SIGNAL(onSuccess(QList<Globals::User>)), this, SLOT(updateUsers(QList<Globals::User>)));
     Client &client = Client::getInstance();
     client.sendRequest(requestOnlineUsers);
 
     if (m_selectedUserID) {
         QueryGetUserTrack *requestUserTrack = new QueryGetUserTrack(m_selectedUserID);
-        QObject::connect(requestUserTrack, SIGNAL(onlineUsers(QList<Globals::Coords>)),
+        QObject::connect(requestUserTrack, SIGNAL(onSuccess(QList<Globals::Coords>)),
                          this, SLOT(updateUserTrack(QList<Globals::Coords>)));
         Client &client = Client::getInstance();
         client.sendRequest(requestUserTrack);

@@ -68,8 +68,7 @@ void Client::reconnect()
 bool Client::sendRequest(Query *request)
 {
     if (m_socket.isValid()) {
-        m_sendedRequests.enqueue(request);
-        connect(request, SIGNAL(signalError(QString)), this, SLOT(error(QString)));
+        m_sendedRequests.enqueue(request);        
         m_socket.write(request->execute());
         if (!m_timer->isActive())
             m_timer->start(Globals::timeout);
