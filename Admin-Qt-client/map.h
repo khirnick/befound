@@ -16,12 +16,10 @@ class Map : public MarbleWidget
     Marble::GeoDataDocument *m_geoDataDocument;
     Marble::GeoDataLineString *m_track;
 
-private:
-    inline void setMapCenter(double lon, double lat);
-
 public:
     Map(QWidget *obj = NULL);
 
+    inline void setMapCenter(double lon, double lat);
     virtual void customPaint(GeoPainter* painter);
     void drawUsersCoords(QList<Globals::User> &users);
     void setTrack(QList<Globals::Coords> *track = NULL);

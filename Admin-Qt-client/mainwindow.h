@@ -40,8 +40,6 @@ private:
     QTimer *m_timer;
 
     quint64 m_selectedUserID;
-
-    void drawUsersCoords(QList<Globals::User> &users);
 };
 
 #endif // MAINWINDOW_H
