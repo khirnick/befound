@@ -127,7 +127,7 @@ if __name__ == '__main__':
     input_local_server_ip = input('Enter your local ip: ')
     input_remote_server_ip = input('Enter your remote server ip: ')
     LOCAL_SERVER_HOST = input_local_server_ip
-    MEDIATOR_SERVER_HOST = input_mediator_server_ip
+    MEDIATOR_SERVER_HOST = input_remote_server_ip
 
     server = ServerMediator(MEDIATOR_SERVER_PORT, MEDIATOR_SERVER_PORT_TO_SEND,
                             input_local_server_ip, input_remote_server_ip,
