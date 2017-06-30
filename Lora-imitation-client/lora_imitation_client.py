@@ -6,6 +6,7 @@ import logging
 import datetime
 sys.path.append('../../BeFOUND/Network-settings/')
 from network_settings import *
+import random
 
 class LoRaClient:
 
@@ -28,7 +29,9 @@ if __name__ == '__main__':
 
     def send_data_repeat_imitate_lora():
         threading.Timer(2.0, send_data_repeat_imitate_lora).start()
-        client.send_data("1;1;14234.34;42342.23;0;{0}".format(datetime.datetime.now()))
+        xcoord = random.uniform(54.0, 56.0)
+        ycoord = random.uniform(36.0, 38.0)
+        client.send_data("1;1;{0};{1};0;{2}".format(round(xcoord, 4), round(ycoord, 4), datetime.datetime.now()))
 
     while True:
         input_msg = input()

@@ -42,9 +42,7 @@ class Server:
         self.__client_timeout = client_timeout
         self.__run = False
         self.__connected_clients = []
-        self.__packet_list = PacketList()
-        self.__packets_counter_adding = 5
-        self.__dbmanager = DbManager('hitryy', '999', '212.22.92.159', 'befound')
+        self.__dbmanager = DbManager('befound', '123456', '212.22.85.121', 'befound')
 
         log = '{0} Server init. ADDRESS: {1}, PORT: {2}'.format(
             SERVER_NAME,
@@ -140,19 +138,17 @@ class Server:
                     logging.info(log_recv)
                     print(log_recv)
 
-                    splitted_line = self.data.split(";")
-                    #packet = PacketList.get_parsed_packet_from_string(self.data)
-                    #self.__packet_list.add(packet)
+                    splitted_packet = self.data.split(";")
 
-                    user = self.__dbmanager.get_by_id(UserAb, int(splitted_line[0]))
+                    user = self.__dbmanager.get_by_id(UserAb, int(splitted_packet[0]))
                     alarm_button = self.__dbmanager.get_by_id(
-                        AlarmButton, int(splitted_line[1]))
+                        AlarmButton, int(splitted_packet[1]))
 
-                    coordinates = Coordinates(float(splitted_line[2]),
-                                              float(splitted_line[3]),
-                                              int(splitted_line[4]),
+                    coordinates = Coordinates(float(splitted_packet[2]),
+                                              float(splitted_packet[3]),
+                                              int(splitted_packet[4]),
                                               datetime.datetime.strptime(
-                                                  splitted_line[5],
+                                                  splitted_packet[5],
                                                   "%Y-%m-%d %H:%M:%S.%f"),
                                               alarm_button)
 
@@ -203,6 +199,12 @@ class Server:
 if __name__ == '__main__':
     logging.basicConfig(format = u'%(levelname)-8s [%(asctime)s] %(message)s',
                         level = logging.DEBUG, filename = u'main_s.log')
+
+    input_local_server_ip = input('Enter your local ip: ')
+    input_mediator_server_ip = input('Enter your mediator server ip (raspi): ')
+    LOCAL_SERVER_HOST = input_local_server_ip
+    MEDIATOR_SERVER_HOST = input_mediator_server_ip
+
     server = Server(LOCAL_SERVER_PORT, LOCAL_SERVER_HOST,
                     LOCAL_SERVER_PORT_COUNT, LOCAL_SERVER_CLIENT_TIMEOUT)
     t = threading.Thread(target=server.start_listen)

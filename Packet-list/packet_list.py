@@ -1,6 +1,6 @@
 import collections
 
-Packet = collections.namedtuple('Packet', 'first_name_id, alarm_button_id, x, y, panic, date')
+Packet = collections.namedtuple('Packet', 'first_name_id alarm_button_id x y panic date')
 
 class PacketList:
 
@@ -21,6 +21,7 @@ class PacketList:
     @staticmethod
     def get_parsed_packet_from_string(line):
         splitted_line = line.split(";")
+        print(len(splitted_line))
         return Packet(*splitted_line)
 
     def add(self, packet):
