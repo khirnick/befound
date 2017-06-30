@@ -152,8 +152,8 @@ class Server:
                                                   "%Y-%m-%d %H:%M:%S.%f"),
                                               alarm_button)
 
-                    self.__dbmanager.update_time(user)
-                    self.__dbmanager.update_time(alarm_button)
+                    #self.__dbmanager.update_time(user)
+                    #self.__dbmanager.update_time(alarm_button)
 
                     self.__dbmanager.add(coordinates)
 

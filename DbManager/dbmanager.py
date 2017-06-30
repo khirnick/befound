@@ -148,4 +148,4 @@ class UsedAlarmButton(Base):
         self.date_begin = date_begin
         self.date_end = date_end
         self.alarm_button = alarm_button
-        self.user = user
+        self.user = user_ab
