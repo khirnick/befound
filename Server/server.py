@@ -200,11 +200,6 @@ if __name__ == '__main__':
     logging.basicConfig(format = u'%(levelname)-8s [%(asctime)s] %(message)s',
                         level = logging.DEBUG, filename = u'main_s.log')
 
-    input_local_server_ip = input('Enter your local ip: ')
-    input_mediator_server_ip = input('Enter your mediator server ip (raspi): ')
-    LOCAL_SERVER_HOST = input_local_server_ip
-    MEDIATOR_SERVER_HOST = input_mediator_server_ip
-
     server = Server(LOCAL_SERVER_PORT, LOCAL_SERVER_HOST,
                     LOCAL_SERVER_PORT_COUNT, LOCAL_SERVER_CLIENT_TIMEOUT)
     t = threading.Thread(target=server.start_listen)
