@@ -6,26 +6,15 @@ import sys
 import logging
 import pymysql
 import datetime
-from enum import Enum
 sys.path.append('../../BeFOUND/Network-settings/')
 sys.path.append('../../BeFOUND/Packet-list/')
 sys.path.append('../../BeFOUND/DbManager/')
 from network_settings import *
+from server_request import *
 from packet_list import *
 from connection import Connection
 from program_info import *
 from dbmanager import *
-
-class Request(Enum):
-    ONLINE_USERS = 0
-    ALL_USERS = 1
-    USER_TRACK = 2
-    NEW_USER = 3
-    SET_USER = 4
-    NEW_BUTTON = 5
-    SET_BUTTON = 6
-    DELETE_BUTTON = 7
-    USER_BUTTON = 8
 
 '''Socket multithreading server
 for local server on station for communicating with raspberry(ies)'''
