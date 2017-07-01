@@ -41,6 +41,13 @@ class DbManager:
         s.commit()
         s.close()
 
+    def get_all(self, obj):
+        s = self.__session()
+        find_all = s.query(obj).all()
+        s.close()
+
+        return find_all
+
     def get_by_id(self, obj, id):
         s = self.__session()
         find_row = s.query(obj).get(id)

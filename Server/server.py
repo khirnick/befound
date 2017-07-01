@@ -6,6 +6,7 @@ import sys
 import logging
 import pymysql
 import datetime
+from enum import Enum
 sys.path.append('../../BeFOUND/Network-settings/')
 sys.path.append('../../BeFOUND/Packet-list/')
 sys.path.append('../../BeFOUND/DbManager/')
@@ -15,9 +16,21 @@ from connection import Connection
 from program_info import *
 from dbmanager import *
 
+class Request(Enum):
+    ONLINE_USERS = 0
+    ALL_USERS = 1
+    USER_TRACK = 2
+    NEW_USER = 3
+    SET_USER = 4
+    NEW_BUTTON = 5
+    SET_BUTTON = 6
+    DELETE_BUTTON = 7
+    USER_BUTTON = 8
+
 '''Socket multithreading server
 for local server on station for communicating with raspberry(ies)'''
 class Server:
+
 
     # init server based on port, host, count of listeners, client timeout
     def __init__(self, port, host = "127.0.0.1", port_count = 10,
@@ -138,6 +151,11 @@ class Server:
                     logging.info(log_recv)
                     print(log_recv)
 
+                    #TODO здесь исправить формат передачи. Уточнить какую информацию передавать на ответ
+                    if (self.data[0] == Request.ALL_USERS):
+                        all_users = self.__dbmanager.get_all(UserAb)
+                        client.send(all_users.encode())
+
                     splitted_packet = self.data.split(";")
 
                     user = self.__dbmanager.get_by_id(UserAb, int(splitted_packet[0]))
@@ -152,8 +170,8 @@ class Server:
                                                   "%Y-%m-%d %H:%M:%S.%f"),
                                               alarm_button)
 
-                    #self.__dbmanager.update_time(user)
-                    #self.__dbmanager.update_time(alarm_button)
+                    self.__dbmanager.update_time(user)
+                    self.__dbmanager.update_time(alarm_button)
 
                     self.__dbmanager.add(coordinates)
 
