@@ -2,6 +2,7 @@ import threading
 import paho.mqtt.client as mqtt
 import socket
 import pickle
+import sys
 sys.path.append('../../BeFOUND/Network-settings/')
 
 TOPIC_SUB = 'devices/lora/00'
