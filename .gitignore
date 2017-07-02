@@ -6,6 +6,7 @@ raspi_params
 *.log
 
 __pycache__/
+static/
 
 .directory
 
