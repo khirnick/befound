@@ -8,24 +8,24 @@ from network_settings import *
 
 TOPIC_SUB = 'devices/lora/00'
 
-class LoRaMqttClient():
+class LoRaMqttClient(mqtt.Client):
 
 	def __init__(self):
+		super().__init__()
 		self.lora_udp_client = LoRaUdpClient(MEDIATOR_SERVER_HOST,
 											 MEDIATOR_SERVER_PORT)
 
-		self.client = mqtt.Client()
-		self.client.on_connect = self.on_connect
-		self.client.on_message = self.on_message
+		self.on_connect = self.on_connect_event
+		self.on_message = self.on_message_event
 
-		self.client.connect('localhost', 1883, 60)
-		self.client.loop_forever()
+		self.connect('localhost', 1883, 60)
+		self.loop_forever()
 
-	def on_connect(self, client, userdata, rc, x):
+	def on_connect_event(self, client, userdata, rc, x):
 		print('Connected with result code: ' + str(rc))
-		self.client.subscribe(TOPIC_SUB)
+		self.subscribe(TOPIC_SUB)
 
-	def on_message(self, client, userdata, msg):
+	def on_message_event(self, client, userdata, msg):
 		print(msg.topic + " " + str(msg.payload))
 		self.lora_udp_client.send_data(str(msg.payload))
 
