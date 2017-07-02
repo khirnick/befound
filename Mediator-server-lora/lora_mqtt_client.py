@@ -4,6 +4,7 @@ import socket
 import pickle
 import sys
 sys.path.append('../../BeFOUND/Network-settings/')
+from network_settings import *
 
 TOPIC_SUB = 'devices/lora/00'
 
