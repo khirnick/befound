@@ -44,7 +44,7 @@ class Server:
         self.__client_timeout = client_timeout
         self.__run = False
         self.__connected_clients = []
-        self.__dbmanager = DbManager('befound', '123456', '212.22.85.121', 'befound')
+        #self.__dbmanager = DbManager('befound', '123456', '212.22.85.121', 'befound')
 
         log = '{0} Server init. ADDRESS: {1}, PORT: {2}'.format(
             SERVER_NAME,
@@ -146,7 +146,7 @@ class Server:
                         client.send(all_users.encode())
 
                     splitted_packet = self.data.split(";")
-
+                    '''
                     user = self.__dbmanager.get_by_id(UserAb, int(splitted_packet[0]))
                     alarm_button = self.__dbmanager.get_by_id(
                         AlarmButton, int(splitted_packet[1]))
@@ -163,6 +163,7 @@ class Server:
                     self.__dbmanager.update_time(alarm_button)
 
                     self.__dbmanager.add(coordinates)
+                    '''
 
             except socket.timeout:
                 log_ex = 'Client timeout. ADDRESS: {0}, PORT: {1}'.format(addr[0],
