@@ -22,12 +22,14 @@ class LoRaMqttClient(mqtt.Client):
 		self.loop_forever()
 
 	def on_connect_event(self, client, userdata, rc, x):
-		print('Connected with result code: ' + str(rc))
+		print('Connected with code: ' + str(rc['session present']))
 		self.subscribe(TOPIC_SUB)
 
 	def on_message_event(self, client, userdata, msg):
-		print(msg.topic + " " + str(msg.payload))
-		self.lora_udp_client.send_data(str(msg.payload))
+		message = msg.payload.decode('utf-8')
+
+		self.lora_udp_client.send_data(message)
+		print("Topic: {}, message: <{}>".format(msg.topic, message))
 
 class LoRaUdpClient():
 
