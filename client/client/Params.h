@@ -2,6 +2,8 @@
 
 const double VERSION = 1.0;
 
+const int CARRIER_ID = 1;
+
 const int GPS_RX = 0;
 const int GPS_TX = 1;
 
