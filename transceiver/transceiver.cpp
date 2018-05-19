@@ -10,6 +10,8 @@
 
 #include "RasPiBoards.h"
 
+#include "easywsclient/easywsclient.cpp"
+
 // RF_95 configuration
 #define RF_FREQUENCY  868.00
 #define RF_NODE_ID    80
@@ -27,7 +29,7 @@ void sig_handler(int sig)
 int main (int argc, const char* argv[] )
 {
   unsigned long led_blink = 0;
-  
+
   signal(SIGINT, sig_handler);
   printf( "%s\n", __BASEFILE__);
 
@@ -46,7 +48,7 @@ int main (int argc, const char* argv[] )
   bcm2835_gpio_set_pud(RF_IRQ_PIN, BCM2835_GPIO_PUD_DOWN);
   bcm2835_gpio_ren(RF_IRQ_PIN);
 #endif
-  
+
 #ifdef RF_RST_PIN
   pinMode(RF_RST_PIN, OUTPUT);
   digitalWrite(RF_RST_PIN, LOW );
@@ -62,7 +64,7 @@ int main (int argc, const char* argv[] )
   if (!rf95.init()) {
     fprintf( stderr, "\nRF95 module init failed, Please verify wiring/module\n" );
   } else {
- 
+
     rf95.setTxPower(14, false);
     rf95.setFrequency(RF_FREQUENCY);
     rf95.setThisAddress(RF_NODE_ID);
@@ -74,13 +76,13 @@ int main (int argc, const char* argv[] )
     printf( "Configurating LoRa successed\n" );
 
     while (!force_exit) {
-      
+
 #ifdef RF_IRQ_PIN
       if (bcm2835_gpio_eds(RF_IRQ_PIN)) {
         bcm2835_gpio_set_eds(RF_IRQ_PIN);
 #endif
 
-        if (rf95.available()) { 
+        if (rf95.available()) {
 #ifdef RF_LED_PIN
           led_blink = millis();
           digitalWrite(RF_LED_PIN, HIGH);
@@ -92,7 +94,7 @@ int main (int argc, const char* argv[] )
           uint8_t id   = rf95.headerId();
           uint8_t flags= rf95.headerFlags();;
           int8_t rssi  = rf95.lastRssi();
-          
+
           if (rf95.recv(buf, &len)) {
             printf("Packet received | Len: %02d; From node id %d; RSSI: %ddB; Packet: ", len, from, to, rssi);
 
@@ -102,11 +104,11 @@ int main (int argc, const char* argv[] )
           }
           printf("\n");
         }
-        
+
 #ifdef RF_IRQ_PIN
       }
 #endif
-      
+
 #ifdef RF_LED_PIN
       if (led_blink && millis()-led_blink>200) {
         led_blink = 0;
@@ -125,4 +127,3 @@ int main (int argc, const char* argv[] )
   bcm2835_close();
   return 0;
 }
-

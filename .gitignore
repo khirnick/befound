@@ -4,6 +4,7 @@
 *.out
 Debug/
 RadioHead/
+easywsclient/
 __vm/
 *.vcxproj
 *.vcxproj.filters

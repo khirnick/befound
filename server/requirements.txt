@@ -1,0 +1,7 @@
+aioredis==1.1.0
+async-timeout==2.0.1
+hiredis==0.2.0
+pymemcache==1.4.4
+redis==2.10.6
+six==1.11.0
+tornado==5.0.2
