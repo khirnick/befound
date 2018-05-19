@@ -14,8 +14,6 @@ all: transceiver
 RasPi.o: $(RADIOHEADBASE)/RHutil/RasPi.cpp
 				$(CC) $(CFLAGS) -c $(RADIOHEADBASE)/RHutil/RasPi.cpp $(INCLUDE)
 
-transceiver.o: transceiver.cpp
-				$(CC) $(CFLAGS) -c $(INCLUDE) $<
 
 RH_RF95.o: $(RADIOHEADBASE)/RH_RF95.cpp
 				$(CC) $(CFLAGS) -c $(INCLUDE) $<
@@ -37,7 +35,10 @@ RHGenericSPI.o: $(RADIOHEADBASE)/RHGenericSPI.cpp
 
 easywsclient.o: easywsclient.cpp easywsclient.hpp
 
-transceiver: transceiver.o RH_RF95.o RasPi.o RHHardwareSPI.o RHGenericDriver.o RHGenericSPI.o RHSPIDriver.o
+transceiver.o: transceiver.cpp easywsclient.cpp easywsclient.hpp
+				$(CC) $(CFLAGS) -c $(INCLUDE) $<
+
+transceiver: transceiver.o easywsclient.o RH_RF95.o RasPi.o RHHardwareSPI.o RHGenericDriver.o RHGenericSPI.o RHSPIDriver.o
 				$(CC) $^ $(LIBS) -o transceiver.out
 
 clean:

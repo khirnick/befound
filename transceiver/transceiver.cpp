@@ -21,6 +21,7 @@
 RH_RF95 rf95(RF_CS_PIN, RF_IRQ_PIN);
 
 using easywsclient::WebSocket;
+static WebSocket::pointer ws = NULL;
 
 volatile sig_atomic_t force_exit = false;
 
@@ -38,7 +39,7 @@ int main (int argc, const char* argv[] )
   printf( "%s\n", __BASEFILE__);
 
   if (!bcm2835_init()) {
-    fprintf( stderr, "%s bcm2835_init() Failed\n\n", __BASEFILE__ );
+    fprintf( stderr, "%s bcm2835_init() Failed\n", __BASEFILE__ );
     return 1;
   }
 
@@ -76,7 +77,7 @@ int main (int argc, const char* argv[] )
     rf95.setPromiscuous(true);
     rf95.setModeRx();
 
-    WebSocket::pointer ws = WebSocket::from_url("ws://localhost:8888/ws");
+    ws = WebSocket::from_url("ws://192.168.1.226:8888/ws");
 
     printf( "NodeI ID: %d; Freq: %3.2fMHz\n", RF_NODE_ID, RF_FREQUENCY );
     printf( "Configurating LoRa successed\n" );
@@ -106,6 +107,9 @@ int main (int argc, const char* argv[] )
             printbuffer(buf, len);
 
             ws->send("HHH");
+if (ws->getReadyState() != WebSocket::CLOSED) {
+      ws->poll();
+}
           } else {
             printf("Error while receiving\n");
           }
@@ -117,7 +121,7 @@ int main (int argc, const char* argv[] )
       }
 #endif
 
-    delete ws;
+//    delete ws;
 
 #ifdef RF_LED_PIN
       if (led_blink && millis()-led_blink>200) {
