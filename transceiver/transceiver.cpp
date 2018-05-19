@@ -10,7 +10,7 @@
 
 #include "RasPiBoards.h"
 
-#include "easywsclient/easywsclient.cpp"
+#include "easywsclient/easywsclient.hpp"
 
 // RF_95 configuration
 #define RF_FREQUENCY  868.00
