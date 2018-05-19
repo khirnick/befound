@@ -110,9 +110,12 @@ int main (int argc, const char* argv[] )
           printf("\n");
         }
 
+
 #ifdef RF_IRQ_PIN
       }
 #endif
+
+    delete ws;
 
 #ifdef RF_LED_PIN
       if (led_blink && millis()-led_blink>200) {
@@ -130,6 +133,5 @@ int main (int argc, const char* argv[] )
 #endif
   printf( "\n%s Ending\n", __BASEFILE__ );
   bcm2835_close();
-  delete ws;
   return 0;
 }
