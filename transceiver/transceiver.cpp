@@ -10,13 +10,17 @@
 
 #include "RasPiBoards.h"
 
-#include "easywsclient/easywsclient.hpp"
+#include <assert.h>
+#include <string>
+#include "easywsclient.hpp"
 
 // RF_95 configuration
 #define RF_FREQUENCY  868.00
 #define RF_NODE_ID    80
 
 RH_RF95 rf95(RF_CS_PIN, RF_IRQ_PIN);
+
+using easywsclient::WebSocket;
 
 volatile sig_atomic_t force_exit = false;
 
@@ -72,7 +76,6 @@ int main (int argc, const char* argv[] )
     rf95.setPromiscuous(true);
     rf95.setModeRx();
 
-    using easywsclient::WebSocket;
     WebSocket::pointer ws = WebSocket::from_url("ws://localhost:8888/ws");
 
     printf( "NodeI ID: %d; Freq: %3.2fMHz\n", RF_NODE_ID, RF_FREQUENCY );

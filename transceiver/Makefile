@@ -35,6 +35,8 @@ RHGenericDriver.o: $(RADIOHEADBASE)/RHGenericDriver.cpp
 RHGenericSPI.o: $(RADIOHEADBASE)/RHGenericSPI.cpp
 				$(CC) $(CFLAGS) -c $(INCLUDE) $<
 
+easywsclient.o: easywsclient.cpp easywsclient.hpp
+
 transceiver: transceiver.o RH_RF95.o RasPi.o RHHardwareSPI.o RHGenericDriver.o RHGenericSPI.o RHSPIDriver.o
 				$(CC) $^ $(LIBS) -o transceiver.out
 
