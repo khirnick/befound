@@ -72,6 +72,10 @@ int main (int argc, const char* argv[] )
     rf95.setPromiscuous(true);
     rf95.setModeRx();
 
+    using easywsclient::WebSocket;
+    WebSocket::pointer ws = WebSocket::from_url("ws://localhost:8888/ws");
+    assert(ws);
+
     printf( "NodeI ID: %d; Freq: %3.2fMHz\n", RF_NODE_ID, RF_FREQUENCY );
     printf( "Configurating LoRa successed\n" );
 
@@ -97,10 +101,11 @@ int main (int argc, const char* argv[] )
 
           if (rf95.recv(buf, &len)) {
             printf("Packet received | Len: %02d; From node id %d; RSSI: %ddB; Packet: ", len, from, to, rssi);
-
             printbuffer(buf, len);
+
+            ws->send("HHH")
           } else {
-            Serial.print("receive failed");
+            printf("Error while receiving\n");
           }
           printf("\n");
         }
@@ -125,5 +130,6 @@ int main (int argc, const char* argv[] )
 #endif
   printf( "\n%s Ending\n", __BASEFILE__ );
   bcm2835_close();
+  delete ws;
   return 0;
 }
