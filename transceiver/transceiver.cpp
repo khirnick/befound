@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
+#include <iostream>
 
 #include <RH_RF95.h>
 
@@ -21,6 +22,7 @@ RH_RF95 rf95(RF_CS_PIN, RF_IRQ_PIN);
 
 using easywsclient::WebSocket;
 static WebSocket::pointer ws = NULL;
+static const string SERVER_WS_URL = "ws://192.168.1.226:8888/ws"
 
 volatile sig_atomic_t force_exit = false;
 
@@ -29,6 +31,8 @@ void sig_handler(int sig)
   printf("\n%s Break received, exiting!\n", __BASEFILE__);
   force_exit=true;
 }
+
+using namespace std;
 
 int main (int argc, const char* argv[] )
 {
@@ -76,7 +80,7 @@ int main (int argc, const char* argv[] )
     rf95.setPromiscuous(true);
     rf95.setModeRx();
 
-    ws = WebSocket::from_url("ws://192.168.1.226:8888/ws");
+    ws = WebSocket::from_url(SERVER_WS_URL);
 
     printf( "NodeI ID: %d; Freq: %3.2fMHz\n", RF_NODE_ID, RF_FREQUENCY );
     printf( "Configurating LoRa successed\n" );
@@ -105,10 +109,15 @@ int main (int argc, const char* argv[] )
             printf("Packet received | Len: %02d; From node id %d; RSSI: %ddB; Packet: ", len, from, to, rssi);
             printbuffer(buf, len);
 
-            ws->send("HHH");
-if (ws->getReadyState() != WebSocket::CLOSED) {
-      ws->poll();
-}
+            string s;
+            s.assign(buf, buf + sizeof(buf));
+
+            cout << s;
+
+            ws->send(s);
+            if (ws->getReadyState() != WebSocket::CLOSED) {
+                  ws->poll();
+            }
           } else {
             printf("Error while receiving\n");
           }
@@ -137,6 +146,7 @@ if (ws->getReadyState() != WebSocket::CLOSED) {
   digitalWrite(RF_LED_PIN, LOW );
 #endif
   printf( "\n%s Ending\n", __BASEFILE__ );
+  delete ws;
   bcm2835_close();
   return 0;
 }
