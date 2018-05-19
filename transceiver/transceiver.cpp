@@ -74,7 +74,6 @@ int main (int argc, const char* argv[] )
 
     using easywsclient::WebSocket;
     WebSocket::pointer ws = WebSocket::from_url("ws://localhost:8888/ws");
-    assert(ws);
 
     printf( "NodeI ID: %d; Freq: %3.2fMHz\n", RF_NODE_ID, RF_FREQUENCY );
     printf( "Configurating LoRa successed\n" );
@@ -103,7 +102,7 @@ int main (int argc, const char* argv[] )
             printf("Packet received | Len: %02d; From node id %d; RSSI: %ddB; Packet: ", len, from, to, rssi);
             printbuffer(buf, len);
 
-            ws->send("HHH")
+            ws->send("HHH");
           } else {
             printf("Error while receiving\n");
           }
