@@ -3,7 +3,6 @@
 #include <signal.h>
 #include <unistd.h>
 
-#include <RH_RF69.h>
 #include <RH_RF95.h>
 
 #define BOARD_LORASPI
@@ -12,7 +11,7 @@
 
 #include <assert.h>
 #include <string>
-#include "easywsclient.hpp"
+#include "easywsclient/easywsclient.hpp"
 
 // RF_95 configuration
 #define RF_FREQUENCY  868.00

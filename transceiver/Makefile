@@ -7,13 +7,13 @@ CC            = g++
 CFLAGS        = -DRASPBERRY_PI -DBCM2835_NO_DELAY_COMPATIBILITY -D__BASEFILE__=\"$*\"
 LIBS          = -lbcm2835
 RADIOHEADBASE = RadioHead/
+EASYWSCLIENTBASE = easywsclient/
 INCLUDE       = -I$(RADIOHEADBASE)
 
 all: transceiver
 
 RasPi.o: $(RADIOHEADBASE)/RHutil/RasPi.cpp
 				$(CC) $(CFLAGS) -c $(RADIOHEADBASE)/RHutil/RasPi.cpp $(INCLUDE)
-
 
 RH_RF95.o: $(RADIOHEADBASE)/RH_RF95.cpp
 				$(CC) $(CFLAGS) -c $(INCLUDE) $<
@@ -33,9 +33,9 @@ RHGenericDriver.o: $(RADIOHEADBASE)/RHGenericDriver.cpp
 RHGenericSPI.o: $(RADIOHEADBASE)/RHGenericSPI.cpp
 				$(CC) $(CFLAGS) -c $(INCLUDE) $<
 
-easywsclient.o: easywsclient.cpp easywsclient.hpp
+easywsclient.o: $(EASYWSCLIENTBASE)/easywsclient.cpp $(EASYWSCLIENTBASE)/easywsclient.hpp
 
-transceiver.o: transceiver.cpp easywsclient.cpp easywsclient.hpp
+transceiver.o: transceiver.cpp $(EASYWSCLIENTBASE)/easywsclient.cpp $(EASYWSCLIENTBASE)/easywsclient.hpp
 				$(CC) $(CFLAGS) -c $(INCLUDE) $<
 
 transceiver: transceiver.o easywsclient.o RH_RF95.o RasPi.o RHHardwareSPI.o RHGenericDriver.o RHGenericSPI.o RHSPIDriver.o
