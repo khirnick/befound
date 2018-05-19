@@ -10,7 +10,7 @@ class DataHandlerWebSocket(websocket.WebSocketHandler):
         print("connection openned")
 
     def on_message(self, message):
-        print("message come: {0}".format(type(message)))
+        print("message come: {0}".format(message))
 
     def on_close(self):
         print("connection closed")

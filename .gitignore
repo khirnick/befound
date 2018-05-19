@@ -2,7 +2,10 @@
 *.sln
 *.o
 *.out
+easywsclient.cpp
+easywsclient.hpp
 Debug/
+.idea/
 RadioHead/
 easywsclient/
 __vm/
