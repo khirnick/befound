@@ -8,6 +8,7 @@ Debug/
 .idea/
 RadioHead/
 easywsclient/
+__pycache__/
 __vm/
 *.vcxproj
 *.vcxproj.filters
