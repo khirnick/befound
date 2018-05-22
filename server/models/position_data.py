@@ -1,5 +1,6 @@
-import settings
 from sqlalchemy import Column, Integer, String, Float
+
+import settings
 
 
 class PositionData(settings.Base):

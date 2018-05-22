@@ -1,10 +1,10 @@
 import pickle
-
-from celery import Celery
 import redis
 
+from celery import Celery
+
 import settings
-from models.position_data import PositionData, add_position_data
+from models.position_data import add_position_data
 
 
 app = Celery('database_data_transfer', broker=settings.CELERY_BROKER_URL)
@@ -12,7 +12,8 @@ app = Celery('database_data_transfer', broker=settings.CELERY_BROKER_URL)
 
 @app.on_after_configure.connect
 def setup_periodic_tasks(sender, **kwargs):
-    sender.add_periodic_task(3.0, transfer_data.s(), name='every 10 sec')
+    sender.add_periodic_task(settings.CELERY_DATABASE_DATA_TRANSFER_TIMEOUT, transfer_data,
+                             name='database_data_transfer_every_30_seconds')
 
 
 @app.task
@@ -29,6 +30,9 @@ def transfer_data():
         pipe.delete(key)
 
     position_data_pipe_result = pipe.execute()
+
+    if not position_data_pipe_result:
+        return
 
     position_data_list = []
 
