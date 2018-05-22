@@ -9,6 +9,8 @@ Debug/
 RadioHead/
 easywsclient/
 __pycache__/
+commands.txt
+celerybeat-schedule
 __vm/
 *.vcxproj
 *.vcxproj.filters

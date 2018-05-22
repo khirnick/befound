@@ -1,7 +1,7 @@
 import pickle
-import pymemcache
-
 from tornado import websocket
+
+import settings
 
 
 class PositionDataWebSocketHandler(websocket.WebSocketHandler):
@@ -35,7 +35,8 @@ class PositionDataWebSocketHandler(websocket.WebSocketHandler):
         serialized_pd = pickle.dumps(pd)
 
         await self.redis_bucket_connection_pool.execute('rpush', pd_id, serialized_pd)
-        await self.redis_actual_connection_pool.execute('set', pd_id, serialized_pd)
+        await self.redis_actual_connection_pool.execute('setex', pd_id, settings.REDIS_ACTUAL_EXPIRE_SECONDS,
+                                                        serialized_pd)
 
     @staticmethod
     def get_position_data_without_id_dict(message):
