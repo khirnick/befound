@@ -37,6 +37,8 @@
             };
 
             $('#send').click(function (e) {
+                carrier_id = document.getElementById('carrier_id').value;
+                alert(carrier_id)
                 intervalID = setInterval(function(){
                     ws.send(JSON.stringify({
                         "carrier_id": carrier_id
