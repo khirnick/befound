@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block styles %}
+    <link href="{% static 'css/position_monitoring_style.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div class="row position-data">
+        <input id="carrier_id" placeholder="Введите ID носителя" class="position-data-carrier-input"/>
+        <button class="btn btn-small waves-effect position-data-control-btn" id="send">Начать мониторинг местоположения</button>
+        <button class="btn btn-small waves-effect position-data-control-btn" id="stop">Закончить мониторинг</button>
+        <p id="position-data-alarm-warning"></p>
+    </div>
+    <div id="map"></div>
+{% endblock %}
+
+{% block script_block %}
+    <script>
+        $(document).ready(function () {
+            var ws_path = "/ws/position_data/";
+            var ws = new WebSocket("ws://" + window.location.host + ws_path);
+
+            var carrier_id = 1;
+
+            var intervalID;
+
+            ws.onmessage = function (msg) {
+                var data = JSON.parse(msg.data);
+                document.getElementById("position_data_output").innerText += "Long: " + data.long + "; Lat: " + data.lat + "; Ab:" +  data.ab + "\n";
+                marker.setPosition({lat: data.lat, lng: data.long});
+
+                if (data.ab === '1') {
+                    document.getElementById("position-data-alarm-warning").innerText = "Носитель (ID: " + data.carrier_id + ") нажал тревожную кнопку!";
+                }
+            };
+
+            $('#send').click(function (e) {
+                intervalID = setInterval(function(){
+                    ws.send(JSON.stringify({
+                        "carrier_id": carrier_id
+                    }))}, 3000);
+            })
+
+            $('#stop').click(function (e) {
+                clearInterval(intervalID);
+                document.getElementById("position-data-alarm-warning").innerText = "";
+            })
+        })
+    </script>
+        <script>
+      var map;
+      var marker;
+      function initMap() {
+          var infoWindow = new google.maps.InfoWindow({
+                content: "GPS Data"
+          });
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: -34.397, lng: 150.644},
+          zoom: 8
+        });
+
+        marker =  new google.maps.Marker({position: {lat: -34.397, lng: 150.644}, map: map, title: 'HW'});
+
+        google.maps.event.addListener(marker, 'click', function () {
+            infoWindow.setContent(marker.getPosition().lat() + " " + marker.getPosition().lng());
+            infoWindow.open(map, marker);
+        });
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdxTNqg_92FVCewVV2LVdZ4FLWp1CSsqA&callback=initMap"
+    async defer></script>
+
+{% endblock %}

@@ -8,6 +8,7 @@ Debug/
 .idea/
 RadioHead/
 easywsclient/
+static/
 __pycache__/
 commands.txt
 celerybeat-schedule

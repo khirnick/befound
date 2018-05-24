@@ -1,9 +1,16 @@
-from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy import Column, Integer, String, Float, create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import session
 
 import settings
 
 
-class PositionData(settings.Base):
+engine = create_engine(settings.POSTGRES_URL)
+Session = session.sessionmaker(engine)
+Base = declarative_base()
+
+
+class PositionData(Base):
     __tablename__ = 'position_data'
 
     id = Column(Integer, primary_key=True)
@@ -21,14 +28,17 @@ class PositionData(settings.Base):
         self.alarm_button = alarm_button
 
 
-settings.Base.metadata.create_all(settings.engine)
+Base.metadata.create_all(engine)
 
 
 def add_position_data(carrier_id, longitude, latitude, speed, alarm_buttom):
-    settings.session.add(PositionData(carrier_id, longitude, latitude, speed, alarm_buttom))
-    settings.session.commit()
-    settings.session.close()
+    postgres_engine = create_engine(settings.POSTGRES_URL)
+    session_class = session.sessionmaker(postgres_engine)
+    s = session_class()
 
+    s.add(PositionData(carrier_id, longitude, latitude, speed, alarm_buttom))
+    s.commit()
+    s.close()
 
 
 
