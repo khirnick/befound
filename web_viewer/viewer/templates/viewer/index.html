@@ -8,70 +8,94 @@
 
 {% block content %}
     <div class="row position-data">
-        <input id="carrier_id" placeholder="Введите ID носителя" class="position-data-carrier-input"/>
-        <button class="btn btn-small waves-effect position-data-control-btn" id="send">Начать мониторинг местоположения</button>
-        <button class="btn btn-small waves-effect position-data-control-btn" id="stop">Закончить мониторинг</button>
-        <p id="position-data-alarm-warning"></p>
+        <input id="position-data-carrier-id" placeholder="Введите ID носителя" class="position-data-carrier-input"/>
+        <button class="btn btn-small waves-effect position-data-control-btn" id="start-getting-position-data">Начать мониторинг местоположения</button>
+        <button class="btn btn-small waves-effect position-data-control-btn" id="stop-getting-position-data">Закончить мониторинг</button>
+        <p id="position-data-info"></p>
     </div>
-    <div id="map"></div>
+    <div class="row position-data">
+        <div id="position-data-long" class="col s3"></div>
+        <div id="position-data-lat" class="col s3"></div>
+        <div id="position-data-spd" class="col s3"></div>
+        <div id="position-data-ab" class="col s3"></div>
+    </div>
+    <div class="row map-display">
+        <div class="map" id="map"></div>
+    </div>
 {% endblock %}
 
 {% block script_block %}
     <script>
-        $(document).ready(function () {
-            var ws_path = "/ws/position_data/";
-            var ws = new WebSocket("ws://" + window.location.host + ws_path);
+        const abWarning = '1';
 
-            var carrier_id = 1;
+        let ws_path = "/ws/position_data/";
+        let ws = new WebSocket("ws://" + window.location.host + ws_path);
 
-            var intervalID;
+        let carrierID;
+        let intervalID;
 
-            ws.onmessage = function (msg) {
-                var data = JSON.parse(msg.data);
-                document.getElementById("position_data_output").innerText += "Long: " + data.long + "; Lat: " + data.lat + "; Ab:" +  data.ab + "\n";
-                marker.setPosition({lat: data.lat, lng: data.long});
+        ws.onmessage = function (message) {
+            let parsedMessage = JSON.parse(message.data);
 
-                if (data.ab === '1') {
-                    document.getElementById("position-data-alarm-warning").innerText = "Носитель (ID: " + data.carrier_id + ") нажал тревожную кнопку!";
-                }
-            };
-
-            $('#send').click(function (e) {
-                carrier_id = document.getElementById('carrier_id').value;
-                alert(carrier_id)
-                intervalID = setInterval(function(){
-                    ws.send(JSON.stringify({
-                        "carrier_id": carrier_id
-                    }))}, 3000);
-            })
-
-            $('#stop').click(function (e) {
+            if (parsedMessage.unavailable) {
                 clearInterval(intervalID);
-                document.getElementById("position-data-alarm-warning").innerText = "";
-            })
-        })
+                document.getElementById('position-data-info').innerText = "Носитель недоступен (оффлайн)";
+
+                return;
+            }
+
+            actualPositionDataMarker.setPosition({lat: parseFloat(parsedMessage.lat),
+                lng: parseFloat(parsedMessage.long)});
+
+            if (parsedMessage.ab === abWarning) {
+                document.getElementById('position-data-info').innerText =
+                    "Носитель (ID: " + parsedMessage.carrier_id + ") нажал тревожную кнопку!";
+            }
+        };
+
+        $('#start-getting-position-data').click(function (e) {
+            carrierID = document.getElementById('position-data-carrier-id').value;
+
+            intervalID = setInterval(function(){
+                ws.send(JSON.stringify({
+                    "carrier_id": carrierID
+                }))}, 3000);
+        });
+
+        $('#stop-getting-position-data').click(function (e) {
+            clearInterval(intervalID);
+            document.getElementById("position-data-info").innerText = "";
+        });
     </script>
         <script>
-      var map;
-      var marker;
-      function initMap() {
-          var infoWindow = new google.maps.InfoWindow({
-                content: "GPS Data"
-          });
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: -34.397, lng: 150.644},
-          zoom: 8
-        });
+            let googleMap;
+            let actualPositionDataMarker;
 
-        marker =  new google.maps.Marker({position: {lat: -34.397, lng: 150.644}, map: map, title: 'HW'});
+            function initMap() {
+                const gpsMarkerInfoWindow = new google.maps.InfoWindow();
 
-        google.maps.event.addListener(marker, 'click', function () {
-            infoWindow.setContent(marker.getPosition().lat() + " " + marker.getPosition().lng());
-            infoWindow.open(map, marker);
-        });
-      }
-    </script>
+                googleMap = new google.maps.Map(document.getElementById('map'), {
+                    center: {lat: 55.679768, lng: 37.854252},
+                    zoom: 8
+                });
+
+                actualPositionDataMarker =  new google.maps.Marker({
+                    position: {lat: 0, lng: 0},
+                    map: googleMap
+                });
+
+                google.maps.event.addListener(actualPositionDataMarker, 'click', function () {
+                    let actualPositionDataInfoWindowContent = actualPositionDataMarker.getPosition().lat() + " " +
+                        actualPositionDataMarker.getPosition().lng();
+
+                    gpsMarkerInfoWindow.setContent(actualPositionDataInfoWindowContent);
+                    gpsMarkerInfoWindow.open(googleMap, actualPositionDataMarker);
+                });
+            }
+        </script>
+
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdxTNqg_92FVCewVV2LVdZ4FLWp1CSsqA&callback=initMap"
-    async defer></script>
+            async defer>
+    </script>
 
 {% endblock %}

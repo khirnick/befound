@@ -15,9 +15,15 @@ class PositionDataConsumer(WebsocketConsumer):
         carrier_id = json.loads(text_data)['carrier_id']
         r = redis.StrictRedis(db=2)
         raw_data = r.get(carrier_id)
-        data = pickle.loads(raw_data)
 
-        print(data)
+        if raw_data is None:
+            self.send(text_data=json.dumps({
+                'unavailable': True
+            }))
+
+            return
+
+        data = pickle.loads(raw_data)
 
         self.send(text_data=json.dumps({
             'carrier_id': data['id'],

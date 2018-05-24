@@ -34,6 +34,8 @@ class PositionDataWebSocketHandler(websocket.WebSocketHandler):
 
         serialized_pd = pickle.dumps(pd)
 
+        print(pd)
+
         await self.redis_bucket_connection_pool.execute('rpush', pd_id, serialized_pd)
         await self.redis_actual_connection_pool.execute('setex', pd_id, settings.REDIS_ACTUAL_EXPIRE_SECONDS,
                                                         serialized_pd)
@@ -41,7 +43,7 @@ class PositionDataWebSocketHandler(websocket.WebSocketHandler):
     @staticmethod
     def get_position_data_without_id_dict(message):
         splitted_msg = message.split(';')
-        return {'id': splitted_msg[0], 'long': splitted_msg[1], 'lat': splitted_msg[2],
+        return {'id': splitted_msg[0], 'lat': splitted_msg[1], 'long': splitted_msg[2],
                 'spd': splitted_msg[3], 'ab': splitted_msg[4]}
 
     @classmethod
