@@ -63,15 +63,17 @@
                 "<div class='row'>" +
                     "<h6>Route #" +
                         routes.length +
+                        " (Carrier: " + parsedMessage.carrier['first_name'] +
+                        " " + parsedMessage.carrier['last_name'] + ")" +
                     "</h6>" +
                     "<p class='col s3'>" +
-                        "Avg speed: " + parsedMessage.avg_speed +
+                        "Avg speed: " + parsedMessage.avg_speed + "km/h" +
                     "</p>" +
                     "<p class='col s3'>" +
-                        "Min speed: " + parsedMessage.min_speed +
+                        "Min speed: " + parsedMessage.min_speed + "km/h" +
                     "</p>" +
                     "<p class='col s3'>" +
-                        "Max speed: " + parsedMessage.max_speed +
+                        "Max speed: " + parsedMessage.max_speed + "km/h" +
                     "</p>" +
                     "<p class='col s3'>" +
                         "Total count of coords:" + parsedMessage.total_count_of_coordinates_for_carrier_id +

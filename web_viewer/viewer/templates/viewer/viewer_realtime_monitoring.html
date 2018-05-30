@@ -13,6 +13,7 @@
         <button class="btn btn-small waves-effect position-data-control-btn" id="stop-getting-position-data">Stop monitoring position</button>
         <p id="position-data-info"></p>
     </div>
+    <div class="row" id="position-data-carrier"></div>
     <div class="row position-data-current">
         <div id="position-data-long" class="col s3"></div>
         <div id="position-data-lat" class="col s3"></div>
@@ -30,6 +31,7 @@
         let current_spd = document.getElementById('position-data-spd');
         let current_ab = document.getElementById('position-data-ab');
 
+        let position_data_carrier = document.getElementById('position-data-carrier');
         let position_data_info = document.getElementById('position-data-info');
 
         let ws_path = "/ws/position_data/";
@@ -61,6 +63,10 @@
             actualPositionDataMarker.setPosition({lat: parseFloat(parsedMessage.lat),
                 lng: parseFloat(parsedMessage.long)});
 
+            position_data_carrier.innerText = "Carrier: " + parsedMessage.carrier['first_name'] +
+                " " + parsedMessage.carrier['last_name'] + "(" + parsedMessage.carrier['age'] + " " +
+                parsedMessage.carrier['gender'] + ")";
+
             current_long.innerText = "Current longitude: " + parsedMessage.long;
             current_lat.innerText = "Current latitude: " + parsedMessage.lat;
             current_spd.innerText = "Current speed: " + parsedMessage.spd + "km/h";
@@ -68,7 +74,8 @@
         };
 
         $('#start-getting-position-data').click(function (e) {
-            current_long.innerText = current_lat.innerText = current_spd.innerText = current_ab.innerText = "";
+            current_long.innerText = current_lat.innerText = current_spd.innerText = current_ab.innerText =
+                position_data_carrier.innerText = "";
 
             carrier_id = document.getElementById('position-data-carrier-id').value;
 

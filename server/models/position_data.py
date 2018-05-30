@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, create_engine, ForeignKey
+from sqlalchemy import Column, Integer, String, Float, create_engine, ForeignKey, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import session, relationship
 
@@ -21,6 +21,7 @@ class Carrier(Base):
     email = Column('email', String(50), nullable=True)
     phone = Column('phone', String(20))
     blood_type = Column('blood_type', String(5))
+    register_date = Column('register_date', DateTime)
 
     position_data = relationship('PositionData')
 

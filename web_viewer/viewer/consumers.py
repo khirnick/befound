@@ -6,7 +6,7 @@ from channels.generic.websocket import WebsocketConsumer
 from django.db.models import Avg, Max, Min
 
 from viewer import settings
-from viewer.models import PositionData
+from viewer.models import PositionData, Carrier
 
 
 class PositionDataConsumer(WebsocketConsumer):
@@ -18,6 +18,7 @@ class PositionDataConsumer(WebsocketConsumer):
 
     def receive(self, text_data=None, bytes_data=None):
         carrier_id = json.loads(text_data)['carrier_id']
+        carrier = Carrier.objects.get(pk=int(carrier_id))
         r = redis.StrictRedis(db=settings.REDIS_ACTUAL_DB_NUM)
         raw_data = r.get(carrier_id)
 
@@ -31,7 +32,7 @@ class PositionDataConsumer(WebsocketConsumer):
         data = pickle.loads(raw_data)
 
         self.send(text_data=json.dumps({
-            'carrier_id': data['id'],
+            'carrier': carrier.get_base_info_dict(),
             'long': data['long'],
             'lat': data['lat'],
             'spd': data['spd'],
@@ -52,6 +53,8 @@ class RouteConsumer(WebsocketConsumer):
 
             carrier_id = int(parsed_income_message['carrier_id'])
             count_of_coordinates = int(parsed_income_message['count_of_coordinates'])
+
+            carrier = Carrier.objects.get(pk=carrier_id)
 
             total_count_of_coordinates_for_carrier_id = PositionData.objects.filter(carrier_id=carrier_id).count()
 
@@ -75,6 +78,7 @@ class RouteConsumer(WebsocketConsumer):
             self.send(text_data=json.dumps({'error': 'Internal server error'}))
         else:
             self.send(text_data=json.dumps({
+                'carrier': carrier.get_base_info_dict(),
                 'coordinates': list(coordinates),
                 'total_count_of_coordinates_for_carrier_id': total_count_of_coordinates_for_carrier_id,
                 'avg_speed': average_speed_on_these_coordinates['speed__avg'],
