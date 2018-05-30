@@ -1,6 +1,6 @@
 #include "GpsProvider.h"
 
-// Константное значение, указывающее на отсутствие данных
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 const String GpsProvider::NONE_DATA = "none";
 
 void GpsProvider::beginSerial() {
@@ -11,38 +11,30 @@ void GpsProvider::beginSerial() {
 	}
 }
 
-// Инициализация значения времени цикла
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 void GpsProvider::initLoopStarted(long loopStarted) {
 	_loopStarted = loopStarted;
 }
 
-// Попытаться получить новые данные с GPS модуля
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ GPS пїЅпїЅпїЅпїЅпїЅпїЅ
 String GpsProvider::tryGetNewData() {
-	if (_gpsCyclesLeftBound != 0) {
-		_gpsCyclesLeft++;
-	}
-
-	while (millis() - _loopStarted < 500) {
+	while (millis() - _loopStarted < 5000) {
 		if (_tryReadGps()) {
 			_newDataCame = true;
 		}
 	}
+ 
+ if (_newDataCame) {
+    _assignGpsData();
+    String gpsDataCoordAgeSpeedRow = getGpsDataCoordAgeSpeedRow();
 
-	if (_gpsCyclesLeft == _gpsCyclesLeftBound) {
-		_gpsCyclesLeft = 0;
-	}
-
-	if (_newDataCame) {
-		_assignGpsData();
-		String gpsDataCoordAgeSpeedRow = getGpsDataCoordAgeSpeedRow();
-
-		return gpsDataCoordAgeSpeedRow;
-	}
+    return gpsDataCoordAgeSpeedRow;
+  }
 
 	return NONE_DATA;
 }
 
-// Получить координаты и скорость в виде строки
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 String GpsProvider::getGpsDataCoordAgeSpeedRow() const {
 	String gpsDataCoordAgeSpeed = GPS_DATA + LATITUDE_INFO;
 	gpsDataCoordAgeSpeed += String(getFLatitude(), 8);
@@ -54,51 +46,47 @@ String GpsProvider::getGpsDataCoordAgeSpeedRow() const {
 	return gpsDataCoordAgeSpeed;
 }
 
-// Получить переменную, указывающую на наличие новых данных
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 bool GpsProvider::getNewDataCame() const {
 	return _newDataCame;
 }
 
-// Получить долготу
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 long GpsProvider::getLatitude() const {
 	return _latitude;
 }
 
-// Получить широту
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 long GpsProvider::getLongitude() const {
 	return _longitude;
 }
 
-// Получить долготу в float-формате
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ float-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 float GpsProvider::getFLatitude() const {
 	return _fLatitude;
 }
 
-// Получить широту в float-формате
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ float-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 float GpsProvider::getFLongitude() const {
 	return _fLongitude;
 }
 
-// Получить значение, указывающее как давно были раскодированы данные от GPS модуля
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ GPS пїЅпїЅпїЅпїЅпїЅпїЅ
 unsigned long GpsProvider::getFixAge() const {
 	return _fixAge;
 }
 
-// Получить скорость в км/ч
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅ/пїЅ
 float GpsProvider::getSpeedKmph() const {
 	return _speedKmph;
 }
 
-// Попытаться прочитать данные с GPS-модуля
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ GPS-пїЅпїЅпїЅпїЅпїЅпїЅ
 bool GpsProvider::_tryReadGps() {
-	if (_gpsCyclesLeft != _gpsCyclesLeftBound) {
-		return false;
-	}
-
 	while (_gpsSerial.available()) {
 		int ch = _gpsSerial.read();
 
-		if (_gps.encode(ch)) {
+		if (_gps.encode(ch)) {      
 			return true;
 		}
 	}
@@ -106,7 +94,7 @@ bool GpsProvider::_tryReadGps() {
 	return false;
 }
 
-// Присвоить раскодированные данные переменным объекта
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 void GpsProvider::_assignGpsData() {
 	_gps.get_position(&_latitude, &_longitude, &_fixAge);
 	_gps.f_get_position(&_fLatitude, &_fLongitude, &_fixAge);
