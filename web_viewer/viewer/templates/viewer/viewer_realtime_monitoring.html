@@ -2,13 +2,9 @@
 
 {% load staticfiles %}
 
-{% block styles_child %}
-    <link href="{% static 'css/position_monitoring_style.css' %}" rel="stylesheet">
-{% endblock %}
-
 {% block content_child %}
     <div class="row position-data">
-        <input id="position-data-carrier-id" placeholder="Введите ID носителя" class="position-data-carrier-input"/>
+        <input id="position-data-carrier-id" placeholder="Введите ID носителя"/>
         <button class="btn btn-small waves-effect position-data-control-btn" id="start-getting-position-data">Начать мониторинг местоположения</button>
         <button class="btn btn-small waves-effect position-data-control-btn" id="stop-getting-position-data">Закончить мониторинг</button>
         <p id="position-data-info"></p>
@@ -18,9 +14,6 @@
         <div id="position-data-lat" class="col s3"></div>
         <div id="position-data-spd" class="col s3"></div>
         <div id="position-data-ab" class="col s3"></div>
-    </div>
-    <div class="row map-display">
-        <div class="map" id="map"></div>
     </div>
 {% endblock %}
 

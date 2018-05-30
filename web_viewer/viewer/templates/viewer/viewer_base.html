@@ -3,11 +3,15 @@
 {% load staticfiles %}
 
 {% block styles %}
+    <link href="{% static 'css/position_style.css' %}" rel="stylesheet">
     {% block styles_child %}{% endblock %}
 {% endblock %}
 
 {% block content %}
     {% block content_child %}{% endblock %}
+    <div class="row map-display">
+        <div class="map" id="map"></div>
+    </div>
 {% endblock %}
 
 {% block script_block %}

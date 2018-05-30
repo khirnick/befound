@@ -1,10 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'viewer/viewer_base.html' %}
 
-</body>
-</html>
+{% load staticfiles %}
+
+{% block content_child %}
+    <div class="row position-data">
+        <input id="count-of-position-data" placeholder="Введите количество координат для постройки маршрута"/>
+        <button class="button btn-small waves-effect position-data-control-btn" id="build-route">Построить маршрут</button>
+    </div>
+{% endblock %}
+
+{% block script_block_child %}
+{% endblock %}
