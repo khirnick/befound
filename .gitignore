@@ -4,6 +4,7 @@
 *.out
 easywsclient.cpp
 easywsclient.hpp
+todo.txt
 Debug/
 .idea/
 RadioHead/

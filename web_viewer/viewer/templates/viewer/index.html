@@ -39,6 +39,8 @@
 
             if (parsedMessage.unavailable) {
                 clearInterval(intervalID);
+                actualPositionDataMarker.setMap(null);
+
                 document.getElementById('position-data-info').innerText = "Носитель недоступен (оффлайн)";
 
                 return;
@@ -56,6 +58,8 @@
         $('#start-getting-position-data').click(function (e) {
             carrierID = document.getElementById('position-data-carrier-id').value;
 
+            actualPositionDataMarker.setMap(googleMap);
+
             intervalID = setInterval(function(){
                 ws.send(JSON.stringify({
                     "carrier_id": carrierID
@@ -64,7 +68,7 @@
 
         $('#stop-getting-position-data').click(function (e) {
             clearInterval(intervalID);
-            document.getElementById("position-data-info").innerText = "";
+            actualPositionDataMarker.setMap(null);
         });
     </script>
         <script>
@@ -81,7 +85,6 @@
 
                 actualPositionDataMarker =  new google.maps.Marker({
                     position: {lat: 0, lng: 0},
-                    map: googleMap
                 });
 
                 google.maps.event.addListener(actualPositionDataMarker, 'click', function () {

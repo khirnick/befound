@@ -3,6 +3,8 @@ import pickle
 
 from channels.generic.websocket import WebsocketConsumer
 
+from viewer import settings
+
 
 class PositionDataConsumer(WebsocketConsumer):
     def connect(self):
@@ -13,7 +15,7 @@ class PositionDataConsumer(WebsocketConsumer):
 
     def receive(self, text_data=None, bytes_data=None):
         carrier_id = json.loads(text_data)['carrier_id']
-        r = redis.StrictRedis(db=2)
+        r = redis.StrictRedis(db=settings.REDIS_ACTUAL_DB_NUM)
         raw_data = r.get(carrier_id)
 
         if raw_data is None:

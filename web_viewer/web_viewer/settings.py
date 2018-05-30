@@ -25,7 +25,7 @@ SECRET_KEY = '301bs5*emr_=+9h0+#x5!@8g2abdc!sj2urn+^0rl)^t*#-+yw'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
