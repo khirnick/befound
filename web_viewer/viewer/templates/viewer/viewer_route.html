@@ -83,7 +83,8 @@
 
             google.maps.event.addListener(route, 'click', function (e) {
                 const routeInfoWindow = new google.maps.InfoWindow();
-                const routeInfoWindowContent = "Route #" + routes.length;
+                const routeInfoWindowContent = "Route #" + routes.length + "; Lat:" + e.latLng['lat']() +
+                    "; Lng: " + e.latLng['lng']();
 
                 routeInfoWindow.setPosition(e.latLng);
                 routeInfoWindow.setContent(routeInfoWindowContent);

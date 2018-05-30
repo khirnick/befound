@@ -38,7 +38,7 @@ class Carrier(models.Model):
 
 
 class PositionData(models.Model):
-    carrier = models.ForeignKey(name='carrier_id', to=Carrier, on_delete=models.CASCADE)
+    carrier = models.ForeignKey(name='carrier', to=Carrier, on_delete=models.CASCADE)
     longitude = models.FloatField(name='longitude')
     latitude = models.FloatField(name='latitude')
     speed = models.FloatField(name='speed')
