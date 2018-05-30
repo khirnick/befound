@@ -4,6 +4,7 @@ import pickle
 from channels.generic.websocket import WebsocketConsumer
 
 from viewer import settings
+from viewer.models import PositionData
 
 
 class PositionDataConsumer(WebsocketConsumer):
@@ -33,4 +34,20 @@ class PositionDataConsumer(WebsocketConsumer):
             'lat': data['lat'],
             'spd': data['spd'],
             'ab': data['ab'],
+        }))
+
+
+class RouteConsumer(WebsocketConsumer):
+    def connect(self):
+        self.accept()
+
+    def disconnect(self, code):
+        pass
+
+    def receive(self, text_data=None, bytes_data=None):
+        count_of_coordinates = int(json.loads(text_data)['count_of_coordinates'])
+        coordinates = PositionData.objects.extra(select={'lng': 'longitude', 'lat': 'latitude'}).values('lat', 'lng').order_by('-id')[0:count_of_coordinates]
+
+        self.send(text_data=json.dumps({
+            'coordinates': list(coordinates)
         }))

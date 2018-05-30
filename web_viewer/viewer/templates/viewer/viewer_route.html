@@ -10,4 +10,22 @@
 {% endblock %}
 
 {% block script_block_child %}
+    <script>
+        let ws_path = "/ws/route/";
+        let ws = new WebSocket("ws://" + window.location.host + ws_path);
+
+        ws.onmessage = function (message) {
+            let parsedMessage = JSON.parse(message.data);
+
+            alert(parsedMessage.coordinates[0]['lat']);
+        };
+
+        $('#build-route').click(function (e) {
+            let count_of_coordinates = document.getElementById('count-of-position-data').value;
+
+            ws.send(JSON.stringify({
+                "count_of_coordinates": count_of_coordinates
+            }));
+        })
+    </script>
 {% endblock %}
