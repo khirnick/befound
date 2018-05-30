@@ -46,4 +46,6 @@ class PositionData(models.Model):
 
     class Meta:
         db_table = 'position_data'
+        verbose_name = verbose_name_plural = 'Position data'
+
 
