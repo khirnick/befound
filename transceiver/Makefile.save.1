@@ -3,17 +3,19 @@
 # Caution: requires bcm2835 library to be already installed
 # http://www.airspayce.com/mikem/bcm2835/
 
-CC            = g++
-CFLAGS        = -DRASPBERRY_PI -DBCM2835_NO_DELAY_COMPATIBILITY -D__BASEFILE__=\"$*\" -std=c++11
+CXXFLAGS = -std=gnu++0x -Wall
+LDLIBS = -lstdc++
+CC            = g++ -std=gnu++0x -Wall
+CFLAGS        = -DRASPBERRY_PI -DBCM2835_NO_DELAY_COMPATIBILITY -D__BASEFILE__=\"$*\"
 LIBS          = -lbcm2835
 RADIOHEADBASE = RadioHead/
-EASYWSCLIENTBASE = easywsclient/
 INCLUDE       = -I$(RADIOHEADBASE)
 
 all: transceiver
 
 RasPi.o: $(RADIOHEADBASE)/RHutil/RasPi.cpp
 				$(CC) $(CFLAGS) -c $(RADIOHEADBASE)/RHutil/RasPi.cpp $(INCLUDE)
+				$(CC) $(CFLAGS) -c $(INCLUDE) $<
 
 RH_RF95.o: $(RADIOHEADBASE)/RH_RF95.cpp
 				$(CC) $(CFLAGS) -c $(INCLUDE) $<
@@ -33,12 +35,12 @@ RHGenericDriver.o: $(RADIOHEADBASE)/RHGenericDriver.cpp
 RHGenericSPI.o: $(RADIOHEADBASE)/RHGenericSPI.cpp
 				$(CC) $(CFLAGS) -c $(INCLUDE) $<
 
-easywsclient.o: $(EASYWSCLIENTBASE)/easywsclient.cpp $(EASYWSCLIENTBASE)/easywsclient.hpp
+easywsclient.o: easywsclient.cpp easywsclient.hpp
 
-transceiver.o: transceiver.cpp $(EASYWSCLIENTBASE)/easywsclient.cpp $(EASYWSCLIENTBASE)/easywsclient.hpp
-				$(CC) $(CFLAGS) -c $(INCLUDE) $<
 
-transceiver: transceiver.o easywsclient.o RH_RF95.o RasPi.o RHHardwareSPI.o RHGenericDriver.o RHGenericSPI.o RHSPIDriver.o
+
+transceiver: transceiver.o easywsclient.hpp RH_RF95.o RasPi.o 
+RHHardwareSPI.o RHGenericDriver.o RHGenericSPI.o RHSPIDriver.o
 				$(CC) $^ $(LIBS) -o transceiver.out
 
 clean:

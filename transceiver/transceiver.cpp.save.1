@@ -7,7 +7,7 @@
 #include <sstream>
 #include <algorithm>
 #include <iterator>
-#include <regex>
+
 #include <RH_RF95.h>
 
 #define BOARD_LORASPI
@@ -82,10 +82,8 @@ int main (int argc, const char* argv[] )
     rf95.setModeRx();
 
     ws = WebSocket::from_url(SERVER_WS_URL);
-    int packet_num = 0;
-    std::regex packet_pattern("([0-9]+);([+-]?([0-9]*[.])?[0-9]+);([+-]?([0-9]*[.])?[0-9]+);([+-]?([0-9]*[.])?[0-9]+);([0-1])");
-    
-    printf( "Node ID: %d; Freq: %3.2fMHz\n", RF_NODE_ID, RF_FREQUENCY );
+
+    printf( "NodeI ID: %d; Freq: %3.2fMHz\n", RF_NODE_ID, RF_FREQUENCY );
     printf( "Configurating LoRa successed\n" );
 
     while (!force_exit) {
@@ -107,28 +105,18 @@ int main (int argc, const char* argv[] )
           uint8_t id   = rf95.headerId();
           uint8_t flags= rf95.headerFlags();;
           int8_t rssi  = rf95.lastRssi();
-	
-	  char buf_char[len];
-
-//std::cout <<std::endl;
-
-	  std::string buf_str = std::string(buf_char);
-	 // std::cout << buf_str;
 
           if (rf95.recv(buf, &len)) {
             printf("Packet received | Len: %02d; From node id %d; RSSI: %ddB; Packet: ", len, from, to, rssi);
             printbuffer(buf, len);
-            
-	    for (int i = 0; i < 32; i++) { 
-	    	buf_char[i] = (char)buf[i];
-            }
-//std::cout  << buf_str << std::endl;
-	    if (std::regex_match(buf_str, packet_pattern) == 1) {
-		            
-  ws->send(buf_str);
-                if (ws->getReadyState() != WebSocket::CLOSED) {
+
+	    std::ostringstream ss;
+            std::copy(buf, buf + sizeof(buf), std::ostream_iterator<char>(ss));
+std::cout << ss.str();
+	    
+            ws->send("H");
+            if (ws->getReadyState() != WebSocket::CLOSED) {
                   ws->poll();
-              }
             }
           } else {
             printf("Error while receiving\n");
@@ -136,10 +124,9 @@ int main (int argc, const char* argv[] )
           printf("\n");
         }
 
-	packet_num++;
+
 #ifdef RF_IRQ_PIN
-      }
-#endif
+      }endif
 
 //    delete ws;
 
