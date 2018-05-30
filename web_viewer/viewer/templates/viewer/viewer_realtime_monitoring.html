@@ -2,6 +2,10 @@
 
 {% load staticfiles %}
 
+{% block styles_child %}
+    <link href="{% static 'css/viewer_realtime_monitoring.css' %}" rel="stylesheet"/>
+{% endblock %}
+
 {% block content_child %}
     <div class="row position-data">
         <input id="position-data-carrier-id" placeholder="Input carrier id"/>
