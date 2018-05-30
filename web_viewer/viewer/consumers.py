@@ -1,5 +1,6 @@
 import json, redis
 import pickle
+from json import JSONDecodeError
 
 from channels.generic.websocket import WebsocketConsumer
 
@@ -45,18 +46,29 @@ class RouteConsumer(WebsocketConsumer):
         pass
 
     def receive(self, text_data=None, bytes_data=None):
-        parsed_income_message = json.loads(text_data)
+        try:
+            parsed_income_message = json.loads(text_data)
 
-        carrier_id = int(parsed_income_message['carrier_id'])
-        count_of_coordinates = int(parsed_income_message['count_of_coordinates'])
+            carrier_id = int(parsed_income_message['carrier_id'])
+            count_of_coordinates = int(parsed_income_message['count_of_coordinates'])
 
-        coordinates = PositionData.objects.extra(select={'lng': 'longitude', 'lat': 'latitude'})\
-            .values('carrier_id', 'lat', 'lng')\
-            .filter(carrier_id=carrier_id)\
-            .order_by('-id')[0:count_of_coordinates]
+            total_count_of_coordinates_for_carrier_id = PositionData.objects.filter(carrier_id=carrier_id).count()
 
-        print(coordinates)
+            coordinates = PositionData.objects.extra(select={'lng': 'longitude', 'lat': 'latitude'})\
+                .values('lat', 'lng')\
+                .filter(carrier_id=carrier_id)\
+                .order_by('-id')[0:count_of_coordinates]
+        except (ValueError, JSONDecodeError) as ex:
+            error_message = ''
 
-        self.send(text_data=json.dumps({
-            'coordinates': list(coordinates)
-        }))
+            if type(ex) == JSONDecodeError:
+                error_message = "Error while decoding json"
+            elif type(ex) == ValueError:
+                error_message = "Invalid input. Input must be a digit"
+
+            self.send(text_data=json.dumps({'error': 'Internal server error'}))
+        else:
+            self.send(text_data=json.dumps({
+                'coordinates': list(coordinates),
+                'total_count_of_coordinates_for_carrier_id': total_count_of_coordinates_for_carrier_id
+            }))

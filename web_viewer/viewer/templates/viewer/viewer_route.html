@@ -4,10 +4,10 @@
 
 {% block content_child %}
     <div class="row position-data">
-        <input id="carrier-id" placeholder="Введите ID носителя"/>
-        <input id="count-of-position-data" placeholder="Введите количество координат для постройки маршрута"/>
-        <button class="button btn-small waves-effect position-data-control-btn" id="build-route">Построить маршрут</button>
-        <button class="button btn-small waves-effect position-data-control-btn" id="clear-route">Очистить маршрут</button>
+        <input id="carrier-id" placeholder="Input carrier id"/>
+        <input id="count-of-position-data" placeholder="Input count of coordinates to build"/>
+        <button class="button btn-small waves-effect position-data-control-btn" id="build-route">Build route</button>
+        <button class="button btn-small waves-effect position-data-control-btn" id="clear-route">Clear route</button>
         <p id="position-data-info"></p>
     </div>
 {% endblock %}
@@ -22,6 +22,13 @@
 
         ws.onmessage = function (message) {
             let parsedMessage = JSON.parse(message.data);
+
+            if (parsedMessage.error) {
+                document.getElementById('position-data-info').innerText = parsedMessage.error;
+
+                return;
+            }
+
             let coordinates = parsedMessage.coordinates;
             let firstCoordinate = coordinates[0];
 
@@ -47,8 +54,11 @@
             let carrier_id = document.getElementById('carrier-id').value;
             let count_of_coordinates = document.getElementById('count-of-position-data').value;
 
-            if (carrier_id === "" || count_of_coordinates === ""){
-                document.getElementById('position-data-info').innerText = "Please, fill all inputs";
+            if (carrier_id === "" || isNaN(carrier_id) || count_of_coordinates === ""
+                || isNaN(count_of_coordinates)) {
+
+                document.getElementById('position-data-info').innerText = "Please, fill all inputs and check " +
+                    "if values are digits";
 
                 return;
             }

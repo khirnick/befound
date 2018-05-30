@@ -4,9 +4,9 @@
 
 {% block content_child %}
     <div class="row position-data">
-        <input id="position-data-carrier-id" placeholder="Введите ID носителя"/>
-        <button class="btn btn-small waves-effect position-data-control-btn" id="start-getting-position-data">Начать мониторинг местоположения</button>
-        <button class="btn btn-small waves-effect position-data-control-btn" id="stop-getting-position-data">Закончить мониторинг</button>
+        <input id="position-data-carrier-id" placeholder="Input carrier id"/>
+        <button class="btn btn-small waves-effect position-data-control-btn" id="start-getting-position-data">Start monitoring position</button>
+        <button class="btn btn-small waves-effect position-data-control-btn" id="stop-getting-position-data">Stop monitoring position</button>
         <p id="position-data-info"></p>
     </div>
     <div class="row position-data">
@@ -34,7 +34,7 @@
                 clearInterval(intervalID);
                 actualPositionDataMarker.setMap(null);
 
-                document.getElementById('position-data-info').innerText = "Носитель недоступен (оффлайн)";
+                document.getElementById('position-data-info').innerText = "Carrier is unavailable (offline)";
 
                 return;
             }
@@ -44,7 +44,7 @@
 
             if (parsedMessage.ab === abWarning) {
                 document.getElementById('position-data-info').innerText =
-                    "Носитель (ID: " + parsedMessage.carrier_id + ") нажал тревожную кнопку!";
+                    "Carrier (ID: " + parsedMessage.carrier_id + ") pressed alarm button!";
             }
         };
 
