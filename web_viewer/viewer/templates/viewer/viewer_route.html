@@ -18,15 +18,23 @@
         const ws_path = "/ws/route/";
         const ws = new WebSocket("ws://" + window.location.host + ws_path);
 
+        let position_data_info = document.getElementById('position-data-info');
+
         let routes = [];
 
         ws.onmessage = function (message) {
-            document.getElementById('position-data-info').innerText = "";
+            position_data_info.innerText = "";
 
             let parsedMessage = JSON.parse(message.data);
 
             if (parsedMessage.error) {
-                document.getElementById('position-data-info').innerText = parsedMessage.error;
+                position_data_info.innerText = parsedMessage.error;
+
+                return;
+            }
+
+            if (!parsedMessage.coordinates) {
+                position_data_info.innerText = "Some data don't exist. Server error";
 
                 return;
             }
@@ -57,7 +65,7 @@
             if (carrier_id === "" || isNaN(carrier_id) || count_of_coordinates === ""
                 || isNaN(count_of_coordinates)) {
 
-                document.getElementById('position-data-info').innerText = "Please, fill all inputs and check " +
+                position_data_info.innerText = "Please, fill all inputs and check " +
                     "if values are digits";
 
                 return;

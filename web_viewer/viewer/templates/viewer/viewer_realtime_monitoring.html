@@ -21,28 +21,41 @@
     <script>
         const abWarning = '1';
 
+        let current_long = document.getElementById('position-data-long');
+        let current_lat = document.getElementById('position-data-lat');
+        let current_spd = document.getElementById('position-data-spd');
+        let current_ab = document.getElementById('position-data-ab');
+
+        let position_data_info = document.getElementById('position-data-info');
+
         let ws_path = "/ws/position_data/";
         let ws = new WebSocket("ws://" + window.location.host + ws_path);
 
         let carrier_id;
-        let intervalID;
+        let interval_id;
 
         ws.onmessage = function (message) {
-            document.getElementById('position-data-info').innerText = "";
+            position_data_info.innerText = "";
 
             let parsedMessage = JSON.parse(message.data);
 
             if (parsedMessage.error) {
-                document.getElementById('position-data-info').innerText = parsedMessage.error;
+                position_data_info.innerText = parsedMessage.error;
 
                 return;
             }
 
             if (parsedMessage.unavailable) {
-                clearInterval(intervalID);
+                clearInterval(interval_id);
                 actualPositionDataMarker.setMap(null);
 
-                document.getElementById('position-data-info').innerText = "Carrier is unavailable (offline)";
+                position_data_info.innerText = "Carrier is unavailable (offline)";
+
+                return;
+            }
+
+            if (!parsedMessage.lat || !parsedMessage.long || !parsedMessage.spd || !parsedMessage.ab) {
+                position_data_info.innerText = "Some data don't exist. Server error";
 
                 return;
             }
@@ -50,17 +63,19 @@
             actualPositionDataMarker.setPosition({lat: parseFloat(parsedMessage.lat),
                 lng: parseFloat(parsedMessage.long)});
 
-            if (parsedMessage.ab === abWarning) {
-                document.getElementById('position-data-info').innerText =
-                    "Carrier (ID: " + parsedMessage.carrier_id + ") pressed alarm button!";
-            }
+            current_long.innerText = "Current longitude: " + parsedMessage.long;
+            current_lat.innerText = "Current latitude: " + parsedMessage.lat;
+            current_spd.innerText = "Current speed: " + parsedMessage.spd + "km/h";
+            current_ab.innerText = "Ab status: " + parsedMessage.ab;
         };
 
         $('#start-getting-position-data').click(function (e) {
+            current_long.innerText = current_lat.innerText = current_spd.innerText = current_ab.innerText = "";
+
             carrier_id = document.getElementById('position-data-carrier-id').value;
 
             if (carrier_id === "" || isNaN(carrier_id)) {
-                document.getElementById('position-data-info').innerText = "Please, fill carrier id input and check " +
+                position_data_info.innerText = "Please, fill carrier id input and check " +
                     "if it a digit";
 
                 return;
@@ -68,14 +83,14 @@
 
             actualPositionDataMarker.setMap(googleMap);
 
-            intervalID = setInterval(function(){
+            interval_id = setInterval(function(){
                 ws.send(JSON.stringify({
                     "carrier_id": carrier_id
                 }))}, 5000);
         });
 
         $('#stop-getting-position-data').click(function (e) {
-            clearInterval(intervalID);
+            clearInterval(interval_id);
             actualPositionDataMarker.setMap(null);
         });
     </script>
