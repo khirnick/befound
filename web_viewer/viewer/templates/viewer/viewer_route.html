@@ -4,8 +4,8 @@
 
 {% block content_child %}
     <div class="row position-data">
-        <input id="carrier-id" placeholder="Input carrier id"/>
-        <input id="count-of-position-data" placeholder="Input count of coordinates to build"/>
+        <input id="position-data-carrier-id" placeholder="Input carrier id"/>
+        <input id="position-data-count" placeholder="Input count of coordinates to build"/>
         <button class="button btn-small waves-effect position-data-control-btn" id="build-route">Build route</button>
         <button class="button btn-small waves-effect position-data-control-btn" id="clear-route">Clear route</button>
         <p id="position-data-info"></p>
@@ -21,6 +21,8 @@
         let routes = [];
 
         ws.onmessage = function (message) {
+            document.getElementById('position-data-info').innerText = "";
+
             let parsedMessage = JSON.parse(message.data);
 
             if (parsedMessage.error) {
@@ -46,13 +48,11 @@
             route.setMap(googleMap);
 
             routes.push(route);
-
-            document.getElementById('position-data-info').innerText = "";
         };
 
         $('#build-route').click(function (e) {
-            let carrier_id = document.getElementById('carrier-id').value;
-            let count_of_coordinates = document.getElementById('count-of-position-data').value;
+            let carrier_id = document.getElementById('position-data-carrier-id').value;
+            let count_of_coordinates = document.getElementById('position-data-count').value;
 
             if (carrier_id === "" || isNaN(carrier_id) || count_of_coordinates === ""
                 || isNaN(count_of_coordinates)) {

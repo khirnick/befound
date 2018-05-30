@@ -24,11 +24,19 @@
         let ws_path = "/ws/position_data/";
         let ws = new WebSocket("ws://" + window.location.host + ws_path);
 
-        let carrierID;
+        let carrier_id;
         let intervalID;
 
         ws.onmessage = function (message) {
+            document.getElementById('position-data-info').innerText = "";
+
             let parsedMessage = JSON.parse(message.data);
+
+            if (parsedMessage.error) {
+                document.getElementById('position-data-info').innerText = parsedMessage.error;
+
+                return;
+            }
 
             if (parsedMessage.unavailable) {
                 clearInterval(intervalID);
@@ -49,14 +57,21 @@
         };
 
         $('#start-getting-position-data').click(function (e) {
-            carrierID = document.getElementById('position-data-carrier-id').value;
+            carrier_id = document.getElementById('position-data-carrier-id').value;
+
+            if (carrier_id === "" || isNaN(carrier_id)) {
+                document.getElementById('position-data-info').innerText = "Please, fill carrier id input and check " +
+                    "if it a digit";
+
+                return;
+            }
 
             actualPositionDataMarker.setMap(googleMap);
 
             intervalID = setInterval(function(){
                 ws.send(JSON.stringify({
-                    "carrier_id": carrierID
-                }))}, 3000);
+                    "carrier_id": carrier_id
+                }))}, 5000);
         });
 
         $('#stop-getting-position-data').click(function (e) {
