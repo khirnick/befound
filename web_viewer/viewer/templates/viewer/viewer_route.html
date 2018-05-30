@@ -2,6 +2,10 @@
 
 {% load staticfiles %}
 
+{% block styles_child %}
+    <link href="{% static 'css/viewer_route.css' %}" rel="stylesheet"/>
+{% endblock %}
+
 {% block content_child %}
     <div class="row position-data">
         <input id="position-data-carrier-id" placeholder="Input carrier id"/>
@@ -9,6 +13,9 @@
         <button class="button btn-small waves-effect position-data-control-btn" id="build-route">Build route</button>
         <button class="button btn-small waves-effect position-data-control-btn" id="clear-route">Clear route</button>
         <p id="position-data-info"></p>
+    </div>
+    <div id="routes-info">
+
     </div>
 {% endblock %}
 
@@ -19,6 +26,7 @@
         const ws = new WebSocket("ws://" + window.location.host + ws_path);
 
         let position_data_info = document.getElementById('position-data-info');
+        let routes_info = document.getElementById('routes-info');
 
         let routes = [];
 
@@ -29,12 +37,6 @@
 
             if (parsedMessage.error) {
                 position_data_info.innerText = parsedMessage.error;
-
-                return;
-            }
-
-            if (!parsedMessage.coordinates) {
-                position_data_info.innerText = "Some data don't exist. Server error";
 
                 return;
             }
@@ -56,6 +58,35 @@
             route.setMap(googleMap);
 
             routes.push(route);
+
+            routes_info.innerHTML +=
+                "<div class='row'>" +
+                    "<h6>Route #" +
+                        routes.length +
+                    "</h6>" +
+                    "<p class='col s3'>" +
+                        "Avg speed: " + parsedMessage.avg_speed +
+                    "</p>" +
+                    "<p class='col s3'>" +
+                        "Min speed: " + parsedMessage.min_speed +
+                    "</p>" +
+                    "<p class='col s3'>" +
+                        "Max speed: " + parsedMessage.max_speed +
+                    "</p>" +
+                    "<p class='col s3'>" +
+                        "Total count of coords:" + parsedMessage.total_count_of_coordinates_for_carrier_id +
+                    "</p>" +
+                "</div>" +
+                "<hr>";
+
+            google.maps.event.addListener(route, 'click', function (e) {
+                const routeInfoWindow = new google.maps.InfoWindow();
+                const routeInfoWindowContent = "Route #" + routes.length;
+
+                routeInfoWindow.setPosition(e.latLng);
+                routeInfoWindow.setContent(routeInfoWindowContent);
+                routeInfoWindow.open(googleMap, route);
+            });
         };
 
         $('#build-route').click(function (e) {
@@ -83,6 +114,8 @@
             }
 
             routes = [];
+
+            routes_info.innerHTML = "";
         });
     </script>
 {% endblock %}

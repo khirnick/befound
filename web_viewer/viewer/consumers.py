@@ -3,6 +3,7 @@ import pickle
 from json import JSONDecodeError
 
 from channels.generic.websocket import WebsocketConsumer
+from django.db.models import Avg, Max, Min
 
 from viewer import settings
 from viewer.models import PositionData
@@ -54,11 +55,16 @@ class RouteConsumer(WebsocketConsumer):
 
             total_count_of_coordinates_for_carrier_id = PositionData.objects.filter(carrier_id=carrier_id).count()
 
+            average_speed_on_these_coordinates = PositionData.objects.filter(carrier_id=carrier_id)\
+                .order_by('-id')[0:count_of_coordinates]\
+                .aggregate(Avg('speed'), Min('speed'), Max('speed'))
+
             coordinates = PositionData.objects.extra(select={'lng': 'longitude', 'lat': 'latitude'})\
                 .values('lat', 'lng')\
                 .filter(carrier_id=carrier_id)\
                 .order_by('-id')[0:count_of_coordinates]
         except (ValueError, JSONDecodeError) as ex:
+            # error_mesage for future logging
             error_message = ''
 
             if type(ex) == JSONDecodeError:
@@ -70,5 +76,8 @@ class RouteConsumer(WebsocketConsumer):
         else:
             self.send(text_data=json.dumps({
                 'coordinates': list(coordinates),
-                'total_count_of_coordinates_for_carrier_id': total_count_of_coordinates_for_carrier_id
+                'total_count_of_coordinates_for_carrier_id': total_count_of_coordinates_for_carrier_id,
+                'avg_speed': average_speed_on_these_coordinates['speed__avg'],
+                'min_speed': average_speed_on_these_coordinates['speed__min'],
+                'max_speed': average_speed_on_these_coordinates['speed__max'],
             }))

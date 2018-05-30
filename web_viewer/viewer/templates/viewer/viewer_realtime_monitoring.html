@@ -9,7 +9,7 @@
         <button class="btn btn-small waves-effect position-data-control-btn" id="stop-getting-position-data">Stop monitoring position</button>
         <p id="position-data-info"></p>
     </div>
-    <div class="row position-data">
+    <div class="row position-data-current">
         <div id="position-data-long" class="col s3"></div>
         <div id="position-data-lat" class="col s3"></div>
         <div id="position-data-spd" class="col s3"></div>
@@ -50,12 +50,6 @@
                 actualPositionDataMarker.setMap(null);
 
                 position_data_info.innerText = "Carrier is unavailable (offline)";
-
-                return;
-            }
-
-            if (!parsedMessage.lat || !parsedMessage.long || !parsedMessage.spd || !parsedMessage.ab) {
-                position_data_info.innerText = "Some data don't exist. Server error";
 
                 return;
             }
