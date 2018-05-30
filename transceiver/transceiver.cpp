@@ -112,7 +112,7 @@ int main (int argc, const char* argv[] )
 
 //std::cout <<std::endl;
 
-	  std::string buf_str = std::string(buf_char);
+
 	 // std::cout << buf_str;
 
           if (rf95.recv(buf, &len)) {
@@ -122,6 +122,8 @@ int main (int argc, const char* argv[] )
 	    for (int i = 0; i < 32; i++) { 
 	    	buf_char[i] = (char)buf[i];
             }
+            
+            std::string buf_str = std::string(buf_char);
 //std::cout  << buf_str << std::endl;
 	    if (std::regex_match(buf_str, packet_pattern) == 1) {
 		            
