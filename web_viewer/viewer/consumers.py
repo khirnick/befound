@@ -45,8 +45,17 @@ class RouteConsumer(WebsocketConsumer):
         pass
 
     def receive(self, text_data=None, bytes_data=None):
-        count_of_coordinates = int(json.loads(text_data)['count_of_coordinates'])
-        coordinates = PositionData.objects.extra(select={'lng': 'longitude', 'lat': 'latitude'}).values('lat', 'lng').order_by('-id')[0:count_of_coordinates]
+        parsed_income_message = json.loads(text_data)
+
+        carrier_id = int(parsed_income_message['carrier_id'])
+        count_of_coordinates = int(parsed_income_message['count_of_coordinates'])
+
+        coordinates = PositionData.objects.extra(select={'lng': 'longitude', 'lat': 'latitude'})\
+            .values('carrier_id', 'lat', 'lng')\
+            .filter(carrier_id=carrier_id)\
+            .order_by('-id')[0:count_of_coordinates]
+
+        print(coordinates)
 
         self.send(text_data=json.dumps({
             'coordinates': list(coordinates)

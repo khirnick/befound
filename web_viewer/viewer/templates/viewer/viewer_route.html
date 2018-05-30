@@ -4,9 +4,11 @@
 
 {% block content_child %}
     <div class="row position-data">
+        <input id="carrier-id" placeholder="Введите ID носителя"/>
         <input id="count-of-position-data" placeholder="Введите количество координат для постройки маршрута"/>
         <button class="button btn-small waves-effect position-data-control-btn" id="build-route">Построить маршрут</button>
         <button class="button btn-small waves-effect position-data-control-btn" id="clear-route">Очистить маршрут</button>
+        <p id="position-data-info"></p>
     </div>
 {% endblock %}
 
@@ -37,12 +39,22 @@
             route.setMap(googleMap);
 
             routes.push(route);
+
+            document.getElementById('position-data-info').innerText = "";
         };
 
         $('#build-route').click(function (e) {
+            let carrier_id = document.getElementById('carrier-id').value;
             let count_of_coordinates = document.getElementById('count-of-position-data').value;
 
+            if (carrier_id === "" || count_of_coordinates === ""){
+                document.getElementById('position-data-info').innerText = "Please, fill all inputs";
+
+                return;
+            }
+
             ws.send(JSON.stringify({
+                "carrier_id": carrier_id,
                 "count_of_coordinates": count_of_coordinates
             }));
         });
