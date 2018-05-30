@@ -3,5 +3,9 @@ from django.shortcuts import render
 # Create your views here.
 
 
-def index(request):
-    return render(request, 'viewer/index.html')
+def viewer_realtime_monitoring(request):
+    return render(request, 'viewer/viewer_realtime_monitoring.html')
+
+
+def viewer_route(request):
+    return render(request, 'viewer/viewer_route.html')

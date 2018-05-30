@@ -1,12 +1,12 @@
-{% extends 'base.html' %}
+{% extends 'viewer/viewer_base.html' %}
 
 {% load staticfiles %}
 
-{% block styles %}
+{% block styles_child %}
     <link href="{% static 'css/position_monitoring_style.css' %}" rel="stylesheet">
 {% endblock %}
 
-{% block content %}
+{% block content_child %}
     <div class="row position-data">
         <input id="position-data-carrier-id" placeholder="Введите ID носителя" class="position-data-carrier-input"/>
         <button class="btn btn-small waves-effect position-data-control-btn" id="start-getting-position-data">Начать мониторинг местоположения</button>
@@ -24,7 +24,7 @@
     </div>
 {% endblock %}
 
-{% block script_block %}
+{% block script_block_child %}
     <script>
         const abWarning = '1';
 
@@ -71,34 +71,4 @@
             actualPositionDataMarker.setMap(null);
         });
     </script>
-        <script>
-            let googleMap;
-            let actualPositionDataMarker;
-
-            function initMap() {
-                const gpsMarkerInfoWindow = new google.maps.InfoWindow();
-
-                googleMap = new google.maps.Map(document.getElementById('map'), {
-                    center: {lat: 55.679768, lng: 37.854252},
-                    zoom: 8
-                });
-
-                actualPositionDataMarker =  new google.maps.Marker({
-                    position: {lat: 0, lng: 0},
-                });
-
-                google.maps.event.addListener(actualPositionDataMarker, 'click', function () {
-                    let actualPositionDataInfoWindowContent = actualPositionDataMarker.getPosition().lat() + " " +
-                        actualPositionDataMarker.getPosition().lng();
-
-                    gpsMarkerInfoWindow.setContent(actualPositionDataInfoWindowContent);
-                    gpsMarkerInfoWindow.open(googleMap, actualPositionDataMarker);
-                });
-            }
-        </script>
-
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdxTNqg_92FVCewVV2LVdZ4FLWp1CSsqA&callback=initMap"
-            async defer>
-    </script>
-
 {% endblock %}

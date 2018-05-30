@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block styles %}
+    {% block styles_child %}{% endblock %}
+{% endblock %}
+
+{% block content %}
+    {% block content_child %}{% endblock %}
+{% endblock %}
+
+{% block script_block %}
+
+    <script>
+        let googleMap;
+        let actualPositionDataMarker;
+
+        function initMap() {
+            const gpsMarkerInfoWindow = new google.maps.InfoWindow();
+
+            googleMap = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 55.679768, lng: 37.854252},
+                zoom: 8
+            });
+
+            actualPositionDataMarker =  new google.maps.Marker({
+                position: {lat: 0, lng: 0},
+            });
+
+            google.maps.event.addListener(actualPositionDataMarker, 'click', function () {
+                let actualPositionDataInfoWindowContent = actualPositionDataMarker.getPosition().lat() + " " +
+                    actualPositionDataMarker.getPosition().lng();
+
+                gpsMarkerInfoWindow.setContent(actualPositionDataInfoWindowContent);
+                gpsMarkerInfoWindow.open(googleMap, actualPositionDataMarker);
+            });
+        }
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdxTNqg_92FVCewVV2LVdZ4FLWp1CSsqA&callback=initMap"
+            async defer>
+    </script>
+
+    {% block script_block_child %}{% endblock %}
+
+{% endblock %}

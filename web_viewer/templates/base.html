@@ -14,7 +14,11 @@
 <body>
 <nav class="teal">
     <div class="nav-wrapper">
-        <a href="#" class="brand-logo">befound</a>
+        <a href="{% url 'viewer:viewer_realtime_monitoring' %}" class="brand-logo">befound</a>
+        <ul class="right">
+            <li><a href="{% url 'viewer:viewer_realtime_monitoring' %}">Real-time monitoring</a></li>
+            <li><a href="{% url 'viewer:viewer_route' %}">View route</a></li>
+        </ul>
     </div>
 </nav>
 
