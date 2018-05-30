@@ -6,18 +6,37 @@
     <div class="row position-data">
         <input id="count-of-position-data" placeholder="Введите количество координат для постройки маршрута"/>
         <button class="button btn-small waves-effect position-data-control-btn" id="build-route">Построить маршрут</button>
+        <button class="button btn-small waves-effect position-data-control-btn" id="clear-route">Очистить маршрут</button>
     </div>
 {% endblock %}
 
 {% block script_block_child %}
     <script>
-        let ws_path = "/ws/route/";
-        let ws = new WebSocket("ws://" + window.location.host + ws_path);
+        const mapZoomRoute = 15;
+        const ws_path = "/ws/route/";
+        const ws = new WebSocket("ws://" + window.location.host + ws_path);
+
+        let routes = [];
 
         ws.onmessage = function (message) {
             let parsedMessage = JSON.parse(message.data);
+            let coordinates = parsedMessage.coordinates;
+            let firstCoordinate = coordinates[0];
 
-            alert(parsedMessage.coordinates[0]['lat']);
+            googleMap.setCenter(firstCoordinate);
+            googleMap.setZoom(mapZoomRoute);
+
+            route = new google.maps.Polyline({
+                path: coordinates,
+                strokeWeight: 2,
+                strokeOpacity: 1.0,
+                strokeColor: '#FF0000',
+                geodesic: 2
+            });
+
+            route.setMap(googleMap);
+
+            routes.push(route);
         };
 
         $('#build-route').click(function (e) {
@@ -26,6 +45,14 @@
             ws.send(JSON.stringify({
                 "count_of_coordinates": count_of_coordinates
             }));
-        })
+        });
+
+        $('#clear-route').click(function (e) {
+            for (route of routes) {
+                route.setMap(null);
+            }
+
+            routes = [];
+        });
     </script>
 {% endblock %}
