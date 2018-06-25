@@ -3,7 +3,7 @@ import settings
 
 from tornado import web, ioloop
 
-from handlers.PositionDataWebSocketHandler import PositionDataWebSocketHandler
+from handlers.position_data_web_socket_handler import PositionDataWebSocketHandler
 
 
 def create_redis_connection_pools():
