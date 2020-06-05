@@ -10,7 +10,7 @@ channels-redis==2.2.1
 chardet==3.0.4
 constantly==15.1.0
 daphne==2.1.1
-Django==2.0.5
+Django==2.2.13
 django-channels==0.7.0
 django-inspectdb-refactor==0.2
 django-static-jquery==2.1.4
